@@ -1,0 +1,3 @@
+npm i
+cd auto-nexus-bj
+npm run dev
