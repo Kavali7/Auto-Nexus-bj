@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { dealers, vehicles as vehicleDataset, type Vehicle } from "@/data";
+import { dealers, getFeaturedVehicles, type Vehicle } from "@/data";
 import { Badge } from "@/components/ui/badge";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -17,7 +17,7 @@ export function VehicleMasonry({
   items,
   className,
 }: VehicleMasonryProps): JSX.Element {
-  const vehicles = items ?? dealersHomeSelection();
+  const vehicles = items ?? getFeaturedVehicles();
 
   return (
     <div
@@ -106,14 +106,4 @@ export function VehicleMasonry({
       })}
     </div>
   );
-}
-
-function dealersHomeSelection(): Vehicle[] {
-  return [...vehicleDataset]
-    .sort((a, b) => {
-      if (a.featured && !b.featured) return -1;
-      if (!a.featured && b.featured) return 1;
-      return b.year - a.year;
-    })
-    .slice(0, 6);
 }

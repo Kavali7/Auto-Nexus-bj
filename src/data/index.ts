@@ -18,6 +18,16 @@ export function getVehicleBySlug(slug: string): Vehicle | undefined {
   return vehicles.find((vehicle) => vehicle.slug === slug);
 }
 
+export function getFeaturedVehicles(limit = 6): Vehicle[] {
+  return [...vehicles]
+    .sort((a, b) => {
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      return b.year - a.year;
+    })
+    .slice(0, limit);
+}
+
 export function getVehiclesByDealer(dealerId: string): Vehicle[] {
   return vehicles.filter((vehicle) => vehicle.dealerId === dealerId);
 }

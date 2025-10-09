@@ -21,7 +21,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { dealers, services, vehicles } from "@/data";
+import { dealers, services, vehicles, getFeaturedVehicles } from "@/data";
 import { buildWhatsappLink } from "@/lib/whatsapp";
 
 const pillars = [
@@ -110,6 +110,8 @@ const investorHighlights = [
       "Grâce à WhatsApp + CRM léger et relances automatisées (phase 2).",
   },
 ];
+
+const homepageVehicles = getFeaturedVehicles();
 
 export const metadata: Metadata = {
   title: "Auto Nexus BJ — Marketplace auto premium (MVP statique)",
@@ -251,7 +253,7 @@ export default function Home() {
             </Button>
           </AnimatedSection>
           <AnimatedSection delay={0.1}>
-            <VehicleMasonry />
+            <VehicleMasonry items={homepageVehicles} />
           </AnimatedSection>
         </section>
 
