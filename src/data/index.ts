@@ -1,9 +1,9 @@
-import { dealers } from "./dealers";
+import { dealers, getDealers } from "./dealers";
 import { services } from "./services";
-import { vehicles } from "./vehicles";
+import { vehicles, getVehicles } from "./vehicles";
 import type { Dealer, ServicePillar, Vehicle } from "./types";
 
-export { dealers, services, vehicles };
+export { dealers, services, vehicles, getDealers, getVehicles };
 export type { Dealer, ServicePillar, Vehicle };
 
 export function getDealerById(id: string): Dealer | undefined {
