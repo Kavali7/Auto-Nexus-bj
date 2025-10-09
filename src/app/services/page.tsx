@@ -12,14 +12,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { services, dealers } from "@/data";
+import { services, getDealers } from "@/data";
 import { buildWhatsappLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Services Auto Nexus BJ",
   description:
-    "Vue d’ensemble des 7 piliers services Auto Nexus BJ : neufs, entretien, pièces, lubrifiants, financement, location et logistique.",
+    "Vue d'ensemble des 7 piliers services Auto Nexus BJ : neufs, entretien, pièces, lubrifiants, financement, location et logistique.",
 };
+
+const dealersDataset = getDealers();
 
 const heroStats = [
   {
@@ -28,7 +30,7 @@ const heroStats = [
   },
   {
     label: "Concessionnaires connectés",
-    value: dealers.length,
+    value: dealersDataset.length,
   },
   {
     label: "Pilier(s) premium",
@@ -59,7 +61,7 @@ export default function ServicesPage(): JSX.Element {
               <Button asChild size="lg" variant="outline">
                 <Link
                   href={buildWhatsappLink(
-                    "+22962459012",
+                    "95606058",
                     "Bonjour Auto Nexus BJ, je souhaite planifier une présentation investisseurs.",
                   )}
                   target="_blank"
@@ -150,7 +152,7 @@ export default function ServicesPage(): JSX.Element {
                 <Button asChild size="sm" variant="outline">
                   <Link
                     href={buildWhatsappLink(
-                      "+22962459012",
+                      "95606058",
                       `Bonjour Auto Nexus BJ, intéressé par le pilier ${pillar.title}.`,
                     )}
                     target="_blank"
@@ -192,7 +194,7 @@ export default function ServicesPage(): JSX.Element {
               <Button asChild>
                 <Link
                   href={buildWhatsappLink(
-                    "+22962459012",
+                    "95606058",
                     "Je souhaite réserver la session de démonstration complète Auto Nexus BJ.",
                   )}
                   target="_blank"

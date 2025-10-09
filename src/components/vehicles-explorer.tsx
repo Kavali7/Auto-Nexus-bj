@@ -7,7 +7,7 @@ import { VehicleCard } from "@/components/vehicle-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { dealers, vehicles, type Vehicle } from "@/data";
+import { getDealers, getVehicles, type Vehicle } from "@/data";
 
 type FuelFilter = Vehicle["fuel"] | "Tout";
 type ConditionFilter = Vehicle["condition"] | "Toutes";
@@ -28,7 +28,11 @@ type SearchResponse = {
   source: "meilisearch" | "fallback";
 };
 
-const VEHICLE_BY_ID = new Map(vehicles.map((vehicle) => [vehicle.id, vehicle]));
+const VEHICLES_DATASET = getVehicles();
+const DEALERS_DATASET = getDealers();
+const VEHICLE_BY_ID = new Map(
+  VEHICLES_DATASET.map((vehicle) => [vehicle.id, vehicle]),
+);
 
 export function VehiclesExplorer(): JSX.Element {
   const [search, setSearch] = useState("");
@@ -36,20 +40,20 @@ export function VehiclesExplorer(): JSX.Element {
   const [city, setCity] = useState("Toutes");
   const [fuel, setFuel] = useState<FuelFilter>("Tout");
   const [condition, setCondition] = useState<ConditionFilter>("Toutes");
-  const [results, setResults] = useState<Vehicle[]>(vehicles);
+  const [results, setResults] = useState<Vehicle[]>(VEHICLES_DATASET);
   const [resultMeta, setResultMeta] = useState<SearchResponse | null>(null);
   const [isSearching, setIsSearching] = useState(false);
 
   const brandOptions = useMemo(
-    () => ["Toutes", ...new Set(vehicles.map((vehicle) => vehicle.brand))],
+    () => ["Toutes", ...new Set(VEHICLES_DATASET.map((vehicle) => vehicle.brand))],
     [],
   );
   const cityOptions = useMemo(
-    () => ["Toutes", ...new Set(vehicles.map((vehicle) => vehicle.city))],
+    () => ["Toutes", ...new Set(VEHICLES_DATASET.map((vehicle) => vehicle.city))],
     [],
   );
   const fuelOptions = useMemo(
-    () => ["Tout", ...new Set(vehicles.map((vehicle) => vehicle.fuel))],
+    () => ["Tout", ...new Set(VEHICLES_DATASET.map((vehicle) => vehicle.fuel))],
     [],
   );
   const conditionOptions: ConditionFilter[] = ["Toutes", "Neuf", "Occasion"];
@@ -111,14 +115,17 @@ export function VehiclesExplorer(): JSX.Element {
   }, [search, brand, city, fuel, condition]);
 
   const compareSuggestions = useMemo(() => {
-    const groups = vehicles.reduce<Record<string, Vehicle[]>>((accumulator, vehicle) => {
-      const key = `${vehicle.brand}-${vehicle.model}`.toLowerCase();
-      if (!accumulator[key]) {
-        accumulator[key] = [];
-      }
-      accumulator[key].push(vehicle);
-      return accumulator;
-    }, {});
+    const groups = VEHICLES_DATASET.reduce<Record<string, Vehicle[]>>(
+      (accumulator, vehicle) => {
+        const key = `${vehicle.brand}-${vehicle.model}`.toLowerCase();
+        if (!accumulator[key]) {
+          accumulator[key] = [];
+        }
+        accumulator[key].push(vehicle);
+        return accumulator;
+      },
+      {},
+    );
 
     return Object.values(groups)
       .filter((group) => group.length > 1)
@@ -227,7 +234,7 @@ export function VehiclesExplorer(): JSX.Element {
         ) : (
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {results.map((vehicle) => {
-              const dealer = dealers.find((d) => d.id === vehicle.dealerId);
+              const dealer = DEALERS_DATASET.find((d) => d.id === vehicle.dealerId);
               return (
                 <VehicleCard key={vehicle.id} vehicle={vehicle} dealer={dealer} />
               );
@@ -291,7 +298,7 @@ function CardEmptyState({ search }: { search: string }): JSX.Element {
 function filterLocally(query: string, filters: SearchFilters): Vehicle[] {
   const normalizedQuery = query.trim().toLowerCase();
 
-  return vehicles.filter((vehicle) => {
+  return VEHICLES_DATASET.filter((vehicle) => {
     if (filters.brand !== "Toutes" && vehicle.brand !== filters.brand) return false;
     if (filters.city !== "Toutes" && vehicle.city !== filters.city) return false;
     if (filters.fuel !== "Tout" && vehicle.fuel !== filters.fuel) return false;
@@ -299,7 +306,7 @@ function filterLocally(query: string, filters: SearchFilters): Vehicle[] {
 
     if (!normalizedQuery) return true;
 
-    const dealer = dealers.find((d) => d.id === vehicle.dealerId);
+    const dealer = DEALERS_DATASET.find((d) => d.id === vehicle.dealerId);
     const haystack = [
       vehicle.brand,
       vehicle.model,

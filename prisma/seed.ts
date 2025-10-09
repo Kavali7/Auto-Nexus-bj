@@ -27,6 +27,18 @@ async function main() {
           description: dealer.description,
           foundedYear: dealer.foundedYear,
           staffCount: dealer.staffCount,
+          rating: dealer.rating,
+          ratingCount: dealer.ratingCount,
+          logo: dealer.logo,
+          address: dealer.address,
+          specialties: dealer.specialties ?? [],
+          website: dealer.website,
+          instagram: dealer.social?.instagram,
+          facebook: dealer.social?.facebook,
+          linkedin: dealer.social?.linkedin,
+          inventorySize: dealer.inventorySize,
+          heroImage: dealer.heroImage,
+          gallery: dealer.gallery ?? [],
         },
       }),
     ),
@@ -44,11 +56,19 @@ async function main() {
         year: vehicle.year,
         condition: vehicle.condition,
         mileage: vehicle.mileage,
+        mileageUnit: vehicle.mileageUnit ?? "km",
         fuel: vehicle.fuel,
         transmission: vehicle.transmission,
+        drivetrain: vehicle.drivetrain,
         price: vehicle.price,
+        currency: vehicle.currency,
         city: vehicle.city,
+        doors: vehicle.doors,
+        colorExterior: vehicle.colorExterior,
+        colorInterior: vehicle.colorInterior,
+        featured: vehicle.featured ?? false,
         heroImage: vehicle.heroImage,
+        specs: vehicle.specs ?? [],
         highlights: vehicle.highlights,
         available: vehicle.available,
         gallery: {
@@ -61,7 +81,7 @@ async function main() {
     });
   }
 
-  console.log("Seed Prisma terminé ✅");
+  console.log("Prisma seed completed.");
 }
 
 main()

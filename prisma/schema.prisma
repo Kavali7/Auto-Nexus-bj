@@ -19,6 +19,18 @@ model Dealer {
   description  String?
   foundedYear  Int?
   staffCount   Int?
+  rating       Float?
+  ratingCount  Int?
+  logo         String?
+  address      String?
+  specialties  String[]  @default([])
+  website      String?
+  instagram    String?
+  facebook     String?
+  linkedin     String?
+  inventorySize Int?
+  heroImage    String?
+  gallery      String[]  @default([])
   inventory    Vehicle[]
   leads        Lead[]
   createdAt    DateTime  @default(now())
@@ -36,11 +48,18 @@ model Vehicle {
   year          Int
   condition     String
   mileage       Int
+  mileageUnit   String   @default("km")
   fuel          String
   transmission  String
+  drivetrain    String?
   price         Int
   currency      String    @default("XOF")
   city          String
+  doors         Int?
+  colorExterior String?
+  colorInterior String?
+  featured      Boolean   @default(false)
+  specs         Json      @default("[]")
   heroImage     String?
   gallery       VehiclePhoto[]
   highlights    String[]

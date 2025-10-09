@@ -39,7 +39,7 @@ export default function VehiclesPage(): JSX.Element {
             </Button>
             <Button asChild size="lg" variant="outline">
               <Link
-                href="https://wa.me/22962459012?text=Je%20souhaite%20planifier%20une%20d%C3%A9mo%20listing%20Auto%20Nexus%20BJ"
+                href="https://wa.me/95606058?text=Je%20souhaite%20planifier%20une%20d%C3%A9mo%20listing%20Auto%20Nexus%20BJ"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -89,7 +89,7 @@ export default function VehiclesPage(): JSX.Element {
               <div className="flex flex-wrap gap-3">
                 <Button asChild>
                   <Link
-                    href="https://wa.me/22962459012?text=Je%20souhaite%20rejoindre%20la%20waitlist%20comparateur%20Auto%20Nexus%20BJ"
+                    href="https://wa.me/95606058?text=Je%20souhaite%20rejoindre%20la%20waitlist%20comparateur%20Auto%20Nexus%20BJ"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

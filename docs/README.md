@@ -1,6 +1,7 @@
 # Auto Nexus BJ — MVP statique (Next.js + Tailwind)
 
 Démo **en dur** pour présentation client : data JSON, UI moderne, galeries, WhatsApp.
+Conception : Growpeak Agence (agence, pas le client).
 
 ## Lancement
 ```bash
@@ -62,7 +63,7 @@ Recherche & comparaison (logique)
 •	Comparateur : si 2+ annonces partagent (brand, model, year, fuel, transmission), on propose “Comparer ces offres”.
 •	Tri : pertinence (qualité photo + complétude fiche) > récence > prix.
 WhatsApp & contact
-•	WhatsApp deep-link : https://wa.me/<229xxxxxxxx>?text=Bonjour%20AUTO%20NEXUS%20BJ...%20[URL_annonce]
+•	WhatsApp deep-link : https://wa.me/95606058?text=Bonjour%20AUTO%20NEXUS%20BJ...%20[URL_annonce]
 •	Boutons : “WhatsApp”, “Appeler”, “Demander une offre”.
 •	Lead capture : on crée un Lead (nom, tel, message, annonce, dealer) + email/sms au dealer.
 Partenaires (vitrine “Services”)
@@ -115,4 +116,4 @@ Décisions retenues
 2.	Supabase Storage (images) — je recommande de brancher une pipeline de transformations (Imgix, Cloudflare Images ou Workers).
 3.	Meilisearch (gratuit/self) — je propose Meilisearch au départ.
 4.	Charte : on garde le bleu du logo comme primaire + Inter/Manrope.
-5.	WhatsApp : numéro(s) génériques Auto Nexus BJ + numéros propres à chaque concessionnaire 
+5.	WhatsApp : numéro unique Auto Nexus BJ 95606058 pour tous les contacts 

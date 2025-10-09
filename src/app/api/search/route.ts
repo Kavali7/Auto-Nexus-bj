@@ -4,7 +4,7 @@ import {
   getMeilisearchClient,
   VEHICLES_INDEX,
 } from "@/lib/meilisearch/client";
-import { getDealerById, vehicles } from "@/data";
+import { getDealerById, getVehicles } from "@/data";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 
 type SearchBody = {
@@ -17,6 +17,8 @@ type SearchBody = {
   };
   limit?: number;
 };
+
+const vehiclesDataset = getVehicles();
 
 export async function POST(request: Request) {
   const body = (await request.json()) as SearchBody;
@@ -68,7 +70,7 @@ export async function POST(request: Request) {
 function fallbackFilter(body: SearchBody) {
   const normalizedQuery = (body.query ?? "").trim().toLowerCase();
 
-  return vehicles
+  return vehiclesDataset
     .filter((vehicle) => {
       if (body.filters?.brand && body.filters.brand !== "Toutes") {
         if (vehicle.brand !== body.filters.brand) return false;

@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { dealers, vehicles } from "@/data";
+import { getDealers, getVehicles } from "@/data";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 
 const dashboardStats = [
@@ -44,8 +44,10 @@ export const metadata: Metadata = {
 };
 
 export default function DashboardPage(): JSX.Element {
-  const highlightedVehicles = vehicles.slice(0, 4);
-  const owner = dealers[0];
+  const vehiclesDataset = getVehicles();
+  const dealersDataset = getDealers();
+  const highlightedVehicles = vehiclesDataset.slice(0, 4);
+  const owner = dealersDataset[0];
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -65,7 +67,7 @@ export default function DashboardPage(): JSX.Element {
           <div className="flex flex-wrap gap-3">
             <Button asChild>
               <Link
-                href="https://wa.me/22962459012?text=Je%20souhaite%20tester%20le%20dashboard%20Auto%20Nexus%20BJ"
+                href="https://wa.me/95606058?text=Je%20souhaite%20tester%20le%20dashboard%20Auto%20Nexus%20BJ"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -100,7 +102,7 @@ export default function DashboardPage(): JSX.Element {
             <div className="rounded-2xl border border-dashed border-brand/40 bg-brand/5 p-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">
               <p>Support dédié</p>
               <p className="mt-2 text-sm normal-case text-foreground">
-                Account manager : +229 62 45 90 12
+                Account manager : 95606058
               </p>
             </div>
           </aside>

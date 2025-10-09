@@ -27,6 +27,7 @@ export const metadata: Metadata = {
   },
   description:
     "Prototype Next.js + Tailwind pour la marketplace auto Auto Nexus BJ : vision produit, arborescence et stack technique.",
+  creator: "Growpeak Agence",
   icons: {
     icon: "/brand/anx-logo.png",
   },

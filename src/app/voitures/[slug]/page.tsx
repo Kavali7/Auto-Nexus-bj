@@ -299,7 +299,7 @@ function ContactCard({
           <Link
             href={
               whatsappLink ??
-              "https://wa.me/22962459012?text=Je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20une%20voiture%20Auto%20Nexus%20BJ"
+              "https://wa.me/95606058?text=Je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20une%20voiture%20Auto%20Nexus%20BJ"
             }
             target="_blank"
             rel="noopener noreferrer"

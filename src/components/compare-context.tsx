@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-import { vehicles, type Vehicle } from "@/data";
+import { getVehicles, type Vehicle } from "@/data";
 
 type CompareContextValue = {
   selectedIds: string[];
@@ -24,7 +24,10 @@ type CompareContextValue = {
 const MAX_COMPARE = 4;
 const STORAGE_KEY = "auto-nexus-compare";
 
-const vehicleMap = new Map(vehicles.map((vehicle) => [vehicle.id, vehicle]));
+const VEHICLES_DATASET = getVehicles();
+const vehicleMap = new Map(
+  VEHICLES_DATASET.map((vehicle) => [vehicle.id, vehicle]),
+);
 
 const CompareContext = createContext<CompareContextValue | undefined>(
   undefined,

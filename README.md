@@ -48,4 +48,5 @@ Prototype Next.js (App Router) pour mettre en scene l'univers Auto Nexus BJ : co
 2. Connecter Supabase + Prisma pour persister inventaire, leads, comptes concessionnaires.
 3. Finaliser la pipeline Supabase Storage (traitements images, CDN) et instrumentation analytics (Vercel, LogSnag).
 
-Besoin d'une demo guidee, d'un deck ou d'un argumentaire personnalise ? Ping WhatsApp (+229 62 45 90 12) ou ouvrez une issue.
+Besoin d'une demo guidee, d'un deck ou d'un argumentaire personnalise ? Ping WhatsApp (95606058) ou ouvrez une issue.
+Conception : Growpeak Agence (agence, pas le client).

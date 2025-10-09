@@ -76,7 +76,7 @@ export function SiteHeader(): JSX.Element {
           </Button>
           <Button asChild size="sm">
             <Link
-              href="https://wa.me/22962459012?text=Je%20souhaite%20planifier%20une%20d%C3%A9mo%20Auto%20Nexus%20BJ"
+              href="https://wa.me/95606058?text=Je%20souhaite%20planifier%20une%20d%C3%A9mo%20Auto%20Nexus%20BJ"
               target="_blank"
               rel="noopener noreferrer"
             >

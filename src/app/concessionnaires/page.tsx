@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { dealers, getVehiclesByDealer } from "@/data";
+import { getDealers, getVehiclesByDealer } from "@/data";
 import { formatPriceXof } from "@/lib/format";
 import { buildWhatsappLink } from "@/lib/whatsapp";
 
@@ -30,6 +30,8 @@ const heroHighlights = [
 ];
 
 export default function DealersPage(): JSX.Element {
+  const dealersDataset = getDealers();
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <section className="border-b border-border bg-white/80 py-16">
@@ -60,7 +62,7 @@ export default function DealersPage(): JSX.Element {
             <Button asChild size="lg">
               <Link
                 href={buildWhatsappLink(
-                  "+22962459012",
+                  "95606058",
                   "Bonjour Auto Nexus BJ, je souhaite rejoindre la marketplace en tant que concessionnaire.",
                 )}
                 target="_blank"
@@ -99,7 +101,7 @@ export default function DealersPage(): JSX.Element {
           delay={0.05}
           className="mx-auto grid w-full max-w-6xl gap-8 px-6 md:grid-cols-2"
         >
-          {dealers.map((dealer) => {
+          {dealersDataset.map((dealer) => {
             const inventory = getVehiclesByDealer(dealer.id);
             const averagePrice =
               inventory.reduce((sum, vehicle) => sum + vehicle.price, 0) /

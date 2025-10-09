@@ -20,13 +20,13 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { getDealers, getVehicles, services } from "@/data";
+import { getDealers, getFeaturedVehicles, getVehicles, services } from "@/data";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 import { buildWhatsappLink } from "@/lib/whatsapp";
 
 const vehiclesDataset = getVehicles();
 const dealersDataset = getDealers();
-const highlightedVehicles = vehiclesDataset.slice(0, 6);
+const highlightedVehicles = getFeaturedVehicles();
 
 const totalInventoryValue = vehiclesDataset.reduce(
   (sum, vehicle) => sum + vehicle.price,
@@ -269,8 +269,8 @@ export default function Home(): JSX.Element {
               Stack et prochaines etapes
             </h2>
             <p className="max-w-3xl text-base text-muted-foreground sm:text-lg">
-              On garde les mocks pour l'instant, mais toute la structure vise a
-              accueillir Supabase, Prisma et un vrai flux d'upload photo.
+              On garde les mocks pour l&apos;instant, mais toute la structure vise a
+              accueillir Supabase, Prisma et un vrai flux d&apos;upload photo.
             </p>
           </AnimatedSection>
           <AnimatedSection delay={0.05}>
@@ -470,11 +470,11 @@ export default function Home(): JSX.Element {
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <Button size="lg" asChild>
                   <Link href="mailto:launch@autonexus.bj">
-                    Planifier l'atelier d'onboarding
+                    Planifier l&apos;atelier d&apos;onboarding
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link href="https://wa.me/22962459012" target="_blank" rel="noopener noreferrer">
+                  <Link href="https://wa.me/95606058" target="_blank" rel="noopener noreferrer">
                     Discuter sur WhatsApp
                   </Link>
                 </Button>
