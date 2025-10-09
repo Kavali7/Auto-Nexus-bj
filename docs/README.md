@@ -11,7 +11,7 @@ Placez votre logo en `public/brand/anx-logo.png` (fourni par le client).
 
 ## À brancher ensuite
 - Supabase + Prisma (DB)
-- Cloudinary (upload + transformations)
+- Supabase Storage (upload + CDN)
 - Meilisearch (recherche instantanée)
 - Espace concessionnaire + admin
 - Comparateur complet + favoris
@@ -27,7 +27,7 @@ Vision produit
 Stack technique (moderne, SEO, rapide)
 •	Framework : Next.js (React) + Tailwind CSS + shadcn/ui pour des composants propres.
 •	Base de données : PostgreSQL (Supabase) + Prisma.
-•	Stockage images : Cloudinary ou Supabase Storage (CDN, transformations, WebP/AVIF, blur placeholders).
+•	Stockage images : Supabase Storage (CDN, transformations via pipeline externe, WebP/AVIF, blur placeholders).
 •	Recherche / filtres : Meilisearch (self-host) ou Algolia (hébergé) pour instant search + typo tolerance.
 •	Auth : NextAuth (email/SMS + rôle: admin, concessionnaire, staff).
 •	Messagerie : liens WhatsApp deep-link + capture de leads en DB + email notif.
@@ -112,7 +112,7 @@ Phase 3
 ________________________________________
 Décisions retenues
 1.	Next.js + Vercel + Supabase → ok pour moi
-2.	Cloudinary (images) — je recommande Cloudinary pour les transformations.
+2.	Supabase Storage (images) — je recommande de brancher une pipeline de transformations (Imgix, Cloudflare Images ou Workers).
 3.	Meilisearch (gratuit/self) — je propose Meilisearch au départ.
 4.	Charte : on garde le bleu du logo comme primaire + Inter/Manrope.
 5.	WhatsApp : numéro(s) génériques Auto Nexus BJ + numéros propres à chaque concessionnaire 

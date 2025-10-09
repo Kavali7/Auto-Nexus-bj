@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Dealer {
+  id           String    @id @default(cuid())
+  name         String
+  slug         String    @unique
+  city         String
+  phone        String?
+  whatsapp     String?
+  email        String?
+  headline     String?
+  description  String?
+  foundedYear  Int?
+  staffCount   Int?
+  inventory    Vehicle[]
+  leads        Lead[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Vehicle {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  dealerId      String
+  dealer        Dealer    @relation(fields: [dealerId], references: [id])
+  brand         String
+  model         String
+  trim          String?
+  year          Int
+  condition     String
+  mileage       Int
+  fuel          String
+  transmission  String
+  price         Int
+  currency      String    @default("XOF")
+  city          String
+  heroImage     String?
+  gallery       VehiclePhoto[]
+  highlights    String[]
+  available     Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model VehiclePhoto {
+  id         String   @id @default(cuid())
+  vehicleId  String
+  vehicle    Vehicle  @relation(fields: [vehicleId], references: [id])
+  url        String
+  label      String?
+  position   Int      @default(0)
+  createdAt  DateTime @default(now())
+}
+
+model Lead {
+  id          String   @id @default(cuid())
+  dealerId    String
+  dealer      Dealer   @relation(fields: [dealerId], references: [id])
+  vehicleId   String?
+  vehicle     Vehicle? @relation(fields: [vehicleId], references: [id])
+  name        String
+  phone       String
+  message     String
+  source      String
+  status      LeadStatus @default(NEW)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Upload {
+  id            String   @id @default(cuid())
+  vehicleId     String?
+  vehicle       Vehicle? @relation(fields: [vehicleId], references: [id])
+  bucket        String   @default("public-assets")
+  path          String
+  url           String
+  mimeType      String?
+  bytes         Int?
+  width         Int?
+  height        Int?
+  tags          String[]
+  metadata      Json?
+  createdAt     DateTime @default(now())
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  WON
+  LOST
+}
