@@ -61,11 +61,13 @@ model Vehicle {
   featured      Boolean        @default(false)
   specs         Json           @default("[]")
   heroImage     String?
+  virtualTourUrl String?
   gallery       VehiclePhoto[]
   highlights    String[]
   available     Boolean        @default(true)
   leads         Lead[]
   uploads       Upload[]
+  favorites     Favorite[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 }
@@ -77,6 +79,7 @@ model VehiclePhoto {
   url       String
   label     String?
   position  Int      @default(0)
+  kind      VehicleMediaKind @default(STANDARD)
   createdAt DateTime @default(now())
 }
 
@@ -111,10 +114,48 @@ model Upload {
   createdAt DateTime @default(now())
 }
 
+model Favorite {
+  id         String   @id @default(cuid())
+  visitorId  String
+  visitor    Visitor  @relation(fields: [visitorId], references: [id])
+  vehicleId  String
+  vehicle    Vehicle  @relation(fields: [vehicleId], references: [id])
+  createdAt  DateTime @default(now())
+
+  @@unique([visitorId, vehicleId])
+}
+
+model Visitor {
+  id           String           @id @default(cuid())
+  sessionToken String           @unique
+  favorites    Favorite[]
+  analytics    AnalyticsEvent[]
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  visitorId String?
+  visitor   Visitor? @relation(fields: [visitorId], references: [id])
+  event     String
+  payload   Json?
+  createdAt DateTime @default(now())
+}
+
 enum LeadStatus {
   NEW
   CONTACTED
   QUALIFIED
   WON
   LOST
+}
+
+enum VehicleMediaKind {
+  STANDARD
+  EXTERIOR
+  INTERIOR
+  DETAIL
+  PANORAMA
+  WALKAROUND
 }

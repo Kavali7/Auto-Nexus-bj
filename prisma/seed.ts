@@ -68,14 +68,17 @@ async function main() {
         colorInterior: vehicle.colorInterior,
         featured: vehicle.featured ?? false,
         heroImage: vehicle.heroImage,
+        virtualTourUrl: vehicle.virtualTourUrl,
         specs: JSON.parse(
           JSON.stringify(vehicle.specs ?? []),
         ) as Prisma.JsonArray,
         highlights: vehicle.highlights,
         available: vehicle.available,
         gallery: {
-          create: vehicle.gallery.map((url, index) => ({
-            url,
+          create: vehicle.gallery.map((photo, index) => ({
+            url: photo.url,
+            label: photo.label,
+            kind: photo.kind ?? "STANDARD",
             position: index,
           })),
         },

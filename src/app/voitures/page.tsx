@@ -5,6 +5,8 @@ import { AnimatedSection } from "@/components/animated-section";
 import { VehiclesExplorer } from "@/components/vehicles-explorer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getDealers } from "@/server/dealers";
+import { getVehicles } from "@/server/vehicles";
 
 export const metadata: Metadata = {
   title: "Voitures disponibles",
@@ -12,7 +14,9 @@ export const metadata: Metadata = {
     "Listing statique Auto Nexus BJ : filtres mock Meilisearch, cartes premium et comparateur prêt pour la phase 2.",
 };
 
-export default function VehiclesPage(): JSX.Element {
+export default async function VehiclesPage(): Promise<JSX.Element> {
+  const [vehicles, dealers] = await Promise.all([getVehicles(), getDealers()]);
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <section className="border-b border-border bg-gradient-to-br from-white via-brand/5 to-transparent py-16">
@@ -52,7 +56,7 @@ export default function VehiclesPage(): JSX.Element {
 
       <section className="flex flex-1 bg-muted/15 py-16">
         <div className="mx-auto w-full max-w-6xl space-y-16 px-6">
-          <VehiclesExplorer />
+          <VehiclesExplorer vehicles={vehicles} dealers={dealers} />
 
           <AnimatedSection
             delay={0.1}

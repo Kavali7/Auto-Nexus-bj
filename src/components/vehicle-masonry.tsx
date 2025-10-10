@@ -1,23 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { getDealers, getFeaturedVehicles, type Vehicle } from "@/data";
 import { Badge } from "@/components/ui/badge";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 import { cn } from "@/lib/utils";
-
-const dealerById = new Map(getDealers().map((dealer) => [dealer.id, dealer]));
+import type { DealerSummary, VehicleSummary } from "@/types/catalog";
 
 interface VehicleMasonryProps {
-  items?: Vehicle[];
+  items?: VehicleSummary[];
+  dealers?: DealerSummary[];
   className?: string;
 }
 
 export function VehicleMasonry({
   items,
+  dealers,
   className,
 }: VehicleMasonryProps): JSX.Element {
-  const vehicles = items ?? getFeaturedVehicles();
+  const vehicles = items ?? [];
+  const dealerById = new Map((dealers ?? []).map((dealer) => [dealer.id, dealer]));
 
   return (
     <div

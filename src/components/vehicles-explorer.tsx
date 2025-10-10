@@ -1,121 +1,177 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import useSWR from "swr";
 
 import { AnimatedSection } from "@/components/animated-section";
 import { VehicleCard } from "@/components/vehicle-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getDealers, getVehicles, type Vehicle } from "@/data";
+import type { DealerSummary, VehicleSummary } from "@/types/catalog";
+import type {
+  VehicleSearchFallbackReason,
+  VehicleSearchRequest,
+  VehicleSearchResponse,
+} from "@/types/search";
 
-type FuelFilter = Vehicle["fuel"] | "Tout";
-type ConditionFilter = Vehicle["condition"] | "Toutes";
+type FuelFilter = VehicleSummary["fuel"] | "Tout";
+type ConditionFilter = VehicleSummary["condition"] | "Toutes";
 
-type SearchFilters = {
-  brand: string;
-  city: string;
-  fuel: FuelFilter;
-  condition: ConditionFilter;
+type VehiclesExplorerProps = {
+  vehicles: VehicleSummary[];
+  dealers: DealerSummary[];
 };
 
-type SearchResponse = {
-  hits: Array<{
-    id: string;
-    dealerId: string;
-  }>;
-  estimatedTotalHits: number;
-  source: "meilisearch" | "fallback";
+const limit = 60;
+
+const fallbackReasonLabel: Record<VehicleSearchFallbackReason, string> = {
+  "meilisearch-disabled": "Index inactif",
+  "meilisearch-error": "Erreur Meilisearch",
+  "empty-index": "Index vide",
+  "missing-documents": "Documents manquants",
 };
 
-const VEHICLES_DATASET = getVehicles();
-const DEALERS_DATASET = getDealers();
-const VEHICLE_BY_ID = new Map(
-  VEHICLES_DATASET.map((vehicle) => [vehicle.id, vehicle]),
-);
+async function searchFetcher(
+  [
+    ,
+    query,
+    brandFilter,
+    cityFilter,
+    fuelFilter,
+    conditionFilter,
+    limitValue,
+  ]: readonly [string, string, string, string, string, string, string],
+): Promise<VehicleSearchResponse> {
+  const filters: VehicleSearchRequest["filters"] = {};
 
-export function VehiclesExplorer(): JSX.Element {
+  if (brandFilter && brandFilter !== "Toutes") {
+    filters.brand = brandFilter;
+  }
+  if (cityFilter && cityFilter !== "Toutes") {
+    filters.city = cityFilter;
+  }
+  if (fuelFilter && fuelFilter !== "Tout") {
+    filters.fuel = fuelFilter;
+  }
+  if (conditionFilter && conditionFilter !== "Toutes") {
+    filters.condition = conditionFilter;
+  }
+
+  const parsedLimit = Number.parseInt(limitValue, 10);
+  const payload: VehicleSearchRequest = {};
+
+  if (query) {
+    payload.query = query;
+  }
+  if (Object.keys(filters).length > 0) {
+    payload.filters = filters;
+  }
+  if (!Number.isNaN(parsedLimit)) {
+    payload.limit = parsedLimit;
+  }
+
+  const response = await fetch("/api/search", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error("Search failed");
+  }
+
+  return (await response.json()) as VehicleSearchResponse;
+}
+
+export function VehiclesExplorer({
+  vehicles,
+  dealers,
+}: VehiclesExplorerProps): JSX.Element {
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [brand, setBrand] = useState("Toutes");
   const [city, setCity] = useState("Toutes");
   const [fuel, setFuel] = useState<FuelFilter>("Tout");
   const [condition, setCondition] = useState<ConditionFilter>("Toutes");
-  const [results, setResults] = useState<Vehicle[]>(VEHICLES_DATASET);
-  const [resultMeta, setResultMeta] = useState<SearchResponse | null>(null);
-  const [isSearching, setIsSearching] = useState(false);
-
-  const brandOptions = useMemo(
-    () => ["Toutes", ...new Set(VEHICLES_DATASET.map((vehicle) => vehicle.brand))],
-    [],
-  );
-  const cityOptions = useMemo(
-    () => ["Toutes", ...new Set(VEHICLES_DATASET.map((vehicle) => vehicle.city))],
-    [],
-  );
-  const fuelOptions = useMemo(
-    () => ["Tout", ...new Set(VEHICLES_DATASET.map((vehicle) => vehicle.fuel))],
-    [],
-  );
-  const conditionOptions: ConditionFilter[] = ["Toutes", "Neuf", "Occasion"];
 
   useEffect(() => {
-    const controller = new AbortController();
-    const payload: SearchFilters = {
+    const timeout = setTimeout(() => setDebouncedSearch(search), 200);
+    return () => clearTimeout(timeout);
+  }, [search]);
+
+  const dealersMap = useMemo(
+    () => new Map(dealers.map((dealer) => [dealer.id, dealer] as const)),
+    [dealers],
+  );
+
+  const initialResponse = useMemo<VehicleSearchResponse>(
+    () => ({
+      hits: vehicles,
+      estimatedTotalHits: vehicles.length,
+      source: "database",
+      fallback: false,
+    }),
+    [vehicles],
+  );
+
+  const swrKey = useMemo(
+    () => [
+      "vehicles-search",
+      debouncedSearch,
       brand,
       city,
       fuel,
       condition,
-    };
+      limit.toString(),
+    ],
+    [debouncedSearch, brand, city, fuel, condition],
+  );
 
-    const triggerSearch = async () => {
-      setIsSearching(true);
-      try {
-        const response = await fetch("/api/search", {
-          method: "POST",
-          signal: controller.signal,
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            query: search,
-            filters: payload,
-            limit: 60,
-          }),
-        });
+  const {
+    data: searchData,
+    error: searchError,
+    isLoading,
+    isValidating,
+  } = useSWR<VehicleSearchResponse>(swrKey, searchFetcher, {
+    fallbackData: initialResponse,
+    keepPreviousData: true,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    revalidateIfStale: false,
+  });
 
-        if (!response.ok) {
-          throw new Error("Search failed");
-        }
+  const results = searchData?.hits ?? vehicles;
+  const resultMeta = searchData ?? initialResponse;
+  const isSearching = isLoading || isValidating;
 
-        const data = (await response.json()) as SearchResponse;
-        setResultMeta(data);
-        setResults(
-          data.hits
-            .map((hit) => VEHICLE_BY_ID.get(hit.id))
-            .filter((vehicle): vehicle is Vehicle => Boolean(vehicle)),
-        );
-      } catch (error) {
-        if ((error as Error).name === "AbortError") {
-          return;
-        }
-        console.warn("Search request failed, fallback to local filter", error);
-        setResultMeta(null);
-        setResults(filterLocally(search, payload));
-      } finally {
-        setIsSearching(false);
-      }
-    };
-
-    const debounce = setTimeout(triggerSearch, 200);
-
-    return () => {
-      controller.abort();
-      clearTimeout(debounce);
-    };
-  }, [search, brand, city, fuel, condition]);
+  const brandOptions = useMemo(
+    () => [
+      "Toutes",
+      ...Array.from(new Set(vehicles.map((vehicle) => vehicle.brand))),
+    ],
+    [vehicles],
+  );
+  const cityOptions = useMemo(
+    () => [
+      "Toutes",
+      ...Array.from(new Set(vehicles.map((vehicle) => vehicle.city))),
+    ],
+    [vehicles],
+  );
+  const fuelOptions = useMemo(
+    () => [
+      "Tout",
+      ...Array.from(new Set(vehicles.map((vehicle) => vehicle.fuel))),
+    ],
+    [vehicles],
+  );
+  const conditionOptions: ConditionFilter[] = ["Toutes", "Neuf", "Occasion"];
 
   const compareSuggestions = useMemo(() => {
-    const groups = VEHICLES_DATASET.reduce<Record<string, Vehicle[]>>(
+    const groups = vehicles.reduce<Record<string, VehicleSummary[]>>(
       (accumulator, vehicle) => {
         const key = `${vehicle.brand}-${vehicle.model}`.toLowerCase();
         if (!accumulator[key]) {
@@ -129,11 +185,12 @@ export function VehiclesExplorer(): JSX.Element {
 
     return Object.values(groups)
       .filter((group) => group.length > 1)
-      .slice(0, 3);
-  }, []);
+      .slice(0, 4);
+  }, [vehicles]);
 
   const resetFilters = () => {
     setSearch("");
+    setDebouncedSearch("");
     setBrand("Toutes");
     setCity("Toutes");
     setFuel("Tout");
@@ -142,22 +199,44 @@ export function VehiclesExplorer(): JSX.Element {
 
   return (
     <div className="space-y-12">
-      <AnimatedSection className="grid gap-6 rounded-3xl border border-border bg-white/95 p-8 shadow-lg lg:grid-cols-[1.8fr_1fr]">
-        <div className="space-y-4">
-          <h2 className="text-2xl font-semibold text-foreground sm:text-3xl">
-            Filtres instantanés (Meilisearch-ready)
-          </h2>
-          <p className="text-sm text-muted-foreground sm:text-base">
-            Tapez un mot-clé (marque, modèle, ville, concessionnaire) et combinez
-            les filtres ci-dessous : la requête est envoyée vers Meilisearch si
-            configuré, sinon nous retombons sur le filtre local mocké.
-          </p>
-          <Input
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            placeholder="Rechercher (ex : Hilux, Cotonou, Nexus…)"
-          />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <AnimatedSection>
+        <div className="flex flex-col gap-6 rounded-3xl border border-border bg-white/95 p-8 shadow-lg">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="space-y-2">
+              <Badge variant="secondary" className="w-fit">
+                Recherche live (mock)
+              </Badge>
+              <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">
+                Filtrez par marque, ville et ?nergie
+              </h2>
+              <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
+                Cette vue simule Meilisearch : combinaisons multi-filtres, tri et suggestions pour alimenter le comparateur.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              <span>Hits trouvs : {resultMeta.estimatedTotalHits}</span>
+              <span>
+                Source :{" "}
+                {resultMeta.source === "meilisearch"
+                  ? "Meilisearch"
+                  : "Base de donnees"}
+                {resultMeta.fallback ? " (fallback)" : ""}
+              </span>
+              {resultMeta.fallbackReason ? (
+                <span>
+                  Raison : {fallbackReasonLabel[resultMeta.fallbackReason]}
+                </span>
+              ) : null}
+            </div>
+          </div>
+          <div className="grid gap-4 md:grid-cols-[2fr_1fr_1fr_1fr_1fr]">
+            <div className="md:col-span-2">
+              <Input
+                placeholder="Rechercher une marque, un modle, une ville..."
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+              />
+            </div>
             <FilterSelect
               label="Marque"
               value={brand}
@@ -171,33 +250,31 @@ export function VehiclesExplorer(): JSX.Element {
               onChange={setCity}
             />
             <FilterSelect
-              label="Énergie"
+              label="Carburant"
               value={fuel}
               options={fuelOptions}
               onChange={(value) => setFuel(value as FuelFilter)}
             />
             <FilterSelect
-              label="Statut"
+              label="Condition"
               value={condition}
               options={conditionOptions}
               onChange={(value) => setCondition(value as ConditionFilter)}
             />
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Badge variant="secondary">
-              {isSearching
-                ? "Recherche…"
-                : `${results.length} résultat${results.length > 1 ? "s" : ""}`}
+          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            <Badge variant="outline">
+              {isSearching ? "Recherche en cours..." : `${results.length} resultats`}
             </Badge>
-            {resultMeta?.source === "meilisearch" ? (
-              <Badge variant="outline" className="border-brand/30 text-brand">
-                via Meilisearch
-              </Badge>
+            {searchError ? (
+              <span className="text-red-600">
+                Erreur de recherche - donnees en cache affichees
+              </span>
             ) : null}
             {search || brand !== "Toutes" || city !== "Toutes" || fuel !== "Tout" ||
             condition !== "Toutes" ? (
               <Button variant="ghost" size="sm" onClick={resetFilters}>
-                Réinitialiser
+                Reinitialiser
               </Button>
             ) : null}
           </div>
@@ -207,8 +284,8 @@ export function VehiclesExplorer(): JSX.Element {
             Suggestion comparateur
           </p>
           <p className="text-sm text-muted-foreground">
-            Ces modèles ont plusieurs offres — parfait pour la démo comparateur.
-            Ajoutez-les via « Ajouter à comparer » pour les visualiser dans `/comparer`.
+            Ces modeles ont plusieurs offres - parfait pour la demo comparateur.
+            Ajoutez-les via &quot;Ajouter au comparer&quot; pour les visualiser dans /comparer.
           </p>
           <div className="space-y-2">
             {compareSuggestions.map((group) => (
@@ -234,7 +311,7 @@ export function VehiclesExplorer(): JSX.Element {
         ) : (
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {results.map((vehicle) => {
-              const dealer = DEALERS_DATASET.find((d) => d.id === vehicle.dealerId);
+              const dealer = dealersMap.get(vehicle.dealerId);
               return (
                 <VehicleCard key={vehicle.id} vehicle={vehicle} dealer={dealer} />
               );
@@ -280,14 +357,14 @@ function FilterSelect({
 function CardEmptyState({ search }: { search: string }): JSX.Element {
   return (
     <div className="rounded-3xl border border-dashed border-border bg-white/95 p-10 text-center shadow-sm">
-      <h3 className="text-lg font-semibold text-foreground">Aucun résultat</h3>
+      <h3 className="text-lg font-semibold text-foreground">Aucun resultat</h3>
       <p className="mt-3 text-sm text-muted-foreground">
         {search
-          ? "Essayez un autre mot-clé ou réinitialisez les filtres pour visualiser toute la sélection."
-          : "Ajustez les filtres pour explorer d'autres combinaisons et préparer la future expérience Meilisearch."}
+          ? "Essayez un autre mot cle ou reinitialisez les filtres pour visualiser toute la selection."
+          : "Ajustez les filtres pour explorer d'autres combinaisons et preparer la future experience Meilisearch."}
       </p>
       <div className="mt-6 flex justify-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-        <Badge variant="secondary">Temps réel</Badge>
+        <Badge variant="secondary">Temps reel</Badge>
         <Badge variant="secondary">Meilisearch</Badge>
         <Badge variant="secondary">Phase 2</Badge>
       </div>
@@ -295,28 +372,4 @@ function CardEmptyState({ search }: { search: string }): JSX.Element {
   );
 }
 
-function filterLocally(query: string, filters: SearchFilters): Vehicle[] {
-  const normalizedQuery = query.trim().toLowerCase();
 
-  return VEHICLES_DATASET.filter((vehicle) => {
-    if (filters.brand !== "Toutes" && vehicle.brand !== filters.brand) return false;
-    if (filters.city !== "Toutes" && vehicle.city !== filters.city) return false;
-    if (filters.fuel !== "Tout" && vehicle.fuel !== filters.fuel) return false;
-    if (filters.condition !== "Toutes" && vehicle.condition !== filters.condition) return false;
-
-    if (!normalizedQuery) return true;
-
-    const dealer = DEALERS_DATASET.find((d) => d.id === vehicle.dealerId);
-    const haystack = [
-      vehicle.brand,
-      vehicle.model,
-      vehicle.trim,
-      vehicle.city,
-      dealer?.name ?? "",
-    ]
-      .join(" ")
-      .toLowerCase();
-
-    return haystack.includes(normalizedQuery);
-  });
-}

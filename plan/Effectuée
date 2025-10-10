@@ -1,0 +1,25 @@
+# Journal des tâches effectuées
+
+Déplacez ici chaque tâche terminée depuis le fichier `Tâches` en conservant son titre, et complétez les informations ci-dessous :
+- **Date** de validation (AAAA-MM-JJ)
+- **Responsable** ou équipe
+- **Preuve** : lien vers PR, ticket, documentation ou capture
+- **Notes** éventuelles (risques, suivis)
+
+Format suggéré :
+```
+- [x] Titre de la tâche (voir `Tâches`)
+  - Date : 2025-10-12
+  - Responsable : Prénom Nom
+  - Preuve : https://github.com/…/pull/123
+  - Notes : …
+```
+
+## P0 – Bloquant avant mise en ligne
+_(renseigner ici les tâches critiques complétées)_
+
+## P1 – Haute priorité (0 à 30 jours)
+_(renseigner ici les livrables post-lancement)_ 
+
+## P2 – Améliorations (> 1 mois)
+_(renseigner ici les évolutions planifiées à plus long terme)_

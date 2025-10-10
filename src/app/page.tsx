@@ -20,50 +20,11 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { getDealers, getFeaturedVehicles, getVehicles, services } from "@/data";
+import { services } from "@/data";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 import { buildWhatsappLink } from "@/lib/whatsapp";
-
-const vehiclesDataset = getVehicles();
-const dealersDataset = getDealers();
-const highlightedVehicles = getFeaturedVehicles();
-
-const totalInventoryValue = vehiclesDataset.reduce(
-  (sum, vehicle) => sum + vehicle.price,
-  0,
-);
-
-const averageMileage = vehiclesDataset.length
-  ? Math.round(
-      vehiclesDataset.reduce(
-        (sum, vehicle) => sum + vehicle.mileage,
-        0,
-      ) / vehiclesDataset.length,
-    )
-  : 0;
-
-const stats = [
-  {
-    label: "Vehicules mockes",
-    value: vehiclesDataset.length.toString().padStart(2, "0"),
-    hint: "Selection photo ready pour le comparateur",
-  },
-  {
-    label: "Concessionnaires pilotes",
-    value: dealersDataset.length.toString().padStart(2, "0"),
-    hint: "Partenaires a brancher sur Supabase",
-  },
-  {
-    label: "Valeur stock simulee",
-    value: formatPriceXof(totalInventoryValue),
-    hint: "Base GMV pour les premiers reportings",
-  },
-  {
-    label: "Kilometrage moyen",
-    value: formatMileage(averageMileage),
-    hint: "Reference pour affiner la segmentation",
-  },
-];
+import { getDealers } from "@/server/dealers";
+import { getFeaturedVehicles, getVehicles } from "@/server/vehicles";
 
 const heroPillars = [
   "Comparer les stocks multi-concessionnaires en un seul endroit.",
@@ -105,45 +66,86 @@ const roadmapTabs = [
   },
 ];
 
-const dealerSpotlight = dealersDataset.slice(0, 3);
-const serviceShowcase = services.slice(0, 3);
-
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "AutoDealer",
-  name: "Auto Nexus BJ",
-  url: "https://autonexus.bj",
-  description:
-    "Marketplace auto premium pour comparer, visualiser et contacter les concessionnaires du Benin.",
-  address: {
-    "@type": "PostalAddress",
-    addressCountry: "BJ",
-  },
-  makesOffer: vehiclesDataset.slice(0, 3).map((vehicle) => ({
-    "@type": "Offer",
-    itemOffered: {
-      "@type": "Vehicle",
-      brand: vehicle.brand,
-      model: vehicle.model,
-      vehicleModelDate: vehicle.year,
-      fuelType: vehicle.fuel,
-      vehicleTransmission: vehicle.transmission,
-    },
-    priceCurrency: "XOF",
-    price: vehicle.price,
-    availability: vehicle.available
-      ? "https://schema.org/InStock"
-      : "https://schema.org/PreOrder",
-  })),
-};
-
 export const metadata: Metadata = {
   title: "Auto Nexus BJ - MVP landing",
   description:
     "Landing statique Next.js pour prefigurer la marketplace Auto Nexus BJ et preparer la connexion a Supabase.",
 };
 
-export default function Home(): JSX.Element {
+export default async function Home(): Promise<JSX.Element> {
+  const [vehicles, dealers, featuredVehicles] = await Promise.all([
+    getVehicles(),
+    getDealers(),
+    getFeaturedVehicles(6),
+  ]);
+
+  const totalInventoryValue = vehicles.reduce(
+    (sum, vehicle) => sum + vehicle.price,
+    0,
+  );
+
+  const averageMileage = vehicles.length
+    ? Math.round(
+        vehicles.reduce((sum, vehicle) => sum + vehicle.mileage, 0) /
+          vehicles.length,
+      )
+    : 0;
+
+  const stats = [
+    {
+      label: "Vehicules mockes",
+      value: vehicles.length.toString().padStart(2, "0"),
+      hint: "Selection photo ready pour le comparateur",
+    },
+    {
+      label: "Concessionnaires pilotes",
+      value: dealers.length.toString().padStart(2, "0"),
+      hint: "Partenaires a brancher sur Supabase",
+    },
+    {
+      label: "Valeur stock simulee",
+      value: formatPriceXof(totalInventoryValue),
+      hint: "Base GMV pour les premiers reportings",
+    },
+    {
+      label: "Kilometrage moyen",
+      value: formatMileage(averageMileage),
+      hint: "Reference pour affiner la segmentation",
+    },
+  ];
+
+  const dealerSpotlight = dealers.slice(0, 3);
+  const serviceShowcase = services.slice(0, 3);
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "AutoDealer",
+    name: "Auto Nexus BJ",
+    url: "https://autonexus.bj",
+    description:
+      "Marketplace auto premium pour comparer, visualiser et contacter les concessionnaires du Benin.",
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "BJ",
+    },
+    makesOffer: vehicles.slice(0, 3).map((vehicle) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Vehicle",
+        brand: vehicle.brand,
+        model: vehicle.model,
+        vehicleModelDate: vehicle.year,
+        fuelType: vehicle.fuel,
+        vehicleTransmission: vehicle.transmission,
+      },
+      priceCurrency: vehicle.currency ?? "XOF",
+      price: vehicle.price,
+      availability: vehicle.available
+        ? "https://schema.org/InStock"
+        : "https://schema.org/PreOrder",
+    })),
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <div className="flex flex-1 flex-col">
@@ -258,7 +260,7 @@ export default function Home(): JSX.Element {
             </Button>
           </AnimatedSection>
           <AnimatedSection delay={0.1}>
-            <VehicleMasonry items={highlightedVehicles} />
+            <VehicleMasonry items={featuredVehicles} dealers={dealers} />
           </AnimatedSection>
         </section>
 

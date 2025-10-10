@@ -15,32 +15,31 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  dealers,
-  getDealerById,
-  getRelatedVehicles,
-  getVehicleBySlug,
-  type Dealer,
-  type Vehicle,
-  vehicles,
-} from "@/data";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 import { buildWhatsappLink } from "@/lib/whatsapp";
+import { getDealerById, getDealers } from "@/server/dealers";
+import {
+  getRelatedVehicles,
+  getVehicleBySlug,
+  getVehicleSlugs,
+} from "@/server/vehicles";
+import type { DealerSummary, VehicleSummary } from "@/types/catalog";
 
 type PageParams = {
   slug: string;
 };
 
-export function generateStaticParams(): PageParams[] {
-  return vehicles.map((vehicle) => ({ slug: vehicle.slug }));
+export async function generateStaticParams(): Promise<PageParams[]> {
+  const slugs = await getVehicleSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
   params: PageParams;
-}): Metadata {
-  const vehicle = getVehicleBySlug(params.slug);
+}): Promise<Metadata> {
+  const vehicle = await getVehicleBySlug(params.slug);
   if (!vehicle) {
     return {
       title: "Annonce introuvable",
@@ -62,19 +61,28 @@ export function generateMetadata({
   };
 }
 
-export default function VehicleDetail({
+export default async function VehicleDetail({
   params,
 }: {
   params: PageParams;
-}): JSX.Element {
-  const vehicle = getVehicleBySlug(params.slug);
+}): Promise<JSX.Element> {
+  const vehicle = await getVehicleBySlug(params.slug);
   if (!vehicle) {
     notFound();
   }
 
-  const dealer = getDealerById(vehicle.dealerId);
-  const related = getRelatedVehicles(vehicle, 3);
-  const whatsappLink = dealer
+  const [dealer, related, dealers] = await Promise.all([
+    getDealerById(vehicle.dealerId),
+    getRelatedVehicles({
+      brand: vehicle.brand,
+      model: vehicle.model,
+      excludeId: vehicle.id,
+      limit: 3,
+    }),
+    getDealers(),
+  ]);
+
+  const whatsappLink = dealer?.whatsapp
     ? buildWhatsappLink(
         dealer.whatsapp,
         `Bonjour ${dealer.name},\nJe suis intéressé(e) par ${vehicle.brand} ${vehicle.model} (${vehicle.year}) sur Auto Nexus BJ.\nEst-elle toujours disponible ?`,
@@ -83,7 +91,7 @@ export default function VehicleDetail({
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <Hero vehicle={vehicle} dealer={dealer} whatsappLink={whatsappLink} />
+      <Hero vehicle={vehicle} dealer={dealer ?? undefined} whatsappLink={whatsappLink} />
       <main className="flex flex-1 flex-col gap-12 bg-muted/20 py-12">
         <div className="mx-auto grid w-full max-w-6xl gap-10 px-6 lg:grid-cols-[1.8fr_1fr]">
           <section className="space-y-8">
@@ -96,11 +104,15 @@ export default function VehicleDetail({
           </section>
           <aside className="space-y-6">
             <AnimatedSection>
-              <ContactCard dealer={dealer} whatsappLink={whatsappLink} />
+              <ContactCard dealer={dealer ?? undefined} whatsappLink={whatsappLink} />
             </AnimatedSection>
             {related.length > 0 ? (
               <AnimatedSection delay={0.1}>
-                <RelatedInventory related={related} currentVehicle={vehicle} />
+                <RelatedInventory
+                  related={related}
+                  currentVehicle={vehicle}
+                  dealers={dealers}
+                />
               </AnimatedSection>
             ) : null}
           </aside>
@@ -115,8 +127,8 @@ function Hero({
   dealer,
   whatsappLink,
 }: {
-  vehicle: Vehicle;
-  dealer?: Dealer;
+  vehicle: VehicleSummary;
+  dealer?: DealerSummary;
   whatsappLink?: string;
 }): JSX.Element {
   return (
@@ -129,109 +141,138 @@ function Hero({
           className="object-cover opacity-70"
           priority
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-br from-black via-black/60 to-transparent" />
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-16 lg:flex-row lg:items-end lg:justify-between lg:py-24">
-        <AnimatedSection className="space-y-4">
-          <div className="flex flex-wrap items-center gap-3">
-            <Badge variant="outline" className="border-white/40 text-white">
-              {vehicle.condition}
+      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-16 sm:py-20 lg:py-24">
+        <div className="grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
+          <div className="space-y-6">
+            <Badge variant="secondary" className="w-fit bg-white/10 text-white">
+              Véhicule premium sélection
             </Badge>
-            <Badge variant="outline" className="border-white/40 text-white">
-              {vehicle.year}
-            </Badge>
-            <Badge variant="outline" className="border-white/40 text-white">
-              {vehicle.fuel}
-            </Badge>
-            {vehicle.featured ? (
-              <Badge className="bg-brand text-brand-foreground">
-                Coup de cœur
-              </Badge>
-            ) : null}
-          </div>
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            {vehicle.brand} {vehicle.model}{" "}
-            {vehicle.trim ? `— ${vehicle.trim}` : ""}
-          </h1>
-          <p className="max-w-2xl text-base text-white/80 sm:text-lg">
-            {vehicle.highlights[0]}
-          </p>
-        </AnimatedSection>
-        <AnimatedSection
-          delay={0.1}
-          className="rounded-2xl border border-white/20 bg-black/60 p-6 backdrop-blur"
-        >
-          <p className="text-xs uppercase tracking-[0.22em] text-white/60">
-            Prix affiché
-          </p>
-          <p className="text-3xl font-semibold">{formatPriceXof(vehicle.price)}</p>
-          <p className="mt-2 text-sm text-white/70">
-            {vehicle.mileage === 0
-              ? "Zéro kilomètre"
-              : `${formatMileage(vehicle.mileage)} • ${vehicle.city}`}
-          </p>
-          {dealer ? (
-            <p className="mt-4 text-sm text-white/70">
-              Proposé par <span className="font-semibold">{dealer.name}</span>
-            </p>
-          ) : null}
-          <div className="mt-4 flex flex-wrap gap-2">
-            <CompareToggleButton
-              vehicleId={vehicle.id}
-              size="sm"
-              className="border-white/40 text-white hover:bg-white/10"
-            />
-            {whatsappLink ? (
-              <Button
-                asChild
-                size="sm"
-                variant="outline"
-                className="border-white/40 text-white hover:bg-white/10"
-              >
-                <Link href={whatsappLink} target="_blank" rel="noopener noreferrer">
-                  WhatsApp
-                </Link>
+            <div className="space-y-3">
+              <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+                {vehicle.brand} {vehicle.model} {vehicle.trim ? `— ${vehicle.trim}` : ""}
+              </h1>
+              <p className="max-w-2xl text-base text-white/80 sm:text-lg">
+                {vehicle.year} • {vehicle.condition} • {formatMileage(vehicle.mileage)} • {vehicle.fuel} — {vehicle.transmission}
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-4 text-sm uppercase tracking-[0.18em] text-white/70">
+              <span>{vehicle.city}</span>
+              <span>Prix {formatPriceXof(vehicle.price)}</span>
+              {dealer ? <span>{dealer.name}</span> : null}
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild size="lg">
+                <Link href={whatsappLink ?? "#contact"}>Whatsapp instantané</Link>
               </Button>
+              <CompareToggleButton vehicleId={vehicle.id} size="lg">
+                Ajouter au comparateur
+              </CompareToggleButton>
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+            <Card className="border-white/20 bg-white/10 text-white backdrop-blur">
+              <CardHeader className="space-y-2">
+                <CardTitle className="text-base">Faits marquants</CardTitle>
+                <CardDescription className="text-xs text-white/70">
+                  Points forts mis en avant dans la fiche comparative.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {vehicle.highlights.slice(0, 3).map((highlight) => (
+                  <p key={highlight} className="flex items-start gap-2 text-sm">
+                    <span className="mt-1 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand" />
+                    <span>{highlight}</span>
+                  </p>
+                ))}
+              </CardContent>
+            </Card>
+            {dealer ? (
+              <Card className="border-white/20 bg-white/10 text-white backdrop-blur">
+                <CardHeader className="space-y-2">
+                  <CardTitle className="text-base">{dealer.name}</CardTitle>
+                  <CardDescription className="text-xs text-white/70">
+                    Concessionnaire partenaire Auto Nexus BJ.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-1 text-sm text-white/80">
+                  <p>{dealer.city}</p>
+                  {dealer.address ? <p>{dealer.address}</p> : null}
+                  {dealer.phone ? <p>Tél: {dealer.phone}</p> : null}
+                </CardContent>
+              </Card>
             ) : null}
           </div>
-        </AnimatedSection>
+        </div>
       </div>
     </section>
   );
 }
 
-function Gallery({ vehicle }: { vehicle: Vehicle }): JSX.Element {
+function Gallery({ vehicle }: { vehicle: VehicleSummary }): JSX.Element {
+  if (vehicle.gallery.length === 0) {
+    return (
+      <Card className="border-border/70 bg-white/95 shadow-sm">
+        <CardHeader>
+          <CardTitle>Galerie en préparation</CardTitle>
+          <CardDescription>
+            La galerie sera alimentée lors du branchement Supabase Storage.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Image
+            src={vehicle.heroImage}
+            alt={`${vehicle.brand} ${vehicle.model}`}
+            width={1280}
+            height={720}
+            className="w-full rounded-2xl object-cover"
+          />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const [primary, ...secondary] = vehicle.gallery;
+
   return (
-    <Card className="border-border/80 bg-white/95 shadow">
-      <CardHeader>
-        <CardTitle className="text-xl font-semibold">
-          Galerie immersive (12–20 photos)
-        </CardTitle>
-        <CardDescription>
-          Preview statique : intégrerons ensuite slider, zoom et vidéos 360° via
-          Supabase Storage.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-3 md:grid-cols-2">
-        {vehicle.gallery.map((image, index) => (
+    <div className="grid gap-4 lg:grid-cols-[3fr_2fr]">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border bg-muted">
+        <Image
+          src={primary.url}
+          alt={primary.label ?? vehicle.model}
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute bottom-4 left-4 rounded-full bg-black/60 px-4 py-1 text-xs uppercase tracking-[0.18em] text-white">
+          Photo principale
+        </div>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {secondary.slice(0, 4).map((photo) => (
           <div
-            key={image}
-            className="relative aspect-video overflow-hidden rounded-xl"
+            key={photo.id}
+            className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-muted"
           >
             <Image
-              src={image}
-              alt={`${vehicle.brand} ${vehicle.model} - vue ${index + 1}`}
+              src={photo.url}
+              alt={photo.label ?? vehicle.model}
               fill
-              className="object-cover transition duration-500 hover:scale-105"
+              className="object-cover"
             />
           </div>
         ))}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
 
-function SpecificationTabs({ vehicle }: { vehicle: Vehicle }): JSX.Element {
+function SpecificationTabs({
+  vehicle,
+}: {
+  vehicle: VehicleSummary;
+}): JSX.Element {
   return (
     <Card className="border-border/80 bg-white/95 shadow">
       <CardHeader>
@@ -280,7 +321,7 @@ function ContactCard({
   dealer,
   whatsappLink,
 }: {
-  dealer?: Dealer;
+  dealer?: DealerSummary;
   whatsappLink?: string;
 }): JSX.Element {
   return (
@@ -290,8 +331,8 @@ function ContactCard({
           Passer à l’action
         </CardTitle>
         <CardDescription className="text-sm text-muted-foreground">
-          CTA directs : WhatsApp, appel téléphone, demande d’offre. Leads
-          capturés dans Supabase lors de l’intégration.
+          CTA directs : WhatsApp, appel téléphone, demande d’offre. Leads capturés
+          dans Supabase lors de l’intégration.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -334,11 +375,13 @@ function ContactCard({
 function RelatedInventory({
   related,
   currentVehicle,
+  dealers,
 }: {
-  related: Vehicle[];
-  currentVehicle: Vehicle;
+  related: VehicleSummary[];
+  currentVehicle: VehicleSummary;
+  dealers: DealerSummary[];
 }): JSX.Element {
-  const dealerMap = new Map<string, Dealer>(dealers.map((d) => [d.id, d]));
+  const dealerMap = new Map(dealers.map((dealer) => [dealer.id, dealer] as const));
 
   return (
     <Card className="border-border/80 bg-white/95 shadow">

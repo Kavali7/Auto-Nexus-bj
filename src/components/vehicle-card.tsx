@@ -14,13 +14,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import type { Dealer, Vehicle } from "@/data";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 import { buildWhatsappLink } from "@/lib/whatsapp";
+import type { DealerSummary, VehicleSummary } from "@/types/catalog";
 
 interface VehicleCardProps {
-  vehicle: Vehicle;
-  dealer?: Dealer;
+  vehicle: VehicleSummary;
+  dealer?: DealerSummary;
   whatsappNumber?: string;
 }
 
@@ -29,7 +29,7 @@ export function VehicleCard({
   dealer,
   whatsappNumber,
 }: VehicleCardProps): JSX.Element {
-  const contactNumber = whatsappNumber ?? dealer?.whatsapp;
+  const contactNumber = whatsappNumber ?? dealer?.whatsapp ?? undefined;
   const whatsappHref = contactNumber
     ? buildWhatsappLink(
         contactNumber,

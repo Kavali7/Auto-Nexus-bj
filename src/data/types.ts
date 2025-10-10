@@ -14,6 +14,20 @@ export interface VehicleSpec {
   value: string;
 }
 
+export type VehicleMediaKind =
+  | "STANDARD"
+  | "EXTERIOR"
+  | "INTERIOR"
+  | "DETAIL"
+  | "PANORAMA"
+  | "WALKAROUND";
+
+export interface VehicleGalleryItemSeed {
+  url: string;
+  label?: string;
+  kind?: VehicleMediaKind;
+}
+
 export interface Vehicle {
   id: string;
   slug: string;
@@ -36,7 +50,8 @@ export interface Vehicle {
   dealerId: string;
   featured?: boolean;
   heroImage: string;
-  gallery: string[];
+  virtualTourUrl?: string;
+  gallery: VehicleGalleryItemSeed[];
   highlights: string[];
   specs: VehicleSpec[];
   available: boolean;

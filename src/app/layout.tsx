@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { CompareBar } from "@/components/compare-bar";
-import { CompareProvider } from "@/components/compare-context";
+import {
+  CompareProvider,
+  type CompareVehicle,
+} from "@/components/compare-context";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { getDealers } from "@/server/dealers";
+import { getVehicles } from "@/server/vehicles";
 
 import "./globals.css";
 
@@ -33,17 +38,37 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [vehicles, dealers] = await Promise.all([getVehicles(), getDealers()]);
+
+  const compareVehicles: CompareVehicle[] = vehicles.map((vehicle) => ({
+    id: vehicle.id,
+    slug: vehicle.slug,
+    dealerId: vehicle.dealerId,
+    brand: vehicle.brand,
+    model: vehicle.model,
+    trim: vehicle.trim,
+    condition: vehicle.condition,
+    year: vehicle.year,
+    mileage: vehicle.mileage,
+    fuel: vehicle.fuel,
+    transmission: vehicle.transmission,
+    price: vehicle.price,
+    city: vehicle.city,
+    heroImage: vehicle.heroImage,
+    highlights: vehicle.highlights,
+  }));
+
   return (
     <html lang="fr">
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-background text-foreground antialiased`}
       >
-        <CompareProvider>
+        <CompareProvider vehicles={compareVehicles} dealers={dealers}>
           <SiteHeader />
           <main className="pt-24">{children}</main>
           <SiteFooter />

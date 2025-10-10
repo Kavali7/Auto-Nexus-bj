@@ -1,0 +1,94 @@
+# P0 – Bloquant avant mise en ligne
+
+- [ ] **Sécuriser les secrets Supabase et Postgres**  
+  - Régénérer `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL` et supprimer toute copie publique (README, historique Git, issues).  
+  - Stocker les nouvelles valeurs dans `.env.local`, les variables Vercel et un coffre-fort partagé ; documenter la procédure de rotation.
+
+- [ ] **Stabiliser l'infrastructure Supabase/Prisma**  
+  - Vérifier que la base cible est propre, exécuter `npm run db:push` puis `npm run db:seed` avec un dataset validé business.  
+  - Appliquer `scripts/supabase-storage-policies.sql`, contrôler les règles RLS et le bucket `Auto-Nexus-bj`, créer les index nécessaires (slug, brand, city).
+
+- [ ] **Remplacer les datasets mocks par les données live**  
+  - Supprimer les appels à `@/data` dans toutes les pages (`/`, `/voitures`, `/concessionnaires`, `/services`, `/dashboard`) et les API (`/api/dashboard/export`).  
+  - Utiliser systématiquement `@/server/vehicles`, `@/server/dealers` (Prisma) et ajouter les requêtes manquantes pour les services, stats et structured data.  
+  - Prévoir un fallback maintenance si Prisma renvoie une erreur (message utilisateur + log Sentry).
+
+- [ ] **Finaliser le pipeline média Supabase Storage**  
+  - Charger les photos officielles sur le bucket (`vehicles/`, `dealers/`) avec métadonnées (label, position, kind) et conventions de nommage.  
+  - Remplacer toutes les URLs Unsplash/mocks par les URLs Supabase signées ou via CDN ; valider la latence et la qualité.  
+  - Mettre en place un script de redimensionnement/optimisation (WebP, AVIF, blurhash) exécuté à l’upload.
+
+- [ ] **Centraliser les coordonnées et CTA**  
+  - Créer une table `settings` ou `site_contact` pour WhatsApp, téléphones et emails par usage (sales, investor, support).  
+  - Exposer un helper (`getSiteContacts`) et remplacer les valeurs en dur (header, footer, CTA, JSON-LD).  
+  - Vérifier la cohérence des deep-links WhatsApp / tel / mailto après refactor.
+
+- [ ] **Nettoyer les contenus “mock” avant mise en ligne**  
+  - Revoir toutes les copies marketing (hero, roadmap, dashboard, services) pour retirer les mentions “mock”, “POC”, “phase 2” non destinées au public.  
+  - Valider la rédaction FR (accents, typographie) et préparer la version EN si exigée.  
+  - Ajuster les CTA pour pointer vers des parcours actifs (formulaire, WhatsApp géré, page calendrier).
+
+- [ ] **Capturer et router les leads**  
+  - Implémenter `POST /api/leads` persistant la table `Lead` + envoi de notification (email/Slack) et gestion des erreurs.  
+  - Ajouter sur `/voitures/[slug]` et `/concessionnaires/[slug]` un formulaire minimal (nom, téléphone, message) en complément des liens WhatsApp.  
+  - Exposer ces leads dans le dashboard concessionnaire (liste, statut, assignation) et définir la routine de suivi.
+
+- [ ] **Mettre en place les pages légales & SEO**  
+  - Créer `/mentions-legales`, `/politique-confidentialite`, `/conditions-generales` et mettre à jour le footer.  
+  - Générer `sitemap.xml`, `robots.txt` et compléter les métadonnées (OpenGraph, Twitter, schema.org Vehicle/Organization).  
+  - Ajouter un bandeau consentement si des cookies/analytics tiers sont activés.
+
+- [ ] **Préparer le déploiement Vercel**  
+  - Créer le projet Vercel, définir les environnements (preview, production) avec variables sécurisées et protection par mot de passe si besoin.  
+  - Activer une CI (lint + test + build) et bloquer les merges sans validation ; documenter la procédure de rollback.  
+  - Configurer les alertes de disponibilité (Vercel, UptimeRobot) et la page de statut si nécessaire.
+
+- [ ] **Passer la checklist QA pré-prod**  
+  - Effectuer les tests manuels multi-navigateurs/devices, audit Lighthouse ≥ 90, vérification accessibilité (labels, contrastes, navigation clavier).  
+  - Tester la build production (`npm run build && npm run start`) et surveiller la console/terminal pour toute erreur.  
+  - Rédiger un rapport de recette (issues, captures, statut) et obtenir le GO business avant mise en ligne.
+
+# P1 – Haute priorité (0 à 30 jours après lancement)
+
+- [ ] **Activer la recherche temps réel (Meilisearch)**  
+  - Déployer Meilisearch, configurer l’index `vehicles`, automatiser `npm run meili:sync` (CI/CD ou cron).  
+  - Faire pointer `/api/search` sur Meilisearch + facettes (marque, ville, carburant, condition) avec fallback SQL.  
+  - Couvrir la recherche par des tests e2e (Playwright) et surveiller les performances des requêtes.
+
+- [ ] **Solidifier le comparateur et les favoris**  
+  - Persister le comparateur (table `favorite` ou `compare_selection`) pour retrouver la sélection cross-device.  
+  - Ajouter la sticky bar mobile, l’export PDF/CSV et la prévisualisation partagée (URL partageable).  
+  - Mettre en place les analytics dédiés (ajout, retrait, comparaison envoyée).
+
+- [ ] **Donner l’autonomie aux concessionnaires (Dashboard)**  
+  - Finaliser le CRUD véhicules (création, édition, archivage) relié à Prisma + upload Supabase avec progression.  
+  - Ajouter la gestion des médias (drag & drop, suppression, tags) et le changement de statut (draft/published).  
+  - Exposer les KPI leads / inventaire en temps réel avec filtres par période.
+
+- [ ] **Mettre en place la modération admin**  
+  - Créer une vue admin pour valider/retirer les annonces, éditer les contenus partenaires et voir l’historique (audit trail).  
+  - Gérer les rôles (`admin`, `dealer`, `staff`) via middleware et sécuriser les API.  
+  - Envoyer des notifications (mail/Slack) lors des validations/refus et journaliser les décisions.
+
+- [ ] **Instrumenter analytics & monitoring**  
+  - Brancher Vercel Analytics + LogSnag/Amplitude et tracer les événements clés (vue fiche, clic CTA, lead envoyé).  
+  - Installer Sentry (front + API) et configurer les alertes.  
+  - Préparer un dashboard hebdo (Metabase/Supabase) pour suivre GMV, leads, taux de réponse.
+
+# P2 – Améliorations (roadmap > 1 mois)
+
+- [ ] **Expérience média enrichie**  
+  - Supporter les médias 360°, vidéos, `VehicleMediaKind` avancés et une visionneuse plein écran.  
+  - Générer automatiquement les placeholders (blurhash) et variantes WebP/AVIF à l’upload.
+
+- [ ] **Internationalisation & localisation**  
+  - Mettre en place next-intl (FR/EN au minimum), stocker les contenus marketing dans Supabase pour édition.  
+  - Adapter formats monétaires, dates et unités (km/miles) selon la locale.
+
+- [ ] **Automatisations marketing & CRM**  
+  - Créer des templates mail/SMS pour relances, intégrer un CRM (HubSpot/Notion) via webhook Supabase.  
+  - Mettre en place des scénarios (lead non répondu, devis envoyé, relance J+7).
+
+- [ ] **Optimisations performance & SEO avancées**  
+  - Activer le prefetch des routes critiques, compléter schema.org (AutoDealer, BreadcrumbList).  
+  - Tester l’intégration CDN (Cloudflare) pour les assets Supabase et ajuster la cache policy SSR/Edge.

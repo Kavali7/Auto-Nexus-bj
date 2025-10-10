@@ -9,25 +9,45 @@ import {
   useState,
 } from "react";
 
-import { getVehicles, type Vehicle } from "@/data";
+import type { DealerSummary } from "@/types/catalog";
+
+export type CompareVehicle = {
+  id: string;
+  slug: string;
+  dealerId: string;
+  brand: string;
+  model: string;
+  trim: string | null;
+  condition: string;
+  year: number;
+  mileage: number;
+  fuel: string;
+  transmission: string;
+  price: number;
+  city: string;
+  heroImage: string;
+  highlights: string[];
+};
 
 type CompareContextValue = {
   selectedIds: string[];
-  selectedVehicles: Vehicle[];
+  selectedVehicles: CompareVehicle[];
   isSelected: (vehicleId: string) => boolean;
   canAddMore: boolean;
   addVehicle: (vehicleId: string) => void;
   removeVehicle: (vehicleId: string) => void;
   clear: () => void;
+  findDealer: (dealerId: string) => DealerSummary | undefined;
 };
 
 const MAX_COMPARE = 4;
 const STORAGE_KEY = "auto-nexus-compare";
 
-const VEHICLES_DATASET = getVehicles();
-const vehicleMap = new Map(
-  VEHICLES_DATASET.map((vehicle) => [vehicle.id, vehicle]),
-);
+interface CompareProviderProps {
+  children: React.ReactNode;
+  vehicles: CompareVehicle[];
+  dealers: DealerSummary[];
+}
 
 const CompareContext = createContext<CompareContextValue | undefined>(
   undefined,
@@ -35,10 +55,20 @@ const CompareContext = createContext<CompareContextValue | undefined>(
 
 export function CompareProvider({
   children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
+  vehicles,
+  dealers,
+}: CompareProviderProps): JSX.Element {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  const vehicleMap = useMemo(
+    () => new Map(vehicles.map((vehicle) => [vehicle.id, vehicle] as const)),
+    [vehicles],
+  );
+
+  const dealerMap = useMemo(
+    () => new Map(dealers.map((dealer) => [dealer.id, dealer] as const)),
+    [dealers],
+  );
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -76,12 +106,17 @@ export function CompareProvider({
     setSelectedIds([]);
   }, []);
 
+  const findDealer = useCallback(
+    (dealerId: string) => dealerMap.get(dealerId),
+    [dealerMap],
+  );
+
   const selectedVehicles = useMemo(
     () =>
       selectedIds
         .map((id) => vehicleMap.get(id))
-        .filter((vehicle): vehicle is Vehicle => Boolean(vehicle)),
-    [selectedIds],
+        .filter((vehicle): vehicle is CompareVehicle => Boolean(vehicle)),
+    [selectedIds, vehicleMap],
   );
 
   const contextValue: CompareContextValue = useMemo(
@@ -93,8 +128,9 @@ export function CompareProvider({
       addVehicle,
       removeVehicle,
       clear,
+      findDealer,
     }),
-    [selectedIds, selectedVehicles, addVehicle, removeVehicle, clear],
+    [selectedIds, selectedVehicles, addVehicle, removeVehicle, clear, findDealer],
   );
 
   return (

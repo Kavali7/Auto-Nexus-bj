@@ -17,18 +17,35 @@ export const vehicles: Vehicle[] = [
     fuel: "Hybride",
     transmission: "Automatique",
     drivetrain: "AWD",
-    colorExterior: "Bleu nuit métallisé",
+    colorExterior: "Bleu nuit métallisè",
     colorInterior: "Cuir blanc & Alcantara noir",
     doors: 5,
     dealerId: "nexus-premium",
     featured: true,
     heroImage:
       "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
+    virtualTourUrl: "https://cdn.autonexus.bj/tours/lexus-rx450h",
     gallery: [
-      "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1471478331149-c72f17e33c73?auto=format&fit=crop&w=1200&q=80",
+      {
+        url: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1200&q=80",
+        label: "Vue 3/4 avant studio",
+        kind: "EXTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80",
+        label: "Intérieur cockpit",
+        kind: "INTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1200&q=80",
+        label: "Profil dynamique",
+        kind: "EXTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1471478331149-c72f17e33c73?auto=format&fit=crop&w=1200&q=80",
+        label: "Vue immersive 360°",
+        kind: "PANORAMA",
+      },
     ],
     highlights: [
       "Pack photo 18 vues + vidéo 4K",
@@ -66,10 +83,26 @@ export const vehicles: Vehicle[] = [
     heroImage:
       "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80",
     gallery: [
-      "https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1471478331149-c72f17e33c73?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
+      {
+        url: "https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&w=1200&q=80",
+        label: "Exterieur trail",
+        kind: "EXTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1471478331149-c72f17e33c73?auto=format&fit=crop&w=1200&q=80",
+        label: "Vue roulante",
+        kind: "EXTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80",
+        label: "Habitacle double cabine",
+        kind: "INTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
+        label: "Détail jantes/terrain",
+        kind: "DETAIL",
+      },
     ],
     highlights: [
       "Historique complet + carnet numérique",
@@ -107,10 +140,26 @@ export const vehicles: Vehicle[] = [
     heroImage:
       "https://images.unsplash.com/photo-1496247749665-49cf5b1022e9?auto=format&fit=crop&w=1200&q=80",
     gallery: [
-      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=80",
+      {
+        url: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1200&q=80",
+        label: "Vue avant",
+        kind: "EXTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80",
+        label: "Vue arrière",
+        kind: "EXTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=1200&q=80",
+        label: "Intérieur premium",
+        kind: "INTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=80",
+        label: "Détails sellerie",
+        kind: "DETAIL",
+      },
     ],
     highlights: [
       "Certification Nexus Premium (120 points)",
@@ -147,11 +196,28 @@ export const vehicles: Vehicle[] = [
     dealerId: "mig-motors",
     heroImage:
       "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80",
+    virtualTourUrl: "https://cdn.autonexus.bj/tours/honda-civic-2021",
     gallery: [
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1200&q=80",
+      {
+        url: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+        label: "Exterieur night drive",
+        kind: "EXTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
+        label: "Cockpit 360°",
+        kind: "PANORAMA",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1200&q=80",
+        label: "Console centrale",
+        kind: "INTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1200&q=80",
+        label: "Détail finition",
+        kind: "DETAIL",
+      },
     ],
     highlights: [
       "Vidéo 360° cockpit incluse",
@@ -189,10 +255,26 @@ export const vehicles: Vehicle[] = [
     heroImage:
       "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1200&q=80",
     gallery: [
-      "https://images.unsplash.com/photo-1472586662442-3eec04b9dbda?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1467320424268-f91a16cf7c77?auto=format&fit=crop&w=1200&q=80",
+      {
+        url: "https://images.unsplash.com/photo-1472586662442-3eec04b9dbda?auto=format&fit=crop&w=1200&q=80",
+        label: "Vue showroom",
+        kind: "EXTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80",
+        label: "Sellerie double ton",
+        kind: "INTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1200&q=80",
+        label: "Signature lumineuse",
+        kind: "DETAIL",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1467320424268-f91a16cf7c77?auto=format&fit=crop&w=1200&q=80",
+        label: "Vue lifestyle outdoor",
+        kind: "EXTERIOR",
+      },
     ],
     highlights: [
       "Commande officielle CFAO, livraison 45 jours",
@@ -230,10 +312,26 @@ export const vehicles: Vehicle[] = [
     heroImage:
       "https://images.unsplash.com/photo-1462396881884-de2c07cb95ed?auto=format&fit=crop&w=1200&q=80",
     gallery: [
-      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80",
+      {
+        url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80",
+        label: "Exterieur urbain",
+        kind: "EXTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=1200&q=80",
+        label: "Habitacle lounge",
+        kind: "INTERIOR",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1200&q=80",
+        label: "Coffre & modularité",
+        kind: "DETAIL",
+      },
+      {
+        url: "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80",
+        label: "Vue de nuit",
+        kind: "EXTERIOR",
+      },
     ],
     highlights: [
       "Pack Lounge (LED + sellerie exclusive)",
