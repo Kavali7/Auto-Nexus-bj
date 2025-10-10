@@ -94,10 +94,12 @@ export async function createSignedUploadUrl(
 
   const folder = sanitizeFolder(options.folder);
   const { cleanBase, cleanExt } = sanitizeFilename(options.filename);
-  const expiresIn =
+  const requestedExpiresIn =
     options.expiresIn && Number.isFinite(options.expiresIn)
-      ? Math.max(15, Math.min(300, Math.round(options.expiresIn)))
-      : 60;
+      ? Math.max(15, Math.min(7200, Math.round(options.expiresIn)))
+      : 300;
+  const supabaseMaxExpiresIn = 7200; // Supabase tokens are hard-limited to 2 hours.
+  const effectiveExpiresIn = Math.min(requestedExpiresIn, supabaseMaxExpiresIn);
   const upsert = options.upsert ?? true;
   const contentType = options.contentType || "application/octet-stream";
 
@@ -109,9 +111,8 @@ export async function createSignedUploadUrl(
 
   const { data, error } = await supabase.storage
     .from(bucket)
-    .createSignedUploadUrl(path, expiresIn, {
+    .createSignedUploadUrl(path, {
       upsert,
-      contentType,
     });
 
   if (error || !data) {
@@ -127,11 +128,10 @@ export async function createSignedUploadUrl(
     uploadUrl: data.signedUrl,
     uploadHeaders: {
       "Content-Type": contentType,
-      "x-upsert": upsert ? "true" : "false",
     },
     publicUrl: getPublicStorageUrl(data.path, bucket),
     token: data.token,
-    expiresIn,
-    expiresAt: new Date(Date.now() + expiresIn * 1000).toISOString(),
+    expiresIn: effectiveExpiresIn,
+    expiresAt: new Date(Date.now() + effectiveExpiresIn * 1000).toISOString(),
   };
 }

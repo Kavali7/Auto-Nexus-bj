@@ -3,42 +3,12 @@
 import type { ChangeEvent } from "react";
 import { useCallback, useRef, useState } from "react";
 
-type SignedUploadResponse = {
-  bucket: string;
-  path: string;
-  signedUrl: string;
-  publicUrl: string;
-  token: string;
-  expiresIn: number;
-};
-
-type UploadState = {
-  step: "idle" | "signing" | "uploading" | "done" | "error";
-  message?: string;
-};
-
-function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) {
-    return error.message;
-  }
-
-  if (typeof error === "string" && error.trim().length > 0) {
-    return error;
-  }
-
-  return "Une erreur inattendue s'est produite.";
-}
+import { useSignedUpload } from "@/hooks/use-signed-upload";
 
 export function UploadDemo(): JSX.Element {
   const [folder, setFolder] = useState("vehicles");
-  const [state, setState] = useState<UploadState>({ step: "idle" });
-  const [result, setResult] = useState<SignedUploadResponse | null>(null);
+  const { result, state, uploadFile, reset, isUploading } = useSignedUpload();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const reset = useCallback(() => {
-    setResult(null);
-    setState({ step: "idle" });
-  }, []);
 
   const handleFileSelect = useCallback(
     async (event: ChangeEvent<HTMLInputElement>) => {
@@ -51,67 +21,15 @@ export function UploadDemo(): JSX.Element {
       event.target.value = "";
 
       try {
-        setResult(null);
-        setState({ step: "signing", message: "Génération de l'URL signée..." });
-
-        const payload = {
-          filename: file.name,
-          contentType: file.type || "application/octet-stream",
+        await uploadFile(file, {
           folder: folder.trim() || undefined,
-        };
-
-        const signResponse = await fetch("/api/uploads/sign", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
+          contentType: file.type || "application/octet-stream",
         });
-
-        if (!signResponse.ok) {
-          const errorBody = await signResponse.json().catch(() => ({}));
-          const apiMessage =
-            typeof errorBody?.error === "string"
-              ? errorBody.error
-              : `HTTP ${signResponse.status}`;
-          throw new Error(
-            `Impossible de créer l'upload: ${apiMessage}. Vérifiez la configuration Supabase.`,
-          );
-        }
-
-        const signedResult: SignedUploadResponse = await signResponse.json();
-
-        setState({ step: "uploading", message: "Upload sur Supabase..." });
-
-        const uploadResponse = await fetch(signedResult.signedUrl, {
-          method: "PUT",
-          headers: {
-            "Content-Type": file.type || "application/octet-stream",
-            "x-upsert": "true",
-          },
-          body: file,
-        });
-
-        if (!uploadResponse.ok) {
-          const uploadBody = await uploadResponse.text();
-          throw new Error(
-            `Upload Supabase échoué (${uploadResponse.status}): ${uploadBody || "raison inconnue"}`,
-          );
-        }
-
-        setResult(signedResult);
-        setState({
-          step: "done",
-          message: "Upload réussi !",
-        });
-      } catch (error) {
-        setState({
-          step: "error",
-          message: getErrorMessage(error),
-        });
+      } catch {
+        // L'état d'erreur est géré par le hook, rien à faire ici.
       }
     },
-    [folder],
+    [folder, uploadFile],
   );
 
   const handleButtonClick = useCallback(() => {
@@ -151,33 +69,31 @@ export function UploadDemo(): JSX.Element {
           type="button"
           onClick={handleButtonClick}
           className="inline-flex h-11 items-center justify-center rounded-md border border-transparent bg-brand px-4 text-sm font-medium text-white shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70"
-          disabled={state.step === "signing" || state.step === "uploading"}
+          disabled={isUploading}
         >
-          {state.step === "signing" || state.step === "uploading"
-            ? "Upload en cours..."
-            : "Choisir un fichier"}
+          {isUploading ? "Upload en cours..." : "Choisir un fichier"}
         </button>
         <button
           type="button"
           onClick={reset}
           className="inline-flex h-11 items-center justify-center rounded-md border border-border bg-white px-4 text-sm font-medium text-foreground shadow-sm transition hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70"
-          disabled={state.step === "signing" || state.step === "uploading"}
+          disabled={isUploading}
         >
           Réinitialiser
         </button>
       </div>
 
-      {state.message ? (
+      {state.message || state.error ? (
         <div
           className={`rounded-md border px-3 py-2 text-sm ${
-            state.step === "error"
+            state.status === "error"
               ? "border-red-200 bg-red-50 text-red-700"
-              : state.step === "done"
+              : state.status === "done"
                 ? "border-emerald-200 bg-emerald-50 text-emerald-700"
                 : "border-border bg-muted/30 text-muted-foreground"
           }`}
         >
-          {state.message}
+          {state.error ?? state.message}
         </div>
       ) : null}
 
@@ -210,3 +126,4 @@ export function UploadDemo(): JSX.Element {
     </div>
   );
 }
+

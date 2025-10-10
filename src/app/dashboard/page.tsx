@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { AnimatedSection } from "@/components/animated-section";
 import { UploadDemo } from "@/components/upload-demo";
+import { VehicleMediaUploader } from "@/components/vehicle-media-uploader";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -218,6 +219,20 @@ export default function DashboardPage(): JSX.Element {
                     <span className="font-semibold text-foreground">Public URL</span>
                     <p>{"Utiliser `publicUrl` pour servir l'asset ou le stocker en base."}</p>
                   </div>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
+
+            <AnimatedSection>
+              <Card className="border-border/70 bg-white/95 shadow-sm">
+                <CardHeader>
+                  <CardTitle>Nouvelle annonce — médias & métadonnées</CardTitle>
+                  <CardDescription>
+                    {"Uploader les visuels, générer les URLs publiques et préparer le payload à sauvegarder via Prisma ou Supabase."}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <VehicleMediaUploader />
                 </CardContent>
               </Card>
             </AnimatedSection>

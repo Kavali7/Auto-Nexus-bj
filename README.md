@@ -40,8 +40,20 @@ Prototype Next.js (App Router) pour mettre en scene l'univers Auto Nexus BJ : co
 4. Initialiser le bucket Supabase Storage : `npm run supabase:storage:init` (cree le bucket `SUPABASE_STORAGE_BUCKET` si besoin).
 5. Appliquer les policies RLS fournies dans `scripts/supabase-storage-policies.sql` depuis la console SQL Supabase (lecture publique + uploads authentifies).
 6. Optionnel : connecter une CDN (Fastly, Cloudflare) pour servir les assets du bucket si besoin.
+7. Optionnel : migrer d'anciens assets Cloudinary via `npm run cloudinary:migrate` (necessite un compte Cloudinary et les variables `CLOUDINARY_*`; demarrer en `DRY_RUN=true` pour valider sans ecriture). Les variables supportees : `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `CLOUDINARY_FOLDER?`, `CLOUDINARY_RESOURCE_TYPE?`, `CLOUDINARY_DELIVERY_TYPE?`, `SUPABASE_MIGRATION_PREFIX?`, `SUPABASE_MIGRATION_UPSERT?`, `MIGRATION_MANIFEST_PATH?`, `DRY_RUN?`.
+8. Vérifier la pipeline Upload en local : `npm run supabase:storage:test` génère un fichier texte aléatoire, l'upload via URL signée puis affiche l'URL publique et la date d'expiration (nécessite `SUPABASE_URL` et `SUPABASE_SERVICE_ROLE_KEY` valides).
+9. Tester l'intégration front : `npm run dev` puis utiliser le dashboard > cartes "Upload Supabase Storage (POC)" et "Nouvelle annonce — médias & métadonnées" pour valider l'UX de dépôt et le payload prêt à persister.
 
 > Note : sans services externes, l'app se base sur les mocks (recherche locale, donnees JSON).
+
+## Supabase Storage & flux upload
+- **API `/api/uploads/sign`** : attend `filename`, `contentType`, `folder?`, `expiresIn?`, `upsert?`. Retourne `uploadUrl`, `uploadHeaders`, `publicUrl`, `path`, `expiresAt`.
+- **Hook `useSignedUpload`** (`src/hooks/use-signed-upload.ts`) : fournit `uploadFile(file, options)`, `state`, `result`, `reset`. Il s'occupe de la requête POST, du PUT signé et du reporting d'erreurs.
+- **Composants front** :
+  - `UploadDemo` (dashboard) : vérification manuelle de la route + PUT direct.
+  - `VehicleMediaUploader` : intégré au formulaire maquette d'annonce, gère titre + notes et affiche le payload JSON prêt pour Prisma/Supabase.
+- **Vérification CLI** : `npm run supabase:storage:test` réalise le flux complet (crée un fichier, signe l'URL, pousse sur Supabase, affiche l'URL publique).
+- **Migration Cloudinary** : `npm run cloudinary:migrate` copie les assets source dans le bucket Supabase (support dry-run, manifest JSON). Voir `scripts/cloudinary-to-supabase.ts` pour les options avancées.
 
 ## Prochaines etapes suggerees
 1. Brancher Meilisearch / Algolia pour rendre les filtres et le comparateur interactifs.
