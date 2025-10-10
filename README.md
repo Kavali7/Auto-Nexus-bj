@@ -90,3 +90,10 @@ Get-Content .env.local | ForEach-Object {
   $trimmed = $value.Trim('"')
   [Environment]::SetEnvironmentVariable($name, $trimmed, "Process")
 }
+
+
+Lancer npm run meili:sync si tu souhaites activer la recherche mockée.
+
+Ou passer par le Supabase CLI depuis le projet :
+npx supabase db remote query --file scripts/supabase-storage-policies.sql
+(en étant authentifié au CLI avec ton projet).

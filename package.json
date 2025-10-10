@@ -11,6 +11,7 @@
     "format:write": "prettier --write .",
     "meili:sync": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register scripts/meilisearch-seed.ts",
     "supabase:storage:init": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register scripts/supabase-storage-setup.ts",
+    "cloudinary:migrate": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register scripts/cloudinary-to-supabase.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "db:push": "prisma db push",

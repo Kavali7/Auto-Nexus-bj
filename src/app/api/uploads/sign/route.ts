@@ -7,6 +7,7 @@ type UploadPayload = {
   contentType?: unknown;
   folder?: unknown;
   expiresIn?: unknown;
+  upsert?: unknown;
 };
 
 export async function POST(request: NextRequest) {
@@ -22,7 +23,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { filename, contentType, folder, expiresIn } = payload;
+  const { filename, contentType, folder, expiresIn, upsert } = payload;
 
   if (typeof filename !== "string" || filename.length === 0) {
     return NextResponse.json(
@@ -40,6 +41,7 @@ export async function POST(request: NextRequest) {
         typeof expiresIn === "number" && Number.isFinite(expiresIn)
           ? Math.max(15, Math.min(300, Math.round(expiresIn)))
           : undefined,
+      upsert: typeof upsert === "boolean" ? upsert : undefined,
     });
 
     return NextResponse.json(signedUpload);

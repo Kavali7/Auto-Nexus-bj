@@ -12,6 +12,23 @@ async function main() {
     );
   }
 
+  try {
+    await client.health();
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "erreur inconnue (healthcheck)";
+
+    if (/ECONNREFUSED/i.test(message)) {
+      throw new Error(
+        `Connexion Meilisearch impossible sur ${process.env.MEILISEARCH_HOST}. Lance d'abord le serveur (ex: './meilisearch --master-key ...' ou le conteneur Docker) puis relance le seed.`,
+      );
+    }
+
+    throw new Error(
+      `Echec du healthcheck Meilisearch (${message}). Verifie MEILISEARCH_HOST / API key.`,
+    );
+  }
+
   const index = client.index(VEHICLES_INDEX);
 
   await index.updateFilterableAttributes([

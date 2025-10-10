@@ -61,9 +61,12 @@ export type SignedUploadPayload = {
   bucket: string;
   path: string;
   signedUrl: string;
+  uploadUrl: string;
+  uploadHeaders: Record<string, string>;
   publicUrl: string;
   token: string;
   expiresIn: number;
+  expiresAt: string;
 };
 
 export function getPublicStorageUrl(path: string, bucketName = getBucketName()) {
@@ -91,8 +94,12 @@ export async function createSignedUploadUrl(
 
   const folder = sanitizeFolder(options.folder);
   const { cleanBase, cleanExt } = sanitizeFilename(options.filename);
-  const expiresIn = options.expiresIn ?? 60;
+  const expiresIn =
+    options.expiresIn && Number.isFinite(options.expiresIn)
+      ? Math.max(15, Math.min(300, Math.round(options.expiresIn)))
+      : 60;
   const upsert = options.upsert ?? true;
+  const contentType = options.contentType || "application/octet-stream";
 
   const path = posix.join(
     folder,
@@ -104,7 +111,7 @@ export async function createSignedUploadUrl(
     .from(bucket)
     .createSignedUploadUrl(path, expiresIn, {
       upsert,
-      contentType: options.contentType,
+      contentType,
     });
 
   if (error || !data) {
@@ -117,9 +124,14 @@ export async function createSignedUploadUrl(
     bucket,
     path: data.path,
     signedUrl: data.signedUrl,
+    uploadUrl: data.signedUrl,
+    uploadHeaders: {
+      "Content-Type": contentType,
+      "x-upsert": upsert ? "true" : "false",
+    },
     publicUrl: getPublicStorageUrl(data.path, bucket),
     token: data.token,
     expiresIn,
+    expiresAt: new Date(Date.now() + expiresIn * 1000).toISOString(),
   };
 }
-

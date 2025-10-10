@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { AnimatedSection } from "@/components/animated-section";
+import { UploadDemo } from "@/components/upload-demo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -173,6 +174,50 @@ export default function DashboardPage(): JSX.Element {
                   <Button variant="outline" className="w-full justify-start">
                     Consulter les leads du jour
                   </Button>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
+
+            <AnimatedSection className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+              <Card className="border-border/70 bg-white/95 shadow-sm">
+                <CardHeader>
+                  <CardTitle>Upload Supabase Storage (POC)</CardTitle>
+                  <CardDescription>
+                    {"Génération d'une URL signée via l'API Next.js puis upload direct depuis le navigateur vers le bucket public."}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <UploadDemo />
+                </CardContent>
+              </Card>
+              <Card className="border-border/70 bg-white/95 shadow-sm">
+                <CardHeader>
+                  <CardTitle>Rappels intégration</CardTitle>
+                  <CardDescription>
+                    {"Paramètres clés pour consommer l'API `/api/uploads/sign`."}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <div>
+                    <span className="font-semibold text-foreground">POST /api/uploads/sign</span>
+                    <p>{"Body JSON: `filename`, `contentType`, `folder?`, `expiresIn?`."}</p>
+                  </div>
+                  <div>
+                    <span className="font-semibold text-foreground">Réponse</span>
+                    <p>{"`signedUrl` (PUT), `publicUrl`, `path`, `bucket`, `token`, `expiresIn`."}</p>
+                  </div>
+                  <div>
+                    <span className="font-semibold text-foreground">Upload</span>
+                    <p>
+                      <code className="rounded bg-muted/40 px-1 py-0.5 text-xs text-foreground">
+                        {`fetch(signedUrl, { method: "PUT", headers: { "Content-Type": file.type, "x-upsert": "true" }, body: file })`}
+                      </code>
+                    </p>
+                  </div>
+                  <div>
+                    <span className="font-semibold text-foreground">Public URL</span>
+                    <p>{"Utiliser `publicUrl` pour servir l'asset ou le stocker en base."}</p>
+                  </div>
                 </CardContent>
               </Card>
             </AnimatedSection>
