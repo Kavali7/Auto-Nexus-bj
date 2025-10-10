@@ -9,12 +9,12 @@
     "lint": "eslint ./src --max-warnings=0",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
-    "meili:sync": "ts-node --require tsconfig-paths/register scripts/meilisearch-seed.ts",
-    "supabase:storage:init": "ts-node --require tsconfig-paths/register scripts/supabase-storage-setup.ts",
+    "meili:sync": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register scripts/meilisearch-seed.ts",
+    "supabase:storage:init": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register scripts/supabase-storage-setup.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
-    "db:seed": "ts-node --require tsconfig-paths/register prisma/seed.ts"
+    "db:seed": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.17.0",

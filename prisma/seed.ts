@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { dealers, vehicles } from "@/data";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -68,7 +68,9 @@ async function main() {
         colorInterior: vehicle.colorInterior,
         featured: vehicle.featured ?? false,
         heroImage: vehicle.heroImage,
-        specs: vehicle.specs ?? [],
+        specs: JSON.parse(
+          JSON.stringify(vehicle.specs ?? []),
+        ) as Prisma.JsonArray,
         highlights: vehicle.highlights,
         available: vehicle.available,
         gallery: {

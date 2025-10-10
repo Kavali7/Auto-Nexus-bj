@@ -50,3 +50,43 @@ Prototype Next.js (App Router) pour mettre en scene l'univers Auto Nexus BJ : co
 
 Besoin d'une demo guidee, d'un deck ou d'un argumentaire personnalise ? Ping WhatsApp (95606058) ou ouvrez une issue.
 Conception : Growpeak Agence (agence, pas le client).
+
+
+Projet URL :https://tqupiggepzqjhpvtnxqy.supabase.co
+
+SUPABASE_ANON_KEY:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxdXBpZ2dlcHpxamhwdnRueHF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAwMjAzMTIsImV4cCI6MjA3NTU5NjMxMn0.ypeWL2gRQFLhe6SYAvUV4pGG1KDhGSH-RZ_Y8VrrcvU
+
+SUPABASE_SERVICE_ROLE_KEY:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxdXBpZ2dlcHpxamhwdnRueHF5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MDAyMDMxMiwiZXhwIjoyMDc1NTk2MzEyfQ.ZjiSMW7IoNMcI2rYiNTNHtWNYhsk6l58cBGkcpVh17M
+
+SUPABASE_STORAGE_BUCKET:Auto-Nexus-bj
+
+DATABASE_URL :postgresql://postgres:Auto-Nexus-bj25@db.tqupiggepzqjhpvtnxqy.supabase.co:5432/postgres?sslmode=require
+
+
+Get-Content .env.local | ForEach-Object {if ($_ -match '^\s*#' -or $_ -match '^\s*$'){ return }$name, $value = $_ -split '=', 2 $trimmed = $value.Trim('"')[Environment]::SetEnvironmentVariable($name, $trimmed, "Process")
+
+
+npm run db:push
+npm run db:seed
+
+ComputerName     : aws-1-us-east-2.pooler.supabase.com
+RemoteAddress    : 3.148.140.216
+RemotePort       : 6543
+InterfaceAlias   : Wi-Fi
+SourceAddress    : 10.50.101.165
+TcpTestSucceeded : True
+
+postgresql://postgres.tqupiggepzqjhpvtnxqy:Auto-Nexus-bj25@aws-1-us-east-2.pooler.supabase.com:6543/postgres?sslmode=require
+postgresql://postgres:Auto-Nexus-bj25@db.tqupiggepzqjhpvtnxqy.supabase.co:5432/postgres?sslmode=require
+
+postgresql://postgres.tqupiggepzqjhpvtnxqy:Auto-Nexus-bj2025@aws-1-us-east-2.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true&connection_limit=1
+
+Test-NetConnection db.tqupiggepzqjhpvtnxqy.supabase.co -Port 5432
+
+
+Get-Content .env.local | ForEach-Object {
+  if ($_ -match '^\s*#' -or $_ -match '^\s*$') { return }
+  $name, $value = $_ -split '=', 2
+  $trimmed = $value.Trim('"')
+  [Environment]::SetEnvironmentVariable($name, $trimmed, "Process")
+}

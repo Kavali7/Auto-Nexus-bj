@@ -157,81 +157,83 @@ export default function Home(): JSX.Element {
         />
 
         <section className="relative isolate overflow-hidden border-b border-border bg-gradient-to-br from-white via-brand/10 to-transparent">
-          <AnimatedSection className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 py-16 lg:flex-row lg:items-center lg:py-24">
-            <div className="flex-1 space-y-8">
-              <Badge className="w-fit bg-brand/15 text-brand">
-                Sprint MVP
-              </Badge>
-              <div className="space-y-4">
-                <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-                  Marketplace auto premium pour le Benin
-                </h1>
-                <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
-                  Prototype Next.js + Tailwind destine a convaincre les
-                  concessionnaires pilotes, roder le parcours lead et poser la
-                  base technique avant de brancher Supabase, Prisma et Meilisearch.
-                </p>
-              </div>
-              <div className="grid gap-4">
-                {heroPillars.map((point) => (
-                  <div
-                    key={point}
-                    className="flex items-start gap-3 rounded-xl border border-border bg-white/90 p-4 shadow-sm"
-                  >
-                    <span className="mt-1 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-brand" />
-                    <p className="text-sm font-medium text-foreground sm:text-base">
-                      {point}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <Button size="lg">Consulter la roadmap</Button>
-                <Button asChild size="lg" variant="outline">
-                  <Link href="#stack">Explorer la stack</Link>
-                </Button>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {stats.map((item) => (
-                  <Card
-                    key={item.label}
-                    className="border-border/70 bg-white/90 shadow-sm"
-                  >
-                    <CardHeader className="space-y-1 pb-2">
-                      <CardTitle className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                        {item.label}
-                      </CardTitle>
-                      <p className="text-2xl font-semibold text-foreground sm:text-3xl">
-                        {item.value}
-                      </p>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-xs text-muted-foreground">
-                        {item.hint}
-                      </CardDescription>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-            <div className="flex-1">
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-slate-900 shadow-xl">
-                <Image
-                  src="/brand/anx-logo.png"
-                  alt="Auto Nexus BJ preview"
-                  fill
-                  className="object-cover opacity-30"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-brand/50 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/95 p-5 text-sm text-muted-foreground shadow-lg backdrop-blur">
-                  <p>
-                    Objectif: transformer ce MVP statique en experience totalement
-                    connectee ou les annonces, photos et leads des partenaires
-                    vivent en temps reel.
+          <AnimatedSection className="mx-auto w-full max-w-6xl px-6 py-16 lg:py-24">
+            <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+              <div className="space-y-8">
+                <Badge className="w-fit bg-brand/15 text-brand">
+                  Sprint MVP
+                </Badge>
+                <div className="space-y-4">
+                  <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+                    Marketplace auto premium pour le Benin
+                  </h1>
+                  <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
+                    Prototype Next.js + Tailwind destine a convaincre les
+                    concessionnaires pilotes, roder le parcours lead et poser la
+                    base technique avant de brancher Supabase, Prisma et Meilisearch.
                   </p>
                 </div>
+                <div className="grid gap-4">
+                  {heroPillars.map((point) => (
+                    <div
+                      key={point}
+                      className="flex items-start gap-3 rounded-xl border border-border bg-white/90 p-4 shadow-sm"
+                    >
+                      <span className="mt-1 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-brand" />
+                      <p className="text-sm font-medium text-foreground sm:text-base">
+                        {point}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <Button size="lg">Consulter la roadmap</Button>
+                  <Button asChild size="lg" variant="outline">
+                    <Link href="#stack">Explorer la stack</Link>
+                  </Button>
+                </div>
               </div>
+              <div>
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-slate-900 shadow-xl">
+                  <Image
+                    src="/brand/anx-logo.png"
+                    alt="Auto Nexus BJ preview"
+                    fill
+                    className="object-cover opacity-30"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-brand/50 via-transparent to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/95 p-5 text-sm text-muted-foreground shadow-lg backdrop-blur">
+                    <p>
+                      Objectif: transformer ce MVP statique en experience totalement
+                      connectee ou les annonces, photos et leads des partenaires
+                      vivent en temps reel.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {stats.map((item) => (
+                <Card
+                  key={item.label}
+                  className="border-border/70 bg-white/90 shadow-sm"
+                >
+                  <CardHeader className="space-y-1 pb-2">
+                    <CardTitle className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                      {item.label}
+                    </CardTitle>
+                    <p className="text-2xl font-semibold text-foreground sm:text-3xl">
+                      {item.value}
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-xs text-muted-foreground">
+                      {item.hint}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </AnimatedSection>
         </section>
