@@ -23,6 +23,9 @@
 # misc
 .DS_Store
 *.pem
+assets/
+scripts/media-manifest.json
+scripts/media-upload-result.json
 
 # debug
 npm-debug.log*

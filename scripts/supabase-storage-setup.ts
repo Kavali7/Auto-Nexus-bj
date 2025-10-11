@@ -1,5 +1,7 @@
 import "dotenv/config";
 
+import type { FileObject } from "@supabase/storage-js";
+
 import { getSupabaseAdmin } from "@/lib/supabase/server";
 
 async function main() {
@@ -56,6 +58,44 @@ async function main() {
   console.log(
     "- Verifier depuis la console Supabase que le bucket est bien public si vous servez les assets directement.",
   );
+
+  const folders = ["vehicles", "dealers", "services", "tmp/uploads"];
+  const keepPayload = Buffer.from(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==",
+    "base64",
+  );
+
+  for (const folder of folders) {
+    const keepPath = `${folder}/.keep`;
+    const { data: fileExists } = await supabase.storage
+      .from(bucket)
+      .list(folder, { limit: 1 });
+
+    const alreadyExists =
+      fileExists?.some((entry: FileObject) => entry.name === ".keep") ?? false;
+
+    if (alreadyExists) {
+      console.log(`Dossier "${folder}/" deja present.`);
+      continue;
+    }
+
+    const { error: uploadError } = await supabase.storage
+      .from(bucket)
+      .upload(keepPath, keepPayload, {
+        cacheControl: "31536000",
+        upsert: true,
+        contentType: "image/png",
+      });
+
+    if (uploadError) {
+      console.warn(
+        `Impossible de creer le dossier virtuel "${folder}/": ${uploadError.message}`,
+      );
+      continue;
+    }
+
+    console.log(`Dossier "${folder}/" initialise (fichier ${keepPath}).`);
+  }
 }
 
 main().catch((error) => {

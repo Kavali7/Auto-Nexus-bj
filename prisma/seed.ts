@@ -45,44 +45,53 @@ async function main() {
   );
 
   for (const vehicle of vehicles) {
-    await prisma.vehicle.create({
-      data: {
-        id: vehicle.id,
-        slug: vehicle.slug,
-        dealerId: vehicle.dealerId,
-        brand: vehicle.brand,
-        model: vehicle.model,
-        trim: vehicle.trim,
-        year: vehicle.year,
-        condition: vehicle.condition,
-        mileage: vehicle.mileage,
-        mileageUnit: vehicle.mileageUnit ?? "km",
-        fuel: vehicle.fuel,
-        transmission: vehicle.transmission,
-        drivetrain: vehicle.drivetrain,
-        price: vehicle.price,
-        currency: vehicle.currency,
-        city: vehicle.city,
-        doors: vehicle.doors,
-        colorExterior: vehicle.colorExterior,
-        colorInterior: vehicle.colorInterior,
-        featured: vehicle.featured ?? false,
-        heroImage: vehicle.heroImage,
-        virtualTourUrl: vehicle.virtualTourUrl,
-        specs: JSON.parse(
-          JSON.stringify(vehicle.specs ?? []),
-        ) as Prisma.JsonArray,
-        highlights: vehicle.highlights,
-        available: vehicle.available,
-        gallery: {
-          create: vehicle.gallery.map((photo, index) => ({
-            url: photo.url,
-            label: photo.label,
-            kind: photo.kind ?? "STANDARD",
-            position: index,
-          })),
+    const vehicleData: Prisma.VehicleCreateInput = {
+      id: vehicle.id,
+      slug: vehicle.slug,
+      dealer: {
+        connect: {
+          id: vehicle.dealerId,
         },
       },
+      brand: vehicle.brand,
+      model: vehicle.model,
+      trim: vehicle.trim,
+      year: vehicle.year,
+      condition: vehicle.condition,
+      mileage: vehicle.mileage,
+      mileageUnit: vehicle.mileageUnit ?? "km",
+      fuel: vehicle.fuel,
+      transmission: vehicle.transmission,
+      drivetrain: vehicle.drivetrain,
+      price: vehicle.price,
+      currency: vehicle.currency,
+      city: vehicle.city,
+      doors: vehicle.doors,
+      colorExterior: vehicle.colorExterior,
+      colorInterior: vehicle.colorInterior,
+      featured: vehicle.featured ?? false,
+      heroImage: vehicle.heroImage,
+      specs: JSON.parse(
+        JSON.stringify(vehicle.specs ?? []),
+      ) as Prisma.JsonArray,
+      highlights: vehicle.highlights,
+      available: vehicle.available,
+      gallery: {
+        create: vehicle.gallery.map((photo, index) => ({
+          url: photo.url,
+          label: photo.label,
+          kind: photo.kind ?? "STANDARD",
+          position: index,
+        })),
+      },
+    };
+
+    if (vehicle.virtualTourUrl) {
+      vehicleData.virtualTourUrl = vehicle.virtualTourUrl;
+    }
+
+    await prisma.vehicle.create({
+      data: vehicleData,
     });
   }
 

@@ -69,7 +69,24 @@ export type SignedUploadPayload = {
   expiresAt: string;
 };
 
-export function getPublicStorageUrl(path: string, bucketName = getBucketName()) {
+export function getPublicStorageUrl(
+  path: string,
+  bucketName = getBucketName(),
+) {
+  const cleanPath = path.replace(/^\/*/, "");
+
+  const cdnUrl = process.env.SUPABASE_CDN_URL?.replace(/\/+$/, "");
+  const cdnHostname = process.env.SUPABASE_CDN_HOSTNAME;
+
+  if (cdnUrl) {
+    return `${cdnUrl}/${bucketName}/${cleanPath}`;
+  }
+
+  if (cdnHostname) {
+    const protocol = process.env.SUPABASE_CDN_PROTOCOL || "https";
+    return `${protocol}://${cdnHostname}/${bucketName}/${cleanPath}`;
+  }
+
   const supabaseUrl = process.env.SUPABASE_URL;
 
   if (!supabaseUrl) {
@@ -77,7 +94,7 @@ export function getPublicStorageUrl(path: string, bucketName = getBucketName()) 
   }
 
   return new URL(
-    `/storage/v1/object/public/${bucketName}/${path}`,
+    `/storage/v1/object/public/${bucketName}/${cleanPath}`,
     supabaseUrl,
   ).toString();
 }

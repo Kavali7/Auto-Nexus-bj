@@ -126,12 +126,11 @@ function Hero({
   return (
     <section className="relative isolate overflow-hidden border-b border-border bg-black text-white">
       <div className="absolute inset-0">
-        <Image
-          src={
-            dealer.heroImage ??
-            "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1600&q=80"
-          }
-          alt={dealer.name}
+          <Image
+            src={
+              dealer.heroImage ?? "/brand/anx-logo.png"
+            }
+            alt={dealer.name}
           fill
           className="object-cover opacity-70"
           priority

@@ -103,9 +103,25 @@ Get-Content .env.local | ForEach-Object {
   [Environment]::SetEnvironmentVariable($name, $trimmed, "Process")
 }
 
+Test-NetConnection aws-1-us-east-2.pooler.supabase.com -Port 6543 -InformationLevel Detailed
+
+Test-NetConnection db.tqupiggepzqjhpvtnxqy.supabase.co -Port 5432 -InformationLevel Detailed
 
 Lancer npm run meili:sync si tu souhaites activer la recherche mockée.
 
 Ou passer par le Supabase CLI depuis le projet :
 npx supabase db remote query --file scripts/supabase-storage-policies.sql
 (en étant authentifié au CLI avec ton projet).
+
+
+
+Important pour moi :Set-DnsClientServerAddress -InterfaceAlias "Wi-Fi" -ResetServerAddresses
+ipconfig /flushdns
+Set-DnsClientServerAddress -InterfaceAlias "Wi-Fi" -ServerAddresses 1.1.1.1,8.8.8.8
+Resolve-DnsName db.tqupiggepzqjhpvtnxqy.supabase.co -Type A
+Resolve-DnsName db.tqupiggepzqjhpvtnxqy.supabase.co -Type AAAA
+Get-NetIPAddress -InterfaceAlias "Wi-Fi" -AddressFamily IPv4
+Get-NetIPAddress -InterfaceAlias "Wi-Fi" -AddressFamily IPv6
+Test-NetConnection db.tqupiggepzqjhpvtnxqy.supabase.co -Port 5432 -InformationLevel Detailed
+Test-NetConnection aws-1-us-east-2.pooler.supabase.com -Port 6543 -InformationLevel Detailed
+

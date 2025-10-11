@@ -113,12 +113,11 @@ export default function DealersPage(): JSX.Element {
                 className="flex h-full flex-col overflow-hidden border-border/70 bg-white/95 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="relative h-48 w-full overflow-hidden">
-                  <Image
-                    src={
-                      dealer.heroImage ??
-                      "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=1600&q=80"
-                    }
-                    alt={dealer.name}
+                    <Image
+                      src={
+                      dealer.heroImage ?? "/brand/anx-logo.png"
+                      }
+                      alt={dealer.name}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

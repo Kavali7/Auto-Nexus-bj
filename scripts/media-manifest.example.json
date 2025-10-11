@@ -1,0 +1,20 @@
+[
+  {
+    "source": "assets/raw-media/vehicles/lexus-rx450h-2023/ext01.jpg",
+    "target": "vehicles/lexus_rx450h_2023_ext01",
+    "label": "Vue 3/4 avant studio",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-lexus-rx450h-2023"
+  },
+  {
+    "source": "assets/raw-media/dealers/nexus-premium/hero.jpg",
+    "target": "dealers/nexus-premium_hero",
+    "label": "Showroom principal",
+    "kind": "HERO",
+    "position": 1,
+    "entity": "dealer",
+    "entityId": "nexus-premium"
+  }
+]
