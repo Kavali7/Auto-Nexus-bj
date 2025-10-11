@@ -125,3 +125,10 @@ Get-NetIPAddress -InterfaceAlias "Wi-Fi" -AddressFamily IPv6
 Test-NetConnection db.tqupiggepzqjhpvtnxqy.supabase.co -Port 5432 -InformationLevel Detailed
 Test-NetConnection aws-1-us-east-2.pooler.supabase.com -Port 6543 -InformationLevel Detailed
 
+
+
+
+
+Alternative sans Prisma
+
+Toute la logique serveur lit/écrit via Prisma Client exporté dans src/lib/prisma.ts:1 et consommé dans les services Next (src/server/vehicles.ts:66, src/server/dealers.ts:36, src/server/visitors.ts:23). Passer “sans Prisma” impliquerait de réécrire ces modules avec pg, supabase-js, ou HTTP RPC, recréer les types, gérer la transformation des données, la mise en cache et les transactions : c’est un chantier important avec faible chance de succès rapide.
