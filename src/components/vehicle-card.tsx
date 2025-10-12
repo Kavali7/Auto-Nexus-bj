@@ -17,10 +17,11 @@ import { Button } from "@/components/ui/button";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 import { buildWhatsappLink } from "@/lib/whatsapp";
 import type { DealerSummary, VehicleSummary } from "@/types/catalog";
+import type { Dealer as SeedDealer, Vehicle as SeedVehicle } from "@/data";
 
 interface VehicleCardProps {
-  vehicle: VehicleSummary;
-  dealer?: DealerSummary;
+  vehicle: VehicleSummary | SeedVehicle;
+  dealer?: DealerSummary | SeedDealer;
   whatsappNumber?: string;
 }
 

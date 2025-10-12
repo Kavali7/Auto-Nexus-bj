@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function Loading(): JSX.Element {
+export default function Loading() {
   return (
     <div className="flex min-h-screen flex-col bg-muted/10 py-16">
       <div className="mx-auto w-full max-w-6xl space-y-8 px-6">

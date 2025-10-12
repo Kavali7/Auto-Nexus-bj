@@ -39,7 +39,7 @@ export async function getFavoriteSummariesByToken(
 }
 
 export async function getFavoritesForCurrentVisitor(): Promise<FavoriteSummary[]> {
-  const token = readVisitorTokenFromCookies();
+  const token = await readVisitorTokenFromCookies();
   if (!token) {
     return [];
   }

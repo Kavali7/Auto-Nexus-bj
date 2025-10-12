@@ -9,8 +9,10 @@ import { prisma } from "@/lib/prisma";
 export const VISITOR_COOKIE_NAME = "auto-nexus-visitor";
 const VISITOR_COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 year
 
-export function readVisitorTokenFromCookies(): string | undefined {
-  const store = cookies();
+export async function readVisitorTokenFromCookies(): Promise<
+  string | undefined
+> {
+  const store = await cookies();
   const cookie = store.get(VISITOR_COOKIE_NAME);
   return cookie?.value;
 }

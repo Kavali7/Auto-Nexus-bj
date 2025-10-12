@@ -1,8 +1,18 @@
-import type { ImageConfig, NextConfig } from "next";
+import type { NextConfig } from "next";
+import type { RemotePattern } from "next/dist/shared/lib/image-config";
 
-const remotePatterns: NonNullable<ImageConfig["remotePatterns"]> = [];
+const remotePatterns: RemotePattern[] = [];
 
-function addRemotePattern(pattern: { protocol: string; hostname: string }) {
+function normalizeProtocol(value?: string | null): RemotePattern["protocol"] {
+  if (!value) {
+    return undefined;
+  }
+
+  const normalized = value.replace(/:$/, "");
+  return normalized === "http" || normalized === "https" ? normalized : undefined;
+}
+
+function addRemotePattern(pattern: RemotePattern) {
   if (!pattern.hostname) {
     return;
   }
@@ -23,7 +33,10 @@ const supabaseUrl = process.env.SUPABASE_URL;
 if (supabaseUrl) {
   try {
     const url = new URL(supabaseUrl);
-    addRemotePattern({ protocol: url.protocol.replace(/:$/, ""), hostname: url.hostname });
+    addRemotePattern({
+      protocol: normalizeProtocol(url.protocol),
+      hostname: url.hostname,
+    });
   } catch (error) {
     console.warn("SUPABASE_URL invalide, impossible d'ajouter au remotePatterns:", error);
   }
@@ -37,7 +50,10 @@ const cdnUrl = process.env.SUPABASE_CDN_URL;
 if (cdnUrl) {
   try {
     const url = new URL(cdnUrl);
-    addRemotePattern({ protocol: url.protocol.replace(/:$/, ""), hostname: url.hostname });
+    addRemotePattern({
+      protocol: normalizeProtocol(url.protocol),
+      hostname: url.hostname,
+    });
   } catch (error) {
     console.warn("SUPABASE_CDN_URL invalide, impossible d'ajouter au remotePatterns:", error);
   }
@@ -46,7 +62,7 @@ if (cdnUrl) {
 const cdnHostname = process.env.SUPABASE_CDN_HOSTNAME;
 if (cdnHostname) {
   addRemotePattern({
-    protocol: process.env.SUPABASE_CDN_PROTOCOL || "https",
+    protocol: normalizeProtocol(process.env.SUPABASE_CDN_PROTOCOL),
     hostname: cdnHostname,
   });
 }

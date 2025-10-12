@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import {
   attachVisitorCookie,
@@ -20,10 +21,19 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: "event is required" }, { status: 400 });
   }
 
-  const store = cookies();
+  const store = await cookies();
   let token = store.get(VISITOR_COOKIE_NAME)?.value;
   let visitor = token ? await getVisitorByToken(token) : null;
   let createdSession = false;
+  let payload: Prisma.InputJsonValue | Prisma.NullableJsonNullValueInput | undefined;
+
+  if (body.payload === undefined) {
+    payload = undefined;
+  } else if (body.payload === null) {
+    payload = Prisma.JsonNull;
+  } else {
+    payload = body.payload as Prisma.InputJsonValue;
+  }
 
   if (!visitor) {
     const session = await createVisitorSession();
@@ -35,7 +45,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   await prisma.analyticsEvent.create({
     data: {
       event: body.event,
-      payload: body.payload ?? null,
+      ...(payload !== undefined ? { payload } : {}),
       visitorId: visitor?.id,
     },
   });

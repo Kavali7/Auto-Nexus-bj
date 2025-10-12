@@ -11,7 +11,7 @@ import {
 import { getFavoriteSummariesByToken } from "@/server/favorites";
 
 export async function GET(): Promise<NextResponse> {
-  const store = cookies();
+  const store = await cookies();
   const token = store.get(VISITOR_COOKIE_NAME)?.value;
 
   if (!token) {
@@ -31,7 +31,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     );
   }
 
-  const store = cookies();
+  const store = await cookies();
   let token = store.get(VISITOR_COOKIE_NAME)?.value;
   let visitor = token ? await getVisitorByToken(token) : null;
   let createdSession = false;
@@ -76,7 +76,7 @@ export async function DELETE(request: Request): Promise<NextResponse> {
     );
   }
 
-  const store = cookies();
+  const store = await cookies();
   const token = store.get(VISITOR_COOKIE_NAME)?.value;
   if (!token) {
     return NextResponse.json({ favorites: [] });
