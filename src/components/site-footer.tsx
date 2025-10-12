@@ -11,22 +11,22 @@ export function SiteFooter(): JSX.Element {
             Auto Nexus BJ
           </p>
           <p>
-            Marketplace auto premium — MVP statique Next.js + Tailwind (Phase 1).
+            Marketplace auto premium - MVP statique construit avec Next.js et Tailwind (Phase 1).
           </p>
-          <p>© {year} Auto Nexus BJ. Tous droits réservés.</p>
+          <p>(c) {year} Auto Nexus BJ. Tous droits reserves.</p>
         </div>
         <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
           <Link href="/voitures" className="transition hover:text-brand">
             Voitures
           </Link>
-          <Link
-            href="/concessionnaires"
-            className="transition hover:text-brand"
-          >
+          <Link href="/concessionnaires" className="transition hover:text-brand">
             Concessionnaires
           </Link>
           <Link href="/services" className="transition hover:text-brand">
             Services
+          </Link>
+          <Link href="/investisseurs" className="transition hover:text-brand">
+            Investisseurs
           </Link>
           <Link href="/comparer" className="transition hover:text-brand">
             Comparateur

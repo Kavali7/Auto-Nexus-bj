@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { AnimatedSection } from "@/components/animated-section";
 import { CompareToggleButton } from "@/components/compare-toggle-button";
 import { VehicleCard } from "@/components/vehicle-card";
+import { VehicleGallery } from "@/components/vehicle-gallery";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -29,6 +30,46 @@ type PageParams = {
   slug: string;
 };
 
+const specGroupConfig = [
+  { title: "Performance", keywords: ["puissance", "0-100", "couple", "vitesse"] },
+  { title: "Energie", keywords: ["batterie", "autonomie", "consommation", "emission"] },
+  { title: "Transmission", keywords: ["transmission", "boite", "roues motrices", "drivetrain"] },
+  { title: "Dimensions", keywords: ["longueur", "largeur", "hauteur", "empattement", "garde"] },
+  { title: "Confort", keywords: ["siege", "sellerie", "climatisation", "ambiance"] },
+  { title: "Technologie", keywords: ["infotainment", "ecran", "audio", "assistant", "interface"] },
+  { title: "Securite", keywords: ["airbag", "abs", "adas", "freinage"] },
+] as const;
+
+function groupVehicleSpecs(specs: VehicleSummary["specs"]) {
+  const fallback: VehicleSummary["specs"] = [];
+  const groups = specGroupConfig.map((config) => ({
+    title: config.title,
+    items: [] as VehicleSummary["specs"],
+  }));
+
+  for (const spec of specs) {
+    const normalized = spec.label.toLowerCase();
+    const match = groups.find((group, index) =>
+      specGroupConfig[index].keywords.some((keyword) =>
+        normalized.includes(keyword),
+      ),
+    );
+
+    if (match) {
+      match.items.push(spec);
+    } else {
+      fallback.push(spec);
+    }
+  }
+
+  const result = groups.filter((group) => group.items.length > 0);
+  if (fallback.length > 0) {
+    result.push({ title: "Informations cle", items: fallback });
+  }
+
+  return result;
+}
+
 export async function generateStaticParams(): Promise<PageParams[]> {
   const slugs = await getVehicleSlugs();
   return slugs.map((slug) => ({ slug }));
@@ -47,10 +88,10 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${vehicle.brand} ${vehicle.model} — ${vehicle.year}`,
-    description: `${vehicle.brand} ${vehicle.model} ${vehicle.trim ?? ""} ${vehicle.year} disponible à ${vehicle.city}. ${vehicle.condition}, ${formatMileage(vehicle.mileage)}, ${formatPriceXof(vehicle.price)}.`,
+    title: `${vehicle.brand} ${vehicle.model} - ${vehicle.year}`,
+    description: `${vehicle.brand} ${vehicle.model} ${vehicle.trim ?? ""} ${vehicle.year} disponible a ${vehicle.city}. ${vehicle.condition}, ${formatMileage(vehicle.mileage)}, ${formatPriceXof(vehicle.price)}.`,
     openGraph: {
-      title: `${vehicle.brand} ${vehicle.model} — ${vehicle.year}`,
+      title: `${vehicle.brand} ${vehicle.model} - ${vehicle.year}`,
       description: vehicle.highlights[0],
       images: [
         {
@@ -85,7 +126,7 @@ export default async function VehicleDetail({
   const whatsappLink = dealer?.whatsapp
     ? buildWhatsappLink(
         dealer.whatsapp,
-        `Bonjour ${dealer.name},\nJe suis intéressé(e) par ${vehicle.brand} ${vehicle.model} (${vehicle.year}) sur Auto Nexus BJ.\nEst-elle toujours disponible ?`,
+        `Bonjour ${dealer.name},\nJe suis interesse(e) par ${vehicle.brand} ${vehicle.model} (${vehicle.year}) sur Auto Nexus BJ.\nEst-elle toujours disponible ?`,
       )
     : undefined;
 
@@ -96,7 +137,11 @@ export default async function VehicleDetail({
         <div className="mx-auto grid w-full max-w-6xl gap-10 px-6 lg:grid-cols-[1.8fr_1fr]">
           <section className="space-y-8">
             <AnimatedSection>
-              <Gallery vehicle={vehicle} />
+              <VehicleGallery
+                items={vehicle.gallery}
+                fallbackImage={vehicle.heroImage}
+                vehicleName={`${vehicle.brand} ${vehicle.model}`}
+              />
             </AnimatedSection>
             <AnimatedSection delay={0.1}>
               <SpecificationTabs vehicle={vehicle} />
@@ -147,14 +192,16 @@ function Hero({
         <div className="grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
           <div className="space-y-6">
             <Badge variant="secondary" className="w-fit bg-white/10 text-white">
-              Véhicule premium sélection
+              Vehicule premium selection
             </Badge>
             <div className="space-y-3">
               <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-                {vehicle.brand} {vehicle.model} {vehicle.trim ? `— ${vehicle.trim}` : ""}
+                {vehicle.brand} {vehicle.model}
+                {vehicle.trim ? ` - ${vehicle.trim}` : ""}
               </h1>
               <p className="max-w-2xl text-base text-white/80 sm:text-lg">
-                {vehicle.year} • {vehicle.condition} • {formatMileage(vehicle.mileage)} • {vehicle.fuel} — {vehicle.transmission}
+                {vehicle.year} - {vehicle.condition} - {formatMileage(vehicle.mileage)} - {vehicle.fuel} -{" "}
+                {vehicle.transmission}
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-4 text-sm uppercase tracking-[0.18em] text-white/70">
@@ -164,7 +211,7 @@ function Hero({
             </div>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg">
-                <Link href={whatsappLink ?? "#contact"}>Whatsapp instantané</Link>
+                <Link href={whatsappLink ?? "#contact"}>Whatsapp immediat</Link>
               </Button>
               <CompareToggleButton vehicleId={vehicle.id} size="lg">
                 Ajouter au comparateur
@@ -176,7 +223,7 @@ function Hero({
               <CardHeader className="space-y-2">
                 <CardTitle className="text-base">Faits marquants</CardTitle>
                 <CardDescription className="text-xs text-white/70">
-                  Points forts mis en avant dans la fiche comparative.
+                  Elements a mettre en avant dans la fiche comparative.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
@@ -199,7 +246,7 @@ function Hero({
                 <CardContent className="space-y-1 text-sm text-white/80">
                   <p>{dealer.city}</p>
                   {dealer.address ? <p>{dealer.address}</p> : null}
-                  {dealer.phone ? <p>Tél: {dealer.phone}</p> : null}
+                  {dealer.phone ? <p>Tel: {dealer.phone}</p> : null}
                 </CardContent>
               </Card>
             ) : null}
@@ -210,99 +257,50 @@ function Hero({
   );
 }
 
-function Gallery({ vehicle }: { vehicle: VehicleSummary }): JSX.Element {
-  if (vehicle.gallery.length === 0) {
-    return (
-      <Card className="border-border/70 bg-white/95 shadow-sm">
-        <CardHeader>
-          <CardTitle>Galerie en préparation</CardTitle>
-          <CardDescription>
-            La galerie sera alimentée lors du branchement Supabase Storage.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Image
-            src={vehicle.heroImage}
-            alt={`${vehicle.brand} ${vehicle.model}`}
-            width={1280}
-            height={720}
-            className="w-full rounded-2xl object-cover"
-          />
-        </CardContent>
-      </Card>
-    );
-  }
-
-  const [primary, ...secondary] = vehicle.gallery;
-
-  return (
-    <div className="grid gap-4 lg:grid-cols-[3fr_2fr]">
-      <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border bg-muted">
-        <Image
-          src={primary.url}
-          alt={primary.label ?? vehicle.model}
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute bottom-4 left-4 rounded-full bg-black/60 px-4 py-1 text-xs uppercase tracking-[0.18em] text-white">
-          Photo principale
-        </div>
-      </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        {secondary.slice(0, 4).map((photo) => (
-          <div
-            key={photo.id}
-            className="relative aspect-square overflow-hidden rounded-2xl border border-border bg-muted"
-          >
-            <Image
-              src={photo.url}
-              alt={photo.label ?? vehicle.model}
-              fill
-              className="object-cover"
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function SpecificationTabs({
   vehicle,
 }: {
   vehicle: VehicleSummary;
 }): JSX.Element {
+  const groupedSpecs = groupVehicleSpecs(vehicle.specs);
+
   return (
     <Card className="border-border/80 bg-white/95 shadow">
       <CardHeader>
         <CardTitle className="text-xl font-semibold">
-          Fiche technique & expérience
+          Fiche technique et experience
         </CardTitle>
         <CardDescription>
-          Contenu mocké qui sera alimenté depuis Supabase (specs) et CMS (storytelling).
+          Contenu statique qui sera pilote par Supabase (specs) et un CMS (storytelling).
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
-        <div className="grid gap-3 sm:grid-cols-2">
-          {vehicle.specs.map((spec) => (
-            <div
-              key={spec.label}
-              className="rounded-lg border border-border bg-muted/20 p-4"
-            >
-              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                {spec.label}
-              </p>
-              <p className="mt-2 text-base font-semibold text-foreground">
-                {spec.value}
-              </p>
+        <div className="space-y-6">
+          {groupedSpecs.map((group) => (
+            <div key={group.title} className="space-y-3">
+              <h3 className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                {group.title}
+              </h3>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {group.items.map((spec) => (
+                  <div
+                    key={spec.label}
+                    className="rounded-lg border border-border bg-muted/20 p-4"
+                  >
+                    <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                      {spec.label}
+                    </p>
+                    <p className="mt-2 text-base font-semibold text-foreground">
+                      {spec.value}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
         <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-foreground">
-            Points forts shooting
-          </h2>
+          <h2 className="text-lg font-semibold text-foreground">Points forts shooting</h2>
           <ul className="space-y-2 text-sm text-muted-foreground">
             {vehicle.highlights.map((highlight) => (
               <li key={highlight} className="flex items-start gap-2">
@@ -325,14 +323,12 @@ function ContactCard({
   whatsappLink?: string;
 }): JSX.Element {
   return (
-    <Card className="border-brand/40 bg-white shadow">
+    <Card id="contact" className="border-brand/40 bg-white shadow">
       <CardHeader className="space-y-3">
-        <CardTitle className="text-lg text-foreground">
-          Passer à l’action
-        </CardTitle>
+        <CardTitle className="text-lg text-foreground">Passer a l action</CardTitle>
         <CardDescription className="text-sm text-muted-foreground">
-          CTA directs : WhatsApp, appel téléphone, demande d’offre. Leads capturés
-          dans Supabase lors de l’intégration.
+          Contact direct pour WhatsApp, appel ou demande de devis. Les leads seront
+          captes dans Supabase lors du branchement back-office.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -340,12 +336,12 @@ function ContactCard({
           <Link
             href={
               whatsappLink ??
-              "https://wa.me/95606058?text=Je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20une%20voiture%20Auto%20Nexus%20BJ"
+              "https://wa.me/95606058?text=Je%20suis%20interesse(e)%20par%20une%20voiture%20Auto%20Nexus%20BJ"
             }
             target="_blank"
             rel="noopener noreferrer"
           >
-            WhatsApp instantané
+            WhatsApp immediat
           </Link>
         </Button>
         {dealer?.phone ? (
@@ -355,9 +351,7 @@ function ContactCard({
         ) : null}
         {dealer?.email ? (
           <Button asChild variant="outline" size="lg">
-            <Link href={`mailto:${dealer.email}`}>
-              Demander une offre détaillée
-            </Link>
+            <Link href={`mailto:${dealer.email}`}>Demander une offre detaillee</Link>
           </Button>
         ) : null}
         {dealer ? (
@@ -381,7 +375,7 @@ function RelatedInventory({
   currentVehicle: VehicleSummary;
   dealers: DealerSummary[];
 }): JSX.Element {
-  const dealerMap = new Map(dealers.map((dealer) => [dealer.id, dealer] as const));
+  const dealerMap = new Map(dealers.map((item) => [item.id, item] as const));
 
   return (
     <Card className="border-border/80 bg-white/95 shadow">
@@ -390,8 +384,7 @@ function RelatedInventory({
           Autres {currentVehicle.brand} {currentVehicle.model}
         </CardTitle>
         <CardDescription>
-          Prévisualisation du comparateur : cartes alignées selon le modèle,
-          prix et ville.
+          Apercu du comparateur: cartes alignees selon le modele, le prix et la ville.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">

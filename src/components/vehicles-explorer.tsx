@@ -23,7 +23,27 @@ type VehiclesExplorerProps = {
   dealers: DealerSummary[];
 };
 
-const limit = 60;
+const pageSize = 12;
+
+const priceFilters = [
+  { value: "all", label: "Tous les prix" },
+  { value: "under-10m", label: "Moins de 10M XOF", max: 10_000_000 },
+  { value: "10-20m", label: "10M a 20M XOF", min: 10_000_000, max: 20_000_000 },
+  { value: "20-40m", label: "20M a 40M XOF", min: 20_000_000, max: 40_000_000 },
+  { value: "40-60m", label: "40M a 60M XOF", min: 40_000_000, max: 60_000_000 },
+  { value: "above-60m", label: "Plus de 60M XOF", min: 60_000_000 },
+] as const;
+
+type PriceFilterValue = (typeof priceFilters)[number]["value"];
+
+const priceFilterMap: Record<PriceFilterValue, { min?: number; max?: number }> =
+  priceFilters.reduce(
+    (acc, filter) => {
+      acc[filter.value] = { min: filter.min, max: filter.max };
+      return acc;
+    },
+    {} as Record<PriceFilterValue, { min?: number; max?: number }>,
+  );
 
 const fallbackReasonLabel: Record<VehicleSearchFallbackReason, string> = {
   "meilisearch-disabled": "Index inactif",
@@ -40,8 +60,18 @@ async function searchFetcher(
     cityFilter,
     fuelFilter,
     conditionFilter,
+    priceFilter,
     limitValue,
-  ]: readonly [string, string, string, string, string, string, string],
+  ]: readonly [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    PriceFilterValue,
+    string,
+  ],
 ): Promise<VehicleSearchResponse> {
   const filters: VehicleSearchRequest["filters"] = {};
 
@@ -56,6 +86,13 @@ async function searchFetcher(
   }
   if (conditionFilter && conditionFilter !== "Toutes") {
     filters.condition = conditionFilter;
+  }
+  const priceConfig = priceFilterMap[priceFilter];
+  if (priceConfig?.min !== undefined) {
+    filters.priceMin = priceConfig.min;
+  }
+  if (priceConfig?.max !== undefined) {
+    filters.priceMax = priceConfig.max;
   }
 
   const parsedLimit = Number.parseInt(limitValue, 10);
@@ -96,11 +133,17 @@ export function VehiclesExplorer({
   const [city, setCity] = useState("Toutes");
   const [fuel, setFuel] = useState<FuelFilter>("Tout");
   const [condition, setCondition] = useState<ConditionFilter>("Toutes");
+  const [priceRange, setPriceRange] = useState<PriceFilterValue>("all");
+  const [resultLimit, setResultLimit] = useState(pageSize);
 
   useEffect(() => {
     const timeout = setTimeout(() => setDebouncedSearch(search), 200);
     return () => clearTimeout(timeout);
   }, [search]);
+
+  useEffect(() => {
+    setResultLimit(pageSize);
+  }, [debouncedSearch, brand, city, fuel, condition, priceRange]);
 
   const dealersMap = useMemo(
     () => new Map(dealers.map((dealer) => [dealer.id, dealer] as const)),
@@ -118,16 +161,18 @@ export function VehiclesExplorer({
   );
 
   const swrKey = useMemo(
-    () => [
-      "vehicles-search",
-      debouncedSearch,
-      brand,
-      city,
-      fuel,
-      condition,
-      limit.toString(),
-    ],
-    [debouncedSearch, brand, city, fuel, condition],
+    () =>
+      [
+        "vehicles-search",
+        debouncedSearch,
+        brand,
+        city,
+        fuel,
+        condition,
+        priceRange,
+        resultLimit.toString(),
+      ] as const,
+    [debouncedSearch, brand, city, fuel, condition, priceRange, resultLimit],
   );
 
   const {
@@ -143,8 +188,10 @@ export function VehiclesExplorer({
     revalidateIfStale: false,
   });
 
-  const results = searchData?.hits ?? vehicles;
   const resultMeta = searchData ?? initialResponse;
+  const fullResults = searchData?.hits ?? initialResponse.hits;
+  const visibleResults = fullResults.slice(0, resultLimit);
+  const totalResults = resultMeta.estimatedTotalHits ?? fullResults.length;
   const isSearching = isLoading || isValidating;
 
   const brandOptions = useMemo(
@@ -169,6 +216,14 @@ export function VehiclesExplorer({
     [vehicles],
   );
   const conditionOptions: ConditionFilter[] = ["Toutes", "Neuf", "Occasion"];
+  const priceOptions = useMemo(
+    () =>
+      priceFilters.map((filter) => ({
+        value: filter.value,
+        label: filter.label,
+      })),
+    [],
+  );
 
   const compareSuggestions = useMemo(() => {
     const groups = vehicles.reduce<Record<string, VehicleSummary[]>>(
@@ -195,6 +250,8 @@ export function VehiclesExplorer({
     setCity("Toutes");
     setFuel("Tout");
     setCondition("Toutes");
+    setPriceRange("all");
+    setResultLimit(pageSize);
   };
 
   return (
@@ -207,14 +264,14 @@ export function VehiclesExplorer({
                 Recherche live (mock)
               </Badge>
               <h2 className="text-3xl font-semibold text-foreground sm:text-4xl">
-                Filtrez par marque, ville et ?nergie
+                Filtrez par marque, ville, energie et budget
               </h2>
               <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
                 Cette vue simule Meilisearch : combinaisons multi-filtres, tri et suggestions pour alimenter le comparateur.
               </p>
             </div>
             <div className="flex flex-col gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-              <span>Hits trouvs : {resultMeta.estimatedTotalHits}</span>
+              <span>Hits trouves : {resultMeta.estimatedTotalHits}</span>
               <span>
                 Source :{" "}
                 {resultMeta.source === "meilisearch"
@@ -229,10 +286,10 @@ export function VehiclesExplorer({
               ) : null}
             </div>
           </div>
-          <div className="grid gap-4 md:grid-cols-[2fr_1fr_1fr_1fr_1fr]">
+          <div className="grid gap-4 md:grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr]">
             <div className="md:col-span-2">
               <Input
-                placeholder="Rechercher une marque, un modle, une ville..."
+                placeholder="Rechercher une marque, un modele, une ville..."
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
               />
@@ -261,18 +318,30 @@ export function VehiclesExplorer({
               options={conditionOptions}
               onChange={(value) => setCondition(value as ConditionFilter)}
             />
+            <FilterSelect
+              label="Budget"
+              value={priceRange}
+              options={priceOptions}
+              onChange={(value) => setPriceRange(value as PriceFilterValue)}
+            />
           </div>
           <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
             <Badge variant="outline">
-              {isSearching ? "Recherche en cours..." : `${results.length} resultats`}
+              {isSearching
+                ? "Recherche en cours..."
+                : `${visibleResults.length} / ${totalResults} resultats`}
             </Badge>
             {searchError ? (
               <span className="text-red-600">
                 Erreur de recherche - donnees en cache affichees
               </span>
             ) : null}
-            {search || brand !== "Toutes" || city !== "Toutes" || fuel !== "Tout" ||
-            condition !== "Toutes" ? (
+            {search ||
+            brand !== "Toutes" ||
+            city !== "Toutes" ||
+            fuel !== "Tout" ||
+            condition !== "Toutes" ||
+            priceRange !== "all" ? (
               <Button variant="ghost" size="sm" onClick={resetFilters}>
                 Reinitialiser
               </Button>
@@ -306,11 +375,11 @@ export function VehiclesExplorer({
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
-        {results.length === 0 ? (
+        {visibleResults.length === 0 ? (
           <CardEmptyState search={search} />
         ) : (
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {results.map((vehicle) => {
+            {visibleResults.map((vehicle) => {
               const dealer = dealersMap.get(vehicle.dealerId);
               return (
                 <VehicleCard key={vehicle.id} vehicle={vehicle} dealer={dealer} />
@@ -319,6 +388,18 @@ export function VehiclesExplorer({
           </div>
         )}
       </AnimatedSection>
+      {visibleResults.length > 0 && visibleResults.length < totalResults ? (
+        <AnimatedSection delay={0.1}>
+          <div className="flex justify-center">
+            <Button
+              variant="outline"
+              onClick={() => setResultLimit((previous) => previous + pageSize)}
+            >
+              Charger plus d annonces
+            </Button>
+          </div>
+        </AnimatedSection>
+      ) : null}
     </div>
   );
 }
@@ -326,7 +407,7 @@ export function VehiclesExplorer({
 interface FilterSelectProps {
   label: string;
   value: string;
-  options: string[];
+  options: (string | { value: string; label: string })[];
   onChange: (value: string) => void;
 }
 
@@ -336,6 +417,12 @@ function FilterSelect({
   options,
   onChange,
 }: FilterSelectProps): JSX.Element {
+  const normalizedOptions = options.map((option) =>
+    typeof option === "string"
+      ? { value: option, label: option }
+      : option,
+  );
+
   return (
     <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
       {label}
@@ -344,9 +431,9 @@ function FilterSelect({
         value={value}
         onChange={(event) => onChange(event.target.value)}
       >
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
+        {normalizedOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

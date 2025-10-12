@@ -29,7 +29,7 @@ import { getFeaturedVehicles, getVehicles } from "@/server/vehicles";
 const heroPillars = [
   "Comparer les stocks multi-concessionnaires en un seul endroit.",
   "Livrer une galerie masonry immersive avec badges et stats.",
-  "Diriger chaque lead vers WhatsApp, l'appel ou un formulaire.",
+  "Diriger chaque lead vers WhatsApp, l appel ou un formulaire.",
 ];
 
 const roadmapTabs = [
@@ -57,12 +57,33 @@ const roadmapTabs = [
   {
     value: "phase2",
     label: "Phase 2",
-    description: "Objectifs une fois l'infra Supabase/Prisma en place.",
+    description: "Objectifs une fois l infra Supabase/Prisma en place.",
     items: [
       "Recherche temps reel Meilisearch + filtres facettes.",
       "Uploads signes vers Supabase Storage avec traitement automatique.",
       "Deck investisseurs et exports data-room generees depuis la console.",
     ],
+  },
+];
+
+const testimonials = [
+  {
+    name: "Nexus Premium",
+    role: "Concessionnaire pilote",
+    quote:
+      "Nous gagnons 48h sur nos cycles de publication et le comparateur met immediatement en valeur nos shootings studio.",
+  },
+  {
+    name: "AutoHub Abomey-Calavi",
+    role: "Equipe commerciale",
+    quote:
+      "Les leads WhatsApp arrivent qualifies: modele, budget et ville sont deja renseignes. Parfait pour notre CRM.",
+  },
+  {
+    name: "Equity Motors",
+    role: "Direction operations",
+    quote:
+      "La roadmap investors deck + data-room nous aide a cadrer les discussions avec les partenaires financiers.",
   },
 ];
 
@@ -189,9 +210,20 @@ export default async function Home(): Promise<JSX.Element> {
                   ))}
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <Button size="lg">Consulter la roadmap</Button>
+                  <Button asChild size="lg">
+                    <Link href="/investisseurs">Planifier une demo</Link>
+                  </Button>
                   <Button asChild size="lg" variant="outline">
-                    <Link href="#stack">Explorer la stack</Link>
+                    <Link
+                      href="https://wa.me/95606058?text=Je%20veux%20voir%20la%20demo%20Auto%20Nexus%20BJ"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      WhatsApp direct
+                    </Link>
+                  </Button>
+                  <Button asChild size="lg" variant="ghost">
+                    <Link href="#roadmap">Voir la roadmap</Link>
                   </Button>
                 </div>
               </div>
@@ -265,7 +297,7 @@ export default async function Home(): Promise<JSX.Element> {
         </section>
 
         <section
-          id="stack"
+          id="roadmap"
           className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-16"
         >
           <AnimatedSection className="space-y-3">
@@ -457,6 +489,54 @@ export default async function Home(): Promise<JSX.Element> {
           </AnimatedSection>
         </section>
 
+        <section
+          id="investisseurs"
+          className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-16"
+        >
+          <AnimatedSection className="space-y-3">
+            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+              Temoignages pilotes
+            </h2>
+            <p className="max-w-3xl text-base text-muted-foreground sm:text-lg">
+              Les premiers partenaires valident l approche marketplace: gain de temps,
+              leads qualifies et story telling pret pour les investisseurs.
+            </p>
+          </AnimatedSection>
+          <AnimatedSection
+            delay={0.05}
+            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {testimonials.map((testimonial) => (
+              <Card
+                key={testimonial.name}
+                className="border-border/70 bg-white/95 p-6 shadow-sm"
+              >
+                <div className="flex h-full flex-col justify-between gap-6">
+                  <p className="text-sm text-muted-foreground">
+                    &ldquo;{testimonial.quote}&rdquo;
+                  </p>
+                  <div className="space-y-1">
+                    <p className="text-base font-semibold text-foreground">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      {testimonial.role}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </AnimatedSection>
+          <AnimatedSection delay={0.1} className="flex flex-wrap items-center gap-3">
+            <Button asChild size="lg">
+              <Link href="/investisseurs">Consulter la page investisseurs</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="mailto:launch@autonexus.bj">Recevoir le deck</Link>
+            </Button>
+          </AnimatedSection>
+        </section>
+
         <section className="mx-auto w-full max-w-5xl px-6 pb-20">
           <AnimatedSection className="rounded-3xl border border-border bg-white/95 p-10 text-center shadow-lg">
             <div className="space-y-4">
@@ -476,6 +556,9 @@ export default async function Home(): Promise<JSX.Element> {
                   <Link href="mailto:launch@autonexus.bj">
                     Planifier l&apos;atelier d&apos;onboarding
                   </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link href="/investisseurs">Visiter la page investisseurs</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
                   <Link href="https://wa.me/95606058" target="_blank" rel="noopener noreferrer">

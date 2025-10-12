@@ -5,6 +5,8 @@ export type VehicleSearchFilters = {
   city?: string;
   fuel?: string;
   condition?: string;
+  priceMin?: number;
+  priceMax?: number;
 };
 
 export type VehicleSearchRequest = {

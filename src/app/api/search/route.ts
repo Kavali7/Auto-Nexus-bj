@@ -102,6 +102,12 @@ function buildFilterClauses(body: VehicleSearchRequest): string[] {
   if (body.filters?.condition && body.filters.condition !== "Toutes") {
     clauses.push(`condition = "${body.filters.condition}"`);
   }
+  if (typeof body.filters?.priceMin === "number") {
+    clauses.push(`price >= ${body.filters.priceMin}`);
+  }
+  if (typeof body.filters?.priceMax === "number") {
+    clauses.push(`price <= ${body.filters.priceMax}`);
+  }
 
   return clauses;
 }
@@ -125,6 +131,12 @@ async function fallbackFilter(body: VehicleSearchRequest, limit: number) {
     }
     if (body.filters?.condition && body.filters.condition !== "Toutes") {
       if (vehicle.condition !== body.filters.condition) return false;
+    }
+    if (typeof body.filters?.priceMin === "number") {
+      if (vehicle.price < body.filters.priceMin) return false;
+    }
+    if (typeof body.filters?.priceMax === "number") {
+      if (vehicle.price > body.filters.priceMax) return false;
     }
 
     if (!normalizedQuery) return true;

@@ -34,7 +34,7 @@ export function VehicleCard({
   const whatsappHref = contactNumber
     ? buildWhatsappLink(
         contactNumber,
-        `Bonjour Auto Nexus BJ 👋\nJe suis intéressé(e) par ${vehicle.brand} ${vehicle.model} (${vehicle.slug}).\nPouvez-vous me donner plus de détails ?`,
+        `Bonjour Auto Nexus BJ,\nJe suis interesse(e) par ${vehicle.brand} ${vehicle.model} (${vehicle.slug}).\nPouvez-vous partager plus de details ?`,
       )
     : undefined;
 
@@ -77,7 +77,7 @@ export function VehicleCard({
             </Badge>
             {vehicle.featured ? (
               <Badge className="bg-brand text-brand-foreground">
-                Coup de cœur
+                Coup de coeur
               </Badge>
             ) : null}
           </div>
@@ -86,9 +86,9 @@ export function VehicleCard({
               {vehicle.brand} {vehicle.model}
             </CardTitle>
             <CardDescription className="mt-1 text-sm text-white/80">
-              {vehicle.trim ? `${vehicle.trim} • ` : ""}
-              {vehicle.fuel} • {vehicle.transmission} •{" "}
-              {formatMileage(vehicle.mileage)} • {vehicle.city}
+              {vehicle.trim ? `${vehicle.trim} - ` : ""}
+              {vehicle.fuel} - {vehicle.transmission} - {formatMileage(vehicle.mileage)} -{" "}
+              {vehicle.city}
             </CardDescription>
           </div>
         </div>
@@ -107,7 +107,7 @@ export function VehicleCard({
         </div>
         {dealer ? (
           <div className="rounded-lg border border-border bg-muted/40 p-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            {dealer.name} • {dealer.city}
+            {dealer.name} - {dealer.city}
           </div>
         ) : null}
       </CardContent>
@@ -118,7 +118,7 @@ export function VehicleCard({
           onClick={handleToggleCompare}
           disabled={!selected && !canAddMore}
         >
-          {selected ? "Retirer" : "Ajouter à comparer"}
+          {selected ? "Retirer" : "Ajouter au comparer"}
         </Button>
         <Button asChild size="sm">
           <Link href={`/voitures/${vehicle.slug}`}>Voir la fiche</Link>

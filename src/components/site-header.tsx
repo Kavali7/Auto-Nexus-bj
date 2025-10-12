@@ -16,7 +16,7 @@ const navItems = [
   { label: "Concessionnaires", href: "/concessionnaires" },
   { label: "Services", href: "/services" },
   { label: "Dashboard", href: "/dashboard" },
-  { label: "Investisseurs", href: "/#investisseurs" },
+  { label: "Investisseurs", href: "/investisseurs" },
   { label: "Comparer", href: "/comparer" },
 ];
 
