@@ -242,3 +242,7 @@ Route (app) Size First Load JS
 ƒ (Dynamic) server-rendered on demand
 
 PS E:\Mes traveaux\AA-SAAS\Auto2\auto-nexus-bj>" L'étape suivante devrait être "npm run db:push" . Le PC s'était éteint faute de batérie. Je suis étonné que une fois ce problème reglé, la même commande renvoie une erreur. Que se passe t-il ? Comment régler cette situation?"
+
+
+
+npm run media:webp

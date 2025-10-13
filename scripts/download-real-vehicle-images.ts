@@ -7,12 +7,13 @@ import { vehicleDefinitions } from "@/data/vehicle-definitions";
 
 type ImageTask = {
   path: string;
-  query: string;
+  queries: string[];
 };
 
 const OUTPUT_ROOT = resolve("public");
-const SOURCE_BASE = "https://source.unsplash.com";
-const RESOLUTION = "2000x1333";
+const SOURCE_BASE = "https://loremflickr.com";
+const WIDTH = 2000;
+const HEIGHT = 1333;
 const CONCURRENCY = 3;
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 1500;
@@ -30,16 +31,26 @@ function normalizePath(path: string): string {
   return path.replace(/^\/*/, "");
 }
 
+function sanitize(value: string): string {
+  return value.replace(/[+()]/g, "").replace(/\s+/g, " ").trim();
+}
+
 function buildTasks(): ImageTask[] {
   const tasks: ImageTask[] = [];
 
   for (const vehicle of vehicleDefinitions) {
-    const baseQuery = `${vehicle.brand} ${vehicle.model}`.trim();
+    const sanitizedBrand = sanitize(vehicle.brand);
+    const sanitizedModel = sanitize(vehicle.model ?? "");
+    const baseQuery = `${sanitizedBrand} ${sanitizedModel}`.trim() || sanitizedBrand;
 
     const heroPath = normalizePath(vehicle.heroImagePath);
     tasks.push({
       path: heroPath,
-      query: `${baseQuery} exterior front`,
+      queries: [
+        `${baseQuery} exterior front`,
+        `${sanitizedBrand} exterior car`,
+        "luxury car exterior",
+      ],
     });
 
     vehicle.gallery.forEach((media) => {
@@ -47,7 +58,12 @@ function buildTasks(): ImageTask[] {
       const kindQuery = kindQueryMap[media.kind ?? "STANDARD"] ?? kindQueryMap.STANDARD;
       tasks.push({
         path: normalized,
-        query: `${baseQuery} ${kindQuery}`,
+        queries: [
+          `${baseQuery} ${kindQuery}`,
+          `${sanitizedBrand} ${kindQuery}`,
+          `${sanitizedBrand} car`,
+          "modern car photo",
+        ],
       });
     });
   }
@@ -60,7 +76,12 @@ async function sleep(ms: number): Promise<void> {
 }
 
 async function fetchImageBuffer(query: string): Promise<Buffer> {
-  const url = `${SOURCE_BASE}/${RESOLUTION}/?${encodeURIComponent(query)}`;
+  const keywords = query
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+    .join(",");
+  const url = `${SOURCE_BASE}/${WIDTH}/${HEIGHT}/${encodeURIComponent(keywords)}`;
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt += 1) {
     const response = await fetch(url, {
@@ -90,7 +111,24 @@ async function fetchImageBuffer(query: string): Promise<Buffer> {
 async function downloadTask(task: ImageTask): Promise<void> {
   const outputPath = resolve(OUTPUT_ROOT, task.path);
   await mkdir(dirname(outputPath), { recursive: true });
-  const buffer = await fetchImageBuffer(task.query);
+
+  let buffer: Buffer | null = null;
+  let lastError: Error | null = null;
+
+  for (const query of task.queries) {
+    try {
+      buffer = await fetchImageBuffer(query);
+      console.log(`Downloaded ${query} -> ${task.path}`);
+      break;
+    } catch (error: unknown) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+      console.warn(`Failed query "${query}" for ${task.path}: ${lastError.message}`);
+    }
+  }
+
+  if (!buffer) {
+    throw lastError ?? new Error(`Unable to download image for ${task.path}`);
+  }
 
   // Ensure extension stays .jpg even if source is different
   const ext = extname(outputPath).toLowerCase();
@@ -98,7 +136,6 @@ async function downloadTask(task: ImageTask): Promise<void> {
     ext === ".jpg" || ext === ".jpeg" || ext === ".png" ? outputPath : `${outputPath}${ext ? "" : ".jpg"}`;
 
   await writeFile(targetPath, buffer);
-  console.log(`Downloaded ${task.query} -> ${task.path}`);
 }
 
 async function runQueue(tasks: ImageTask[]): Promise<void> {

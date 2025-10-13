@@ -39,7 +39,14 @@ type PriceFilterValue = (typeof priceFilters)[number]["value"];
 const priceFilterMap: Record<PriceFilterValue, { min?: number; max?: number }> =
   priceFilters.reduce(
     (acc, filter) => {
-      acc[filter.value] = { min: filter.min, max: filter.max };
+      const entry: { min?: number; max?: number } = {};
+      if ("min" in filter) {
+        entry.min = filter.min;
+      }
+      if ("max" in filter) {
+        entry.max = filter.max;
+      }
+      acc[filter.value] = entry;
       return acc;
     },
     {} as Record<PriceFilterValue, { min?: number; max?: number }>,

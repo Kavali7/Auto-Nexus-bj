@@ -45,7 +45,7 @@ const specGroupConfig = [
     keywords: ["infotainment", "ecran", "audio", "assistant", "interface"],
   },
   { title: "Securite", keywords: ["airbag", "abs", "adas", "freinage"] },
-] as const;
+];
 
 function groupVehicleSpecs(specs: VehicleSummary["specs"]) {
   const fallback: VehicleSummary["specs"] = [];

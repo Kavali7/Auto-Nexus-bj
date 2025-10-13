@@ -19,6 +19,7 @@ import { getDealers, getVehicles } from "@/data";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 import { buildWhatsappLink } from "@/lib/whatsapp";
 import type { DealerSummary, VehicleSummary } from "@/types/catalog";
+import type { Dealer, Vehicle } from "@/data";
 
 type ChartSnapshot = {
   title: string;
@@ -473,8 +474,8 @@ function FinancingAndLogistics({
   vehicle,
   dealer,
 }: {
-  vehicle: VehicleSummary;
-  dealer?: DealerSummary;
+  vehicle: VehicleSummary | Vehicle;
+  dealer?: DealerSummary | Dealer;
 }): JSX.Element {
   const monthlyEstimate = Math.round(vehicle.price / 24);
 
