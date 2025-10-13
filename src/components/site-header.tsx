@@ -101,7 +101,7 @@ export function SiteHeader(): JSX.Element {
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-6">
           <Link
             href="/"
-            className="flex items-center gap-3 rounded-full bg-white/85 px-3 py-2 shadow-sm ring-1 ring-border/60 backdrop-blur md:bg-transparent md:px-0 md:py-0 md:shadow-none md:ring-0"
+            className="flex items-center gap-3 rounded-full bg-white/85 px-3 py-2 shadow-sm backdrop-blur md:bg-transparent md:px-0 md:py-0 md:shadow-none"
           >
             <Image
               src="/brand/anx-logo.png"
@@ -111,19 +111,14 @@ export function SiteHeader(): JSX.Element {
               priority
               className="h-10 w-auto"
             />
-            <div className="flex flex-col leading-tight">
-              <span className="text-lg font-semibold tracking-tight text-brand">
-                AUTONEX
-              </span>
-              <span className="text-xs text-muted-foreground">
-                Marketplace auto au Bnin
-              </span>
-            </div>
           </Link>
           <nav className="hidden flex-1 items-center justify-center gap-6 text-sm font-medium md:flex">
             {navItems.map((item) => renderNavItem(item))}
           </nav>
           <div className="flex items-center gap-3 shrink-0">
+            <span className="text-sm font-semibold text-foreground md:hidden">
+              Auto Nexus-Bj
+            </span>
             <Button
               type="button"
               size="icon"

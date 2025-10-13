@@ -72,6 +72,7 @@ if (cdnHostname) {
 const nextConfig: NextConfig = {
   images: {
     remotePatterns,
+    domains: ["images.unsplash.com", "plus.unsplash.com"],
   },
 };
 

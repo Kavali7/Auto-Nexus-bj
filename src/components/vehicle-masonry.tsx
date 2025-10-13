@@ -4,6 +4,10 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import {
+  DEFAULT_VEHICLE_BLUR_DATA_URL,
+  getVehicleBlurDataUrl,
+} from "@/lib/vehicle-images";
 import type { DealerSummary, VehicleSummary } from "@/types/catalog";
 
 interface VehicleMasonryProps {
@@ -22,7 +26,7 @@ export function VehicleMasonry({
 
   return (
     <div
-      className={cn("grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3", className)}
+      className={cn("grid gap-6", className ?? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3")}
     >
       {vehicles.map((vehicle) => {
         const dealer = dealerById.get(vehicle.dealerId);
@@ -52,7 +56,7 @@ export function VehicleMasonry({
                     {vehicle.year}
                   </Badge>
                   {vehicle.featured ? (
-                    <Badge className="bg-brand text-brand-foreground">Coup de cœur</Badge>
+                    <Badge className="bg-brand text-brand-foreground">Coup de coeur</Badge>
                   ) : null}
                 </div>
                 <Image
@@ -62,6 +66,11 @@ export function VehicleMasonry({
                   height={600}
                   className="h-full w-full object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  placeholder="blur"
+                  blurDataURL={getVehicleBlurDataUrl(
+                    vehicle.heroImage,
+                    DEFAULT_VEHICLE_BLUR_DATA_URL,
+                  )}
                 />
                 <div className="absolute bottom-4 left-4 right-4 z-20 flex flex-col gap-3 text-white">
                   <div className="flex items-center justify-between gap-2 text-xs uppercase tracking-[0.18em] text-white/80">
@@ -70,11 +79,10 @@ export function VehicleMasonry({
                   </div>
                   <div>
                     <h3 className="text-2xl font-semibold leading-tight">
-                      {vehicle.model} {vehicle.trim ? `• ${vehicle.trim}` : ""}
+                      {vehicle.model} {vehicle.trim ? `- ${vehicle.trim}` : ""}
                     </h3>
                     <p className="text-sm text-white/80">
-                      {vehicle.fuel} • {vehicle.transmission} •{" "}
-                      {formatMileage(vehicle.mileage)}
+                      {vehicle.fuel} - {vehicle.transmission} - {formatMileage(vehicle.mileage)}
                     </p>
                   </div>
                 </div>

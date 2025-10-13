@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 const heroHighlights = [
   "Contrats onboarding prêts : charte photo, SLA leads, reporting",
   "Dashboards concessionnaires (CRUD annonces, disponibilité, leads)",
-  "Validation admin + modération contenus (Phase 1)",
+  "Validation admin et modération contenus en continu",
 ];
 
 export default function DealersPage(): JSX.Element {

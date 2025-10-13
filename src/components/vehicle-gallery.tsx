@@ -16,6 +16,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  DEFAULT_VEHICLE_BLUR_DATA_URL,
+  getVehicleBlurDataUrl,
+} from "@/lib/vehicle-images";
 import type { VehicleGalleryItem } from "@/types/catalog";
 
 type VehicleGalleryProps = {
@@ -27,30 +31,29 @@ type VehicleGalleryProps = {
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 3;
 const ZOOM_STEP = 0.25;
-const FALLBACK_BLUR_DATA_URL =
-  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgY0J7tYAAAAASUVORK5CYII=";
+type BuiltImageSources = {
+  primary: string;
+  fallback: string;
+  placeholder: string;
+};
 
-function buildImageSources(url: string): { primary: string; fallback: string } {
+function buildImageSources(url: string): BuiltImageSources {
   if (!url) {
-    return { primary: url, fallback: url };
+    return {
+      primary: url,
+      fallback: url,
+      placeholder: DEFAULT_VEHICLE_BLUR_DATA_URL,
+    };
   }
 
-  const questionIndex = url.indexOf("?");
-  const base = questionIndex >= 0 ? url.slice(0, questionIndex) : url;
-  const query = questionIndex >= 0 ? url.slice(questionIndex) : "";
+  const placeholder = getVehicleBlurDataUrl(url, DEFAULT_VEHICLE_BLUR_DATA_URL);
 
-  if (!/\.[a-z0-9]+$/i.test(base)) {
-    return { primary: url, fallback: url };
-  }
-
-  if (base.toLowerCase().endsWith(".webp")) {
-    return { primary: url, fallback: url };
-  }
-
-  const webpCandidate = `${base.replace(/\.[a-z0-9]+$/i, ".webp")}${query}`;
-  return { primary: webpCandidate, fallback: url };
+  return {
+    primary: url,
+    fallback: url,
+    placeholder,
+  };
 }
-
 function createOnErrorHandler(fallback: string) {
   return (event: SyntheticEvent<HTMLImageElement>) => {
     if (!fallback) {
@@ -268,7 +271,7 @@ export function VehicleGallery({
               fill
               className="object-cover"
               placeholder="blur"
-              blurDataURL={FALLBACK_BLUR_DATA_URL}
+              blurDataURL={fallbackSources.placeholder}
               sizes="(max-width: 1024px) 100vw, 50vw"
               onError={createOnErrorHandler(fallbackSources.fallback)}
             />
@@ -297,7 +300,7 @@ export function VehicleGallery({
             className="object-cover transition duration-500 group-hover:scale-105"
             priority
             placeholder="blur"
-            blurDataURL={FALLBACK_BLUR_DATA_URL}
+            blurDataURL={primarySources.placeholder}
             sizes="(min-width: 1024px) 60vw, 100vw"
             onError={createOnErrorHandler(primarySources.fallback)}
           />
@@ -329,7 +332,7 @@ export function VehicleGallery({
                   className="object-cover transition duration-500 group-hover:scale-105"
                   loading="lazy"
                   placeholder="blur"
-                  blurDataURL={FALLBACK_BLUR_DATA_URL}
+                  blurDataURL={sources.placeholder}
                   sizes="(min-width: 1024px) 40vw, 50vw"
                   onError={createOnErrorHandler(sources.fallback)}
                 />
@@ -367,9 +370,9 @@ export function VehicleGallery({
                   alt={photo.label ?? vehicleName}
                   fill
                   className="object-cover"
-                  loading={index === 0 ? "eager" : "lazy"}
+                  loading={index === activeThumbnailIndex ? "eager" : "lazy"}
                   placeholder="blur"
-                  blurDataURL={FALLBACK_BLUR_DATA_URL}
+                  blurDataURL={sources.placeholder}
                   sizes="96px"
                   onError={createOnErrorHandler(sources.fallback)}
                 />
@@ -470,7 +473,7 @@ export function VehicleGallery({
                 priority
                 draggable={false}
                 placeholder="blur"
-                blurDataURL={FALLBACK_BLUR_DATA_URL}
+                blurDataURL={activeSources.placeholder}
                 sizes="100vw"
                 onError={createOnErrorHandler(activeSources.fallback)}
               />
@@ -496,7 +499,7 @@ export function VehicleGallery({
                       className="object-cover"
                       loading={index === activeIndex ? "eager" : "lazy"}
                       placeholder="blur"
-                      blurDataURL={FALLBACK_BLUR_DATA_URL}
+                      blurDataURL={sources.placeholder}
                       sizes="120px"
                       onError={createOnErrorHandler(sources.fallback)}
                     />
@@ -513,3 +516,4 @@ export function VehicleGallery({
     </>
   );
 }
+

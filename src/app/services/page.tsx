@@ -298,22 +298,22 @@ export default function ServicesPage(): JSX.Element {
             </div>
             <div className="flex flex-col gap-4 rounded-2xl border border-dashed border-brand/30 bg-brand/5 p-6">
               <p className="text-xs uppercase tracking-[0.22em] text-brand">
-                Phase suivante
+                Session demo
               </p>
               <p className="text-sm text-muted-foreground">
-                Reservez une session pour parcourir le prototype complet (dashboard,
+                Planifiez une session pour parcourir le prototype complet (dashboard,
                 comparateur, modules admin).
               </p>
               <Button asChild>
                 <Link
                   href={buildWhatsappLink(
                     "95606058",
-                    "Je souhaite reserver la session de demonstration complete Auto Nexus BJ.",
+                    "Je souhaite planifier la session de demonstration complete Auto Nexus BJ.",
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Reserver la demo
+                  Planifier la demo
                 </Link>
               </Button>
             </div>

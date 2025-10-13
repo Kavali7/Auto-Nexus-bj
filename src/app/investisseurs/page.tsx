@@ -36,7 +36,7 @@ const valueProps = [
   {
     title: "Marketplace premium",
     description:
-      "Inventaire photo-ready avec fiches detaillees, comparateur et parcours WhatsApp integre pour capter la demande qualifiee.",
+      "Inventaire photo-ready avec fiches completes, comparateur et parcours WhatsApp integre pour capter la demande qualifiee.",
   },
   {
     title: "Monetisation services",
@@ -47,24 +47,6 @@ const valueProps = [
     title: "Data room temps reel",
     description:
       "Reporting GMV, leads, conversion par pilier et cockpit analytique partageable (Supabase + Vercel Analytics).",
-  },
-];
-
-const roadmap = [
-  {
-    title: "Phase 1 - MVP live",
-    detail:
-      "Connexion Supabase/Prisma, ingestion photos vers Storage, recherche Meilisearch et workflow moderation.",
-  },
-  {
-    title: "Phase 2 - Growth",
-    detail:
-      "Comparateur multi-vehicules, favoris, scoring leads, campagnes marketing co-brandees et modules financiers.",
-  },
-  {
-    title: "Phase 3 - Expansion",
-    detail:
-      "Ouverture B2B fleet et artisans, offres financement/assurance integrees, extension Cote d Ivoire et Togo.",
   },
 ];
 
@@ -94,7 +76,7 @@ const faqItems = [
 export const metadata: Metadata = {
   title: "Investisseurs & Demo - Auto Nexus BJ",
   description:
-    "Vue investisseur Auto Nexus BJ : vision, KPI mock, roadmap produit et formulaires pour reserver une demo.",
+    "Vue investisseur Auto Nexus BJ : vision, KPI mock et formulaires pour reserver une demo.",
 };
 
 export default function InvestorsPage(): JSX.Element {
@@ -110,8 +92,8 @@ export default function InvestorsPage(): JSX.Element {
                   Auto Nexus BJ - deck investisseurs et demo
                 </h1>
                 <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
-                  Marketplace auto premium en phase MVP: traction mock, roadmap detaillee
-                  et acces direct au deck et aux sessions demo.
+                  Marketplace auto premium en phase MVP: traction mock complete et acces
+                  direct au deck et aux sessions demo.
                 </p>
               </div>
               <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
@@ -119,7 +101,7 @@ export default function InvestorsPage(): JSX.Element {
                   Deck PDF
                 </Badge>
                 <Badge variant="outline" className="border-border/70">
-                  Roadmap produit
+                  KPI mock
                 </Badge>
                 <Badge variant="outline" className="border-border/70">
                   Data room
@@ -135,11 +117,8 @@ export default function InvestorsPage(): JSX.Element {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Reserver la demo
+                    Planifier la demo
                   </Link>
-                </Button>
-                <Button asChild size="lg" variant="ghost">
-                  <Link href="#roadmap">Voir la roadmap</Link>
                 </Button>
               </div>
             </div>
@@ -150,7 +129,7 @@ export default function InvestorsPage(): JSX.Element {
                   <p>
                     Financer 18 mois de produit, go-to-market et operations pour
                     industrialiser la marketplace Auto Nexus BJ et deployer les premiers
-                    leads reels.
+                    leads qualifies.
                   </p>
                 </CardContent>
               </Card>
@@ -187,35 +166,6 @@ export default function InvestorsPage(): JSX.Element {
             </Card>
           ))}
         </AnimatedSection>
-
-        <div id="roadmap">
-          <AnimatedSection className="mx-auto w-full max-w-6xl px-6">
-            <Card className="border-border/70 bg-white/95 shadow-sm">
-              <CardHeader className="space-y-3">
-                <CardTitle className="text-2xl text-foreground">
-                  Roadmap produit et traction cible
-                </CardTitle>
-                <CardDescription className="text-base text-muted-foreground">
-                  Trois phases pour industrialiser les services, amplifier les revenus et
-                  preparer l expansion regionale.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-4 md:grid-cols-3">
-                {roadmap.map((step) => (
-                  <div
-                    key={step.title}
-                    className="rounded-xl border border-dashed border-brand/30 bg-brand/5 p-5"
-                  >
-                    <p className="text-xs uppercase tracking-[0.22em] text-brand">
-                      {step.title}
-                    </p>
-                    <p className="mt-2 text-sm text-muted-foreground">{step.detail}</p>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </AnimatedSection>
-        </div>
 
         <AnimatedSection className="mx-auto w-full max-w-6xl space-y-6 px-6">
           <div className="space-y-3">

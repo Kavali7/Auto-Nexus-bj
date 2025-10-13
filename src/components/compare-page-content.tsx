@@ -157,8 +157,8 @@ export function ComparePageContent(): JSX.Element {
                 <CardHeader>
                   <CardTitle>Tableau comparatif</CardTitle>
                   <CardDescription>
-                    Apercu de la grille Phase 2 : colonnes dynamiques, filtres, export PDF
-                    et stickiness sur desktop.
+                    Tableau comparatif avec colonnes dynamiques, filtres, export PDF et
+                    affichage fixe sur desktop.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="overflow-x-auto">

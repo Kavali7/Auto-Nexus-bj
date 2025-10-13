@@ -14,7 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { services } from "@/data";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 import { buildWhatsappLink } from "@/lib/whatsapp";
@@ -116,39 +115,6 @@ const heroHighlights = [
   "CTA unifie: demo investisseurs, WhatsApp direct et roadmap produit.",
 ];
 
-const roadmapTabs = [
-  {
-    value: "catalogue",
-    label: "Catalogue live",
-    description: "Ce que le front doit prouver avant la connexion a Supabase.",
-    items: [
-      "Hero dynamique + statistiques calculees a partir des mocks.",
-      "Composant VehicleMasonry responsive alimente par le dataset.",
-      "Fiches vehicule et comparateur relies aux memes donnees.",
-    ],
-  },
-  {
-    value: "workflow",
-    label: "Workflow equipe",
-    description: "Process quand la base sera branchee.",
-    items: [
-      "Dashboard concessionnaire pour deposer les annonces et photos.",
-      "Back-office interne pour valider, mettre en avant ou archiver.",
-      "Notifications et relances via WhatsApp ou email transactionnel.",
-    ],
-  },
-  {
-    value: "phase2",
-    label: "Phase 2",
-    description: "Objectifs une fois l'infra Supabase/Prisma en place.",
-    items: [
-      "Recherche temps reel Meilisearch + filtres facettes.",
-      "Uploads signes vers Supabase Storage avec traitement automatique.",
-      "Deck investisseurs et exports data-room generees depuis la console.",
-    ],
-  },
-];
-
 const fieldTestimonials = [
   {
     name: "Samira Bello",
@@ -170,6 +136,27 @@ const fieldTestimonials = [
     quote:
       "Les reportings partages avec les investisseurs reprennent enfin des chiffres homogenes entre GMV, leads et disponibilite stock.",
     result: "Reporting investor pret en 24h",
+  },
+];
+
+const pilotTestimonials = [
+  {
+    name: "Carine Dossa",
+    role: "Directrice, Benin Auto Alliance",
+    quote:
+      "Nous montrons aux investisseurs un parcours concret avec un inventaire unifie et des leads qualifies en direct.",
+  },
+  {
+    name: "Serges Dovonou",
+    role: "COO, Transafrica Leasing",
+    quote:
+      "Le simulateur de demo nous aide a projeter nos offres de financement et a partager un dossier clair en comite.",
+  },
+  {
+    name: "Arnaud Kossa",
+    role: "Fondateur, FleetPro Services",
+    quote:
+      "Les tableaux de bord et la galerie media donnent un rendu premium qui rassure nos partenaires fleet.",
   },
 ];
 
@@ -314,7 +301,7 @@ export default async function Home(): Promise<JSX.Element> {
                   <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
                     Nous orchestrons le hub multi-concessionnaires : shootings studio,
                     metrics demo et parcours lead centralise. Branchez Supabase/Prisma et
-                    la plateforme collecte instantanement des leads reels.
+                    la plateforme collecte instantanement des leads qualifies.
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
@@ -553,56 +540,6 @@ export default async function Home(): Promise<JSX.Element> {
         </section>
 
         <section
-          id="roadmap"
-          className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-16"
-        >
-          <AnimatedSection className="space-y-3">
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              Stack et prochaines etapes
-            </h2>
-            <p className="max-w-3xl text-base text-muted-foreground sm:text-lg">
-              On garde les mocks pour l&apos;instant, mais toute la structure vise a
-              accueillir Supabase, Prisma et un vrai flux d&apos;upload photo.
-            </p>
-          </AnimatedSection>
-          <AnimatedSection delay={0.05}>
-            <Tabs defaultValue="catalogue" className="w-full">
-              <TabsList className="grid w-full gap-2 sm:grid-cols-3">
-                {roadmapTabs.map((tab) => (
-                  <TabsTrigger key={tab.value} value={tab.value}>
-                    {tab.label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-              {roadmapTabs.map((tab) => (
-                <TabsContent key={tab.value} value={tab.value}>
-                  <Card className="border-border/70 bg-white/95 shadow-sm">
-                    <CardHeader className="space-y-2">
-                      <CardTitle className="text-lg text-foreground">
-                        {tab.label}
-                      </CardTitle>
-                      <CardDescription className="text-sm text-muted-foreground">
-                        {tab.description}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="grid gap-3 text-sm text-muted-foreground">
-                        {tab.items.map((point) => (
-                          <li key={point} className="flex items-start gap-2">
-                            <span className="mt-1 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand" />
-                            <span>{point}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-              ))}
-            </Tabs>
-          </AnimatedSection>
-        </section>
-
-        <section
           id="timeline-produit"
           className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-16"
         >
@@ -792,7 +729,7 @@ export default async function Home(): Promise<JSX.Element> {
             delay={0.05}
             className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
           >
-            {testimonials.map((testimonial) => (
+            {pilotTestimonials.map((testimonial) => (
               <Card
                 key={testimonial.name}
                 className="border-border/70 bg-white/95 p-6 shadow-sm"
@@ -862,40 +799,6 @@ export default async function Home(): Promise<JSX.Element> {
           </AnimatedSection>
         </section>
 
-        <section className="mx-auto w-full max-w-5xl px-6 pb-20">
-          <AnimatedSection className="rounded-3xl border border-border bg-white/95 p-10 text-center shadow-lg">
-            <div className="space-y-4">
-              <Badge className="bg-brand text-brand-foreground">Prochaine etape</Badge>
-              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                Brancher Supabase et lancer les premiers leads reels
-              </h2>
-              <p className="mx-auto max-w-2xl text-base text-muted-foreground sm:text-lg">
-                Le code est pret a recevoir le schema Prisma, les migrations et le flux
-                upload signe. Une fois le projet Supabase cree, on pousse les migrations
-                et on connecte la page a de vraies donnees.
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-3">
-                <Button size="lg" asChild>
-                  <Link href="mailto:launch@autonexus.bj">
-                    Planifier l&apos;atelier d&apos;onboarding
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <Link href="/investisseurs">Visiter la page investisseurs</Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <Link
-                    href="https://wa.me/95606058"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Discuter sur WhatsApp
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </AnimatedSection>
-        </section>
       </div>
     </div>
   );

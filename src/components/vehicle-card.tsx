@@ -16,6 +16,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 import { buildWhatsappLink } from "@/lib/whatsapp";
+import {
+  DEFAULT_VEHICLE_BLUR_DATA_URL,
+  getVehicleBlurDataUrl,
+} from "@/lib/vehicle-images";
 import { useDemoNotice } from "@/hooks/use-demo-notice";
 import type { DealerSummary, VehicleSummary } from "@/types/catalog";
 import type { Dealer as SeedDealer, Vehicle as SeedVehicle } from "@/data";
@@ -25,9 +29,6 @@ type VehicleCardProps = {
   dealer?: DealerSummary | SeedDealer;
   whatsappNumber?: string;
 };
-
-const FALLBACK_BLUR_DATA_URL =
-  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgY0J7tYAAAAASUVORK5CYII=";
 
 function hasFinancingOption(highlights: string[]): boolean {
   return highlights.some((highlight) => highlight.toLowerCase().includes("financement"));
@@ -73,6 +74,11 @@ export function VehicleCard({
   const notifyDemo = useDemoNotice();
   const selected = isSelected(vehicle.id);
 
+  const heroBlurDataURL = getVehicleBlurDataUrl(
+    vehicle.heroImage,
+    DEFAULT_VEHICLE_BLUR_DATA_URL,
+  );
+
   const handleToggleCompare = () => {
     if (selected) {
       removeVehicle(vehicle.id);
@@ -102,7 +108,7 @@ export function VehicleCard({
             className="object-cover transition duration-700 group-hover:scale-105"
             priority={vehicle.featured}
             placeholder="blur"
-            blurDataURL={FALLBACK_BLUR_DATA_URL}
+            blurDataURL={heroBlurDataURL}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/0 to-black/40" />
           <div className="absolute left-4 right-4 top-4 flex flex-wrap items-center justify-between gap-2">
@@ -157,7 +163,7 @@ export function VehicleCard({
           ) : null}
         </div>
         <div className="space-y-2 text-sm text-muted-foreground">
-          {vehicle.highlights.slice(0, 3).map((highlight) => (
+          {vehicle.highlights.slice(0, 2).map((highlight) => (
             <p key={highlight} className="flex items-start gap-2">
               <span className="mt-1 inline-flex h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand" />
               <span>{highlight}</span>

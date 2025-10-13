@@ -83,9 +83,10 @@ export async function generateStaticParams(): Promise<PageParams[]> {
 export async function generateMetadata({
   params,
 }: {
-  params: PageParams;
+  params: Promise<PageParams>;
 }): Promise<Metadata> {
-  const vehicle = await getVehicleBySlug(params.slug);
+  const { slug } = await params;
+  const vehicle = await getVehicleBySlug(slug);
   if (!vehicle) {
     return {
       title: "Annonce introuvable",
@@ -110,9 +111,10 @@ export async function generateMetadata({
 export default async function VehicleDetail({
   params,
 }: {
-  params: PageParams;
+  params: Promise<PageParams>;
 }): Promise<JSX.Element> {
-  const vehicle = await getVehicleBySlug(params.slug);
+  const { slug } = await params;
+  const vehicle = await getVehicleBySlug(slug);
   if (!vehicle) {
     notFound();
   }

@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/card";
 import { getDealers, getVehicles } from "@/data";
 import { formatMileage, formatPriceXof } from "@/lib/format";
+import { buildWhatsappLink } from "@/lib/whatsapp";
 import type { DealerSummary, VehicleSummary } from "@/types/catalog";
 
 type ChartSnapshot = {

@@ -14,6 +14,8 @@
     "supabase:storage:test": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register scripts/verify-signed-upload.ts",
     "media:placeholders": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register scripts/generate-placeholder-media.ts",
     "media:manifest": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register scripts/build-media-manifest.ts",
+    "media:download": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register scripts/download-real-vehicle-images.ts",
+    "media:webp": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register scripts/generate-vehicle-webp.ts",
     "media:prepare": "npm run media:placeholders && npm run media:manifest",
     "media:dry-run": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register scripts/process-media.ts --dry-run",
     "media:upload": "ts-node --project tsconfig.seed.json --require tsconfig-paths/register scripts/process-media.ts",

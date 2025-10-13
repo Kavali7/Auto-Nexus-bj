@@ -571,7 +571,7 @@ export function VehiclesExplorer({
         {visibleResults.length === 0 ? (
           <CardEmptyState search={search} />
         ) : (
-          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {visibleResults.map((vehicle) => {
               const dealer = dealersMap.get(vehicle.dealerId);
               return <VehicleCard key={vehicle.id} vehicle={vehicle} dealer={dealer} />;
@@ -636,13 +636,12 @@ function CardEmptyState({ search }: { search: string }): JSX.Element {
       <h3 className="text-lg font-semibold text-foreground">Aucun resultat</h3>
       <p className="mt-3 text-sm text-muted-foreground">
         {search
-          ? "Essayez un autre mot cle ou reinitialisez les filtres pour visualiser toute la selection."
-          : "Ajustez les filtres pour explorer d'autres combinaisons et preparer la future experience Meilisearch."}
+          ? "Essayez un autre mot cle ou reinitialisez les filtres pour afficher tout le catalogue."
+          : "Ajustez les filtres pour explorer d'autres combinaisons du catalogue."}
       </p>
       <div className="mt-6 flex justify-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
         <Badge variant="secondary">Temps reel</Badge>
-        <Badge variant="secondary">Meilisearch</Badge>
-        <Badge variant="secondary">Phase 2</Badge>
+        <Badge variant="secondary">Catalogue interactif</Badge>
       </div>
     </div>
   );

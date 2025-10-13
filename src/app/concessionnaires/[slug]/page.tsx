@@ -360,9 +360,7 @@ function PitchCard(): JSX.Element {
         <p>• Abonnement marketplace + commission sur leads qualifiés.</p>
         <p>• Upsell services : shooting, marketing, logistique, financement.</p>
         <p>• Data analytics partagée (pricing, rotation stock, demande).</p>
-        <p>
-          • Phase 2 : comparateur & favoris → rétention + cross-sell (assurance, pièces).
-        </p>
+        <p>• Comparateur & favoris → rétention + cross-sell (assurance, pièces).</p>
       </CardContent>
     </Card>
   );
