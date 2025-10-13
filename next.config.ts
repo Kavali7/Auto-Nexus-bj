@@ -19,8 +19,7 @@ function addRemotePattern(pattern: RemotePattern) {
 
   const alreadyPresent = remotePatterns.some(
     (existing) =>
-      existing.hostname === pattern.hostname &&
-      existing.protocol === pattern.protocol,
+      existing.hostname === pattern.hostname && existing.protocol === pattern.protocol,
   );
 
   if (!alreadyPresent) {
@@ -55,7 +54,10 @@ if (cdnUrl) {
       hostname: url.hostname,
     });
   } catch (error) {
-    console.warn("SUPABASE_CDN_URL invalide, impossible d'ajouter au remotePatterns:", error);
+    console.warn(
+      "SUPABASE_CDN_URL invalide, impossible d'ajouter au remotePatterns:",
+      error,
+    );
   }
 }
 

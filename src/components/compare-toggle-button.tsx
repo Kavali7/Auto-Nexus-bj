@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { useCompare } from "@/components/compare-context";
 import { cn } from "@/lib/utils";
+import { useDemoNotice } from "@/hooks/use-demo-notice";
 
 interface CompareToggleButtonProps {
   vehicleId: string;
@@ -20,14 +21,21 @@ export function CompareToggleButton({
   className,
 }: CompareToggleButtonProps): JSX.Element {
   const { addVehicle, removeVehicle, isSelected, canAddMore } = useCompare();
+  const notifyDemo = useDemoNotice();
   const selected = isSelected(vehicleId);
 
   const handleClick = () => {
     if (selected) {
       removeVehicle(vehicleId);
-    } else if (canAddMore) {
-      addVehicle(vehicleId);
+      return;
     }
+
+    if (!canAddMore) {
+      return;
+    }
+
+    notifyDemo("favorites");
+    addVehicle(vehicleId);
   };
 
   return (

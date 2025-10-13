@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { AnimatedSection } from "@/components/animated-section";
+import { LeadForm } from "@/components/lead-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,14 +13,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { services, getDealers } from "@/data";
 import { buildWhatsappLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Services Auto Nexus BJ",
   description:
-    "Les 7 piliers services Auto Nexus BJ : vehicules neufs, entretien, pieces, lubrifiants, financement, location et logistique.",
+    "Les 7 piliers services Auto Nexus BJ : vhicules neufs, entretien, pices, lubrifiants, financement, location et logistique.",
 };
 
 const dealersDataset = getDealers();
@@ -30,11 +30,11 @@ const heroStats = [
     value: services.reduce((total, item) => total + item.partners.length, 0),
   },
   {
-    label: "Concessionnaires connectes",
+    label: "Concessionnaires connects",
     value: dealersDataset.length,
   },
   {
-    label: "Piliers equipes",
+    label: "Piliers quips",
     value: services.length,
   },
 ];
@@ -43,22 +43,26 @@ const timelineSteps = [
   {
     title: "Semaine 1",
     caption: "Audit parc et contenu",
-    details: "Shooting, inventaire, conformite WhatsApp Business et mise en place des gabarits.",
+    details:
+      "Shooting, inventaire, conformite WhatsApp Business et mise en place des gabarits.",
   },
   {
     title: "Semaine 2",
     caption: "Mise en ligne controlee",
-    details: "Publication des annonces, tagging des services (financement, livraison, entretien) et checklist QA.",
+    details:
+      "Publication des annonces, tagging des services (financement, livraison, entretien) et checklist QA.",
   },
   {
     title: "Semaine 3",
     caption: "Activation marketing",
-    details: "Campagnes social ads, SMS et email avec scoring leads, suivi dans le tableau de bord concessionnaire.",
+    details:
+      "Campagnes social ads, SMS et email avec scoring leads, suivi dans le tableau de bord concessionnaire.",
   },
   {
     title: "Semaine 4",
     caption: "Reporting et upsell",
-    details: "Analyse GMV, taux de conversion, chantiers upsell (pieces, lubrifiants, assurance) avec plan d action.",
+    details:
+      "Analyse GMV, taux de conversion, chantiers upsell (pieces, lubrifiants, assurance) avec plan d action.",
   },
 ];
 
@@ -88,47 +92,80 @@ const faqItems = [
 export default function ServicesPage(): JSX.Element {
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <section className="border-b border-border bg-gradient-to-br from-white via-brand/10 to-transparent py-16">
-        <AnimatedSection className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-4">
-            <p className="text-xs uppercase tracking-[0.3em] text-brand">
-              Vision marketplace 360
-            </p>
-            <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-              Les 7 piliers services Auto Nexus BJ
-            </h1>
-            <p className="max-w-2xl text-base text-muted-foreground sm:text-lg">
-              Du sourcing a la livraison, chaque pilier organise les offres partenaires, les campagnes marketing et le reporting pour convaincre investisseurs et concessionnaires.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild size="lg">
-                <Link href="/investisseurs">Voir la demo investisseur</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link
-                  href={buildWhatsappLink(
-                    "95606058",
-                    "Bonjour Auto Nexus BJ, je souhaite planifier une presentation services.",
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Prendre un call WhatsApp
-                </Link>
-              </Button>
-            </div>
-          </div>
-          <div className="grid w-full max-w-sm gap-4 rounded-2xl border border-brand/20 bg-white/90 p-6 shadow-lg sm:grid-cols-3 lg:grid-cols-1">
-            {heroStats.map((stat) => (
-              <div key={stat.label} className="space-y-1">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                  {stat.label}
-                </p>
-                <p className="text-3xl font-semibold text-foreground">
-                  {stat.value.toString().padStart(2, "0")}
+      <section className="relative isolate overflow-hidden border-b border-border bg-gradient-to-br from-white via-brand/10 to-transparent">
+        <AnimatedSection className="mx-auto w-full max-w-6xl px-6 py-16 lg:py-24">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+            <div className="space-y-8">
+              <Badge className="w-fit bg-brand/15 text-brand">
+                Vision marketplace 360
+              </Badge>
+              <div className="space-y-4">
+                <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+                  Les 7 piliers services Auto Nexus BJ
+                </h1>
+                <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
+                  Du sourcing a la livraison, chaque pilier consolide l offre partenaire,
+                  structure les campagnes marketing et pilote les KPI pour convaincre
+                  investisseurs et concessionnaires.
                 </p>
               </div>
-            ))}
+              <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                <Badge variant="outline" className="border-border/70">
+                  Neufs et reprise
+                </Badge>
+                <Badge variant="outline" className="border-border/70">
+                  Services atelier
+                </Badge>
+                <Badge variant="outline" className="border-border/70">
+                  Financement et logistique
+                </Badge>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg">
+                  <Link href="/investisseurs">Voir la demo investisseur</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link
+                    href={buildWhatsappLink(
+                      "95606058",
+                      "Bonjour Auto Nexus BJ, je souhaite planifier une presentation services.",
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Prendre un call WhatsApp
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="ghost">
+                  <Link href="#services">Explorer les modules</Link>
+                </Button>
+              </div>
+            </div>
+            <div className="grid gap-4">
+              <Card className="border-border/70 bg-white/95 shadow-lg">
+                <CardContent className="space-y-3 p-6 text-sm text-muted-foreground">
+                  <p className="font-semibold text-foreground">Objectif services</p>
+                  <p>
+                    Orchestrer un back-office unifie: onboarding concessionnaires,
+                    shooting premium, segmentation leads et upsell finance ou logistique.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="border-border/70 bg-white/95 shadow-lg">
+                <CardContent className="grid gap-4 p-6 sm:grid-cols-3 lg:grid-cols-1">
+                  {heroStats.map((stat) => (
+                    <div key={stat.label} className="space-y-1">
+                      <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                        {stat.label}
+                      </p>
+                      <p className="text-2xl font-semibold text-foreground">
+                        {stat.value.toString().padStart(2, "0")}
+                      </p>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </AnimatedSection>
       </section>
@@ -141,7 +178,9 @@ export default function ServicesPage(): JSX.Element {
                 Pourquoi ces 7 piliers ?
               </CardTitle>
               <CardDescription className="text-base text-muted-foreground">
-                Auto Nexus BJ combine l acquisition de vehicules, les services a forte marge et un suivi unifie (GMV, leads, satisfaction). Chaque pilier a ses owners, ses SLA et son plan de monetisation.
+                Auto Nexus BJ combine l acquisition de vehicules, les services a forte
+                marge et un suivi unifie (GMV, leads, satisfaction). Chaque pilier a ses
+                owners, ses SLA et son plan de monetisation.
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -162,52 +201,52 @@ export default function ServicesPage(): JSX.Element {
           </Card>
         </AnimatedSection>
 
-        <AnimatedSection
-          delay={0.05}
-          className="mx-auto grid w-full max-w-6xl gap-8 px-6 md:grid-cols-2"
-        >
-          {services.map((pillar, index) => (
-            <Card
-              key={pillar.id}
-              className="border-border/70 bg-white/95 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-            >
-              <CardHeader className="space-y-2">
-                <CardTitle className="flex items-center justify-between text-lg text-foreground">
-                  <span>{pillar.title}</span>
-                  <Badge variant="secondary">{index + 1}</Badge>
-                </CardTitle>
-                <CardDescription>{pillar.subtitle}</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  {pillar.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {pillar.partners.map((partner) => (
-                    <Badge key={partner} variant="outline">
-                      {partner}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter className="flex items-center justify-between border-t border-border/60 bg-muted/20 p-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                <span>Pilotage pret</span>
-                <Button asChild size="sm" variant="outline">
-                  <Link
-                    href={buildWhatsappLink(
-                      "95606058",
-                      `Bonjour Auto Nexus BJ, interess(e) par le pilier ${pillar.title}.`,
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Echanger
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </AnimatedSection>
+        <div id="services">
+          <AnimatedSection
+            delay={0.05}
+            className="mx-auto grid w-full max-w-6xl gap-8 px-6 md:grid-cols-2"
+          >
+            {services.map((pillar, index) => (
+              <Card
+                key={pillar.id}
+                className="border-border/70 bg-white/95 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+              >
+                <CardHeader className="space-y-2">
+                  <CardTitle className="flex items-center justify-between text-lg text-foreground">
+                    <span>{pillar.title}</span>
+                    <Badge variant="secondary">{index + 1}</Badge>
+                  </CardTitle>
+                  <CardDescription>{pillar.subtitle}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-sm text-muted-foreground">{pillar.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {pillar.partners.map((partner) => (
+                      <Badge key={partner} variant="outline">
+                        {partner}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+                <CardFooter className="flex items-center justify-between border-t border-border/60 bg-muted/20 p-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                  <span>Pilotage pret</span>
+                  <Button asChild size="sm" variant="outline">
+                    <Link
+                      href={buildWhatsappLink(
+                        "95606058",
+                        `Bonjour Auto Nexus BJ, interess(e) par le pilier ${pillar.title}.`,
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Echanger
+                    </Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </AnimatedSection>
+        </div>
 
         <AnimatedSection className="mx-auto w-full max-w-6xl px-6">
           <Card className="border-border/70 bg-white/95 shadow-sm">
@@ -216,7 +255,8 @@ export default function ServicesPage(): JSX.Element {
                 Timeline activation marketplace
               </CardTitle>
               <CardDescription className="text-base text-muted-foreground">
-                Un mois pour publier le parc, activer les services et deployer les campagnes co-brandées.
+                Un mois pour publier le parc, activer les services et deployer des
+                campagnes co-brandees.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -247,7 +287,8 @@ export default function ServicesPage(): JSX.Element {
                 Un guichet unique pour investisseurs et concessionnaires
               </h2>
               <p className="text-base text-muted-foreground">
-                Reporting GMV, gestion des leads, campagnes marketing et modules admin: tout est centralise pour partager des indicateurs fiables.
+                Reporting GMV, gestion des leads, campagnes marketing et modules admin:
+                tout est centralise pour partager des indicateurs fiables.
               </p>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>Tableaux de bord Vercel Analytics et LogSnag</li>
@@ -260,7 +301,8 @@ export default function ServicesPage(): JSX.Element {
                 Phase suivante
               </p>
               <p className="text-sm text-muted-foreground">
-                Reservez une session pour parcourir le prototype complet (dashboard, comparateur, modules admin).
+                Reservez une session pour parcourir le prototype complet (dashboard,
+                comparateur, modules admin).
               </p>
               <Button asChild>
                 <Link
@@ -278,10 +320,7 @@ export default function ServicesPage(): JSX.Element {
           </div>
         </AnimatedSection>
 
-        <AnimatedSection
-          delay={0.05}
-          className="mx-auto w-full max-w-6xl space-y-8 px-6"
-        >
+        <AnimatedSection delay={0.05} className="mx-auto w-full max-w-6xl space-y-8 px-6">
           <div className="space-y-3">
             <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
               Questions frequentes
@@ -292,7 +331,10 @@ export default function ServicesPage(): JSX.Element {
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {faqItems.map((item) => (
-              <Card key={item.question} className="border-border/70 bg-white/95 shadow-sm">
+              <Card
+                key={item.question}
+                className="border-border/70 bg-white/95 shadow-sm"
+              >
                 <CardHeader className="space-y-2">
                   <CardTitle className="text-lg text-foreground">
                     {item.question}
@@ -314,53 +356,82 @@ export default function ServicesPage(): JSX.Element {
             <CardHeader className="space-y-2">
               <CardTitle>Formulaire concessionnaire</CardTitle>
               <CardDescription>
-                Simule l envoi vers Supabase (table leads) avec segmentation pilier dominante.
+                Capture mock: la connexion Supabase prendra le relais pour enregistrer le
+                lead dans la table dediee.
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form className="space-y-4" action="#" method="post">
-                <Input name="dealer-name" placeholder="Nom de la concession" required />
-                <Input name="dealer-contact" placeholder="Contact principal" required />
-                <Input
-                  name="dealer-pilier"
-                  placeholder="Pilier prioritaire (ex: Neufs, Financement...)"
-                  required
-                />
-                <textarea
-                  name="dealer-message"
-                  placeholder="Volume mensuel, besoins specifiques..."
-                  className="min-h-[120px] w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-foreground shadow-sm focus-visible:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
-                />
-                <Button type="submit" className="w-full">
-                  Envoyer ma demande
-                </Button>
-              </form>
+              <LeadForm
+                context="services-concessionnaire"
+                description="Mentionnez vos volumes et le pilier prioritaire pour planifier un onboarding."
+                submitLabel="Simuler la prise de contact"
+                successMessage="Merci ! Cette simulation confirme la collecte lead. Le workflow Supabase sera branche lors du go live."
+                fields={[
+                  {
+                    name: "company",
+                    label: "Nom de la concession",
+                    placeholder: "Ex: Nexus Premium",
+                  },
+                  {
+                    name: "contact",
+                    label: "Contact principal",
+                    placeholder: "Email ou telephone",
+                  },
+                  {
+                    name: "pilier",
+                    label: "Pilier prioritaire",
+                    placeholder: "Neufs, financement, livraison...",
+                  },
+                  {
+                    name: "message",
+                    label: "Message",
+                    type: "textarea",
+                    placeholder: "Volume mensuel, objectifs, besoins spcifiques...",
+                  },
+                ]}
+              />
             </CardContent>
           </Card>
           <Card className="border-border/70 bg-white/95 shadow-sm">
             <CardHeader className="space-y-2">
               <CardTitle>Formulaire investisseur</CardTitle>
               <CardDescription>
-                Capture les attentes sur la data-room, le deck et les indicateurs financiers.
+                Version demo: les acces data-room seront envoyes automatiquement quand la
+                connexion Supabase sera operationnelle.
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form className="space-y-4" action="#" method="post">
-                <Input name="investor-name" placeholder="Nom et societe" required />
-                <Input name="investor-email" type="email" placeholder="Email professionnel" required />
-                <Input
-                  name="investor-ticket"
-                  placeholder="Montant envisage (XOF)"
-                />
-                <textarea
-                  name="investor-message"
-                  placeholder="Focus: GMV, rentabilite, roadmap produit..."
-                  className="min-h-[120px] w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-foreground shadow-sm focus-visible:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
-                />
-                <Button type="submit" className="w-full" variant="outline">
-                  Recevoir le deck
-                </Button>
-              </form>
+              <LeadForm
+                context="services-investisseur"
+                submitLabel="Recevoir le pack demo"
+                successMessage="Merci ! Lors du Jour J, ce formulaire declenchera l envoi du deck, de la timeline et du suivi meet."
+                fields={[
+                  {
+                    name: "name",
+                    label: "Nom et societe",
+                    placeholder: "Votre nom - structure",
+                  },
+                  {
+                    name: "email",
+                    label: "Email professionnel",
+                    type: "email",
+                    placeholder: "prenom.nom@entreprise.com",
+                  },
+                  {
+                    name: "ticket",
+                    label: "Ticket envisage",
+                    placeholder: "Montant vise (optionnel)",
+                    required: false,
+                  },
+                  {
+                    name: "focus",
+                    label: "Points d interet",
+                    type: "textarea",
+                    placeholder: "KPI, unit economics, roadmap produit...",
+                    required: false,
+                  },
+                ]}
+              />
             </CardContent>
           </Card>
         </AnimatedSection>

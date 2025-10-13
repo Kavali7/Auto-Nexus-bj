@@ -56,11 +56,7 @@ async function buildManifest(): Promise<ManifestEntry[]> {
     });
 
     dealer.galleryPaths.forEach((path, index) => {
-      const labels = [
-        "Showroom & exposition",
-        "Livraison client",
-        "Atelier & services",
-      ];
+      const labels = ["Showroom & exposition", "Livraison client", "Atelier & services"];
 
       entries.push({
         source: resolve("assets", "raw-media", toPngSource(path)),
@@ -82,11 +78,7 @@ async function main(): Promise<void> {
   const outputPath = resolve("scripts", "media-manifest.json");
 
   await fs.mkdir(dirname(outputPath), { recursive: true });
-  await fs.writeFile(
-    outputPath,
-    JSON.stringify(manifest, null, 2),
-    "utf8",
-  );
+  await fs.writeFile(outputPath, JSON.stringify(manifest, null, 2), "utf8");
 
   console.log(`Manifest media généré: ${outputPath} (${manifest.length} entrées).`);
 }

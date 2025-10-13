@@ -11,11 +11,7 @@ export function Skeleton({
 }: SkeletonProps): JSX.Element {
   return (
     <div
-      className={cn(
-        "rounded-md bg-muted",
-        pulse && "animate-pulse",
-        className,
-      )}
+      className={cn("rounded-md bg-muted", pulse && "animate-pulse", className)}
       {...props}
     />
   );

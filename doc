@@ -1,21 +1,21 @@
-Finaliser l’en-tête : logo SVG/PNG transparent, slogan, CTA primaires, version sticky + version mobile (hamburger + CTA persistant).
-Revoir la typographie (Hiérarchie H1–H6, interlignages, spacing global), palette, cohérence des boutons/badges; purger les caractères mal encodés (é, è, ô) dans tous les textes et fichiers de données.
-Page Accueil : hero convaincant, statistiques, carrousel/masonry véhicules, section services, témoignages/partenaires, CTA WhatsApp + formulaire de démo.
-Page Listing véhicules : filtres (marque, ville, prix), tri, affichage cartes responsive, états de chargement, badges (neuf/occasion, financement, livraison), CTA comparer/contact rapide.
-Page Détail véhicule : galerie haute qualité (zoom, plein écran, swipe mobile), fiche technique structurée, points forts, concessionnaire associé, véhicules similaires, bouton contact sticky.
-Page Concessionnaires + page détail : profils complets (logo, rating, galerie showroom, coordonnées), CTA WhatsApp, section services proposés, cartes identiques sur desktop/mobile.
-Page Services / Solutions : présenter offres, processus en étapes, FAQ, blocs “Pourquoi Auto Nexus BJ ?”, CTA contact.
-Page Investisseurs/Partenaires : storytelling, métriques clés, roadmap, boîte de contact.
-Page Dashboard (maquette statique) : exemples de widgets/analytics, tableau d’annonces, stats, CTA “Demander l’accès”.
-Page Comparateur : interface à deux/trois colonnes, sections comparées (prix, specs, highlights), animations d’ajout/retrait, CTA “Contacter concessionnaire”.
-Page Favoris / lead (si prévue) : liste sauvegardée, possibilité d’envoyer un message groupé, états vide.
-Formulaires globaux (lead, newsletter, démo) : validation client-side, messages de succès/erreur statiques, fallback email.
-Footer complet : coordonnées, liens rapides, réseaux sociaux, mentions légales, copyright.
+Finaliser l'en-tete : logo SVG/PNG transparent, slogan, CTA primaires, version sticky + version mobile (hamburger + CTA persistant).
+Revoir la typographie (Hierarchie H1-H6, interlignages, spacing global), palette, coherence des boutons/badges; purger les caracteres mal encodes (e, e, o) dans tous les textes et fichiers de donnees.
+Page Accueil : hero convaincant, statistiques, carrousel/masonry vehicules, section services, temoignages/partenaires, CTA WhatsApp + formulaire de demo.
+Page Listing vehicules : filtres (marque, ville, prix), tri, affichage cartes responsive, etats de chargement, badges (neuf/occasion, financement, livraison), CTA comparer/contact rapide.
+Page Detail vehicule : galerie haute qualite (zoom, plein ecran, swipe mobile), fiche technique structuree, points forts, concessionnaire associe, vehicules similaires, bouton contact sticky.
+Page Concessionnaires + page detail : profils complets (logo, rating, galerie showroom, coordonnees), CTA WhatsApp, section services proposes, cartes identiques sur desktop/mobile.
+Page Services / Solutions : presenter offres, processus en etapes, FAQ, blocs "Pourquoi Auto Nexus BJ ?", CTA contact.
+Page Investisseurs/Partenaires : storytelling, metriques cles, roadmap, boite de contact.
+Page Dashboard (maquette statique) : exemples de widgets/analytics, tableau d'annonces, stats, CTA "Demander l'acces".
+Page Comparateur : interface a deux/trois colonnes, sections comparees (prix, specs, highlights), animations d'ajout/retrait, CTA "Contacter concessionnaire".
+Page Favoris / lead (si prevue) : liste sauvegardee, possibilite d'envoyer un message groupe, etats vide.
+Formulaires globaux (lead, newsletter, demo) : validation client-side, messages de succes/erreur statiques, fallback email.
+Footer complet : coordonnees, liens rapides, reseaux sociaux, mentions legales, copyright.
 Composants transverses : cards, badges, skeleton loaders, modales, toasts; factoriser dans un mini design system.
-Responsive complet (≥1440, 1200, 1024, 768, 576, 360 px) : nav, cards, tableaux, formulaires, galeries; tests manuels sur simulateurs.
-Accessibilité : contrastes, focus visibles, labels ARIA pour menus/galleries, tab-order cohérent.
-Gestion des assets : sélectionner/importer photos HD (showrooms, véhicules) dans public/ ou bucket, générer versions optimisées, renseigner blurDataURL.
-Nettoyage contenu : uniformiser accents, guillemets, apostrophes, corriger textes marketing, préparer versions FR cohérentes (et option EN si souhaité).
-Tests visuels : passer Lighthouse/Chrome DevTools pour performance, CLS, PWA check (icônes, manifest).
-Documentation démo : script de présentation, captures d’écran desktop/mobile, liste des scénarios navigation; ranger dans docs/demo/.
-Préparer configuration déploiement statique (Vercel/Netlify) : variables publiques, next.config ajusté pour images locales, suppression des appels Prisma temps réel.
+Responsive complet (-- 1440, 1200, 1024, 768, 576, 360 px) : nav, cards, tableaux, formulaires, galeries; tests manuels sur simulateurs.
+Accessibilite : contrastes, focus visibles, labels ARIA pour menus/galleries, tab-order coherent.
+Gestion des assets : selectionner/importer photos HD (showrooms, vehicules) dans public/ ou bucket, generer versions optimisees, renseigner blurDataURL.
+Nettoyage contenu : uniformiser accents, guillemets, apostrophes, corriger textes marketing, preparer versions FR coherentes (et option EN si souhaite).
+Tests visuels : passer Lighthouse/Chrome DevTools pour performance, CLS, PWA check (icones, manifest).
+Documentation demo : script de presentation, captures d'ecran desktop/mobile, liste des scenarios navigation; ranger dans docs/demo/.
+Preparer configuration deploiement statique (Vercel/Netlify) : variables publiques, next.config ajuste pour images locales, suppression des appels Prisma temps reel.

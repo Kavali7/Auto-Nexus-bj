@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { CompareBar } from "@/components/compare-bar";
-import {
-  CompareProvider,
-  type CompareVehicle,
-} from "@/components/compare-context";
+import { CompareProvider, type CompareVehicle } from "@/components/compare-context";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getDealers } from "@/server/dealers";
@@ -27,14 +24,51 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Auto Nexus BJ — MVP statique",
+    default: "Auto Nexus BJ - MVP statique",
     template: "%s | Auto Nexus BJ",
   },
   description:
     "Prototype Next.js + Tailwind pour la marketplace auto Auto Nexus BJ : vision produit, arborescence et stack technique.",
   creator: "Growpeak Agence",
+  applicationName: "Auto Nexus BJ",
+  manifest: "/manifest.json",
   icons: {
-    icon: "/brand/anx-logo.png",
+    icon: [
+      { url: "/favicons/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicons/favicon-16.png", sizes: "16x16", type: "image/png" },
+    ],
+    shortcut: ["/favicons/favicon-32.png"],
+    apple: [{ url: "/favicons/favicon-180.png", sizes: "180x180", type: "image/png" }],
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/favicons/icon-maskable.png",
+        type: "image/png",
+      },
+    ],
+  },
+  openGraph: {
+    type: "website",
+    title: "Auto Nexus BJ",
+    siteName: "Auto Nexus BJ",
+    description:
+      "Prototype Next.js + Tailwind pour la marketplace auto Auto Nexus BJ : vision produit, arborescence et stack technique.",
+    locale: "fr_FR",
+    images: [
+      {
+        url: "/og/og-default.png",
+        width: 1200,
+        height: 630,
+        alt: "Auto Nexus BJ - Marketplace auto premium au Benin",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Auto Nexus BJ",
+    description:
+      "Prototype Next.js + Tailwind pour la marketplace auto Auto Nexus BJ : vision produit, arborescence et stack technique.",
+    images: ["/og/og-default.png"],
   },
 };
 

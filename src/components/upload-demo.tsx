@@ -4,10 +4,16 @@ import type { ChangeEvent } from "react";
 import { useCallback, useRef, useState } from "react";
 
 import { useSignedUpload } from "@/hooks/use-signed-upload";
+import { useDemoNotice } from "@/hooks/use-demo-notice";
+import { isStaticDemoMode } from "@/lib/demo";
+
+const STATIC_INFO_MESSAGE =
+  "Mode démo : l'upload signé est neutralisé. Branchez Supabase Storage pour activer l'envoi.";
 
 export function UploadDemo(): JSX.Element {
   const [folder, setFolder] = useState("vehicles");
   const { result, state, uploadFile, reset, isUploading } = useSignedUpload();
+  const notifyDemo = useDemoNotice();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileSelect = useCallback(
@@ -33,8 +39,11 @@ export function UploadDemo(): JSX.Element {
   );
 
   const handleButtonClick = useCallback(() => {
+    if (isStaticDemoMode) {
+      notifyDemo("uploads");
+    }
     fileInputRef.current?.click();
-  }, []);
+  }, [notifyDemo]);
 
   return (
     <div className="space-y-4">
@@ -45,6 +54,12 @@ export function UploadDemo(): JSX.Element {
         className="hidden"
         onChange={handleFileSelect}
       />
+
+      {isStaticDemoMode ? (
+        <div className="rounded-xl border border-dashed border-brand/30 bg-brand/5 p-4 text-sm text-muted-foreground">
+          {STATIC_INFO_MESSAGE}
+        </div>
+      ) : null}
 
       <div className="space-y-2">
         <label className="flex flex-col gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
@@ -59,8 +74,8 @@ export function UploadDemo(): JSX.Element {
           />
         </label>
         <p className="text-sm text-muted-foreground">
-          Sélectionnez une image pour générer une URL signée via Supabase Storage,
-          puis uploader le fichier directement depuis le navigateur.
+          Sélectionnez une image pour générer une URL signée via Supabase Storage, puis
+          uploader le fichier directement depuis le navigateur.
         </p>
       </div>
 
@@ -71,7 +86,7 @@ export function UploadDemo(): JSX.Element {
           className="inline-flex h-11 items-center justify-center rounded-md border border-transparent bg-brand px-4 text-sm font-medium text-white shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70"
           disabled={isUploading}
         >
-          {isUploading ? "Upload en cours..." : "Choisir un fichier"}
+          {isUploading ? "Upload en cours…" : "Choisir un fichier"}
         </button>
         <button
           type="button"
@@ -105,19 +120,19 @@ export function UploadDemo(): JSX.Element {
           </div>
           <div className="grid gap-1 text-xs text-muted-foreground sm:grid-cols-2">
             <div>
-              <span className="font-medium text-foreground">Bucket:</span>{" "}
+              <span className="font-medium text-foreground">Bucket :</span>{" "}
               {result.bucket}
             </div>
             <div>
-              <span className="font-medium text-foreground">Chemin:</span>{" "}
+              <span className="font-medium text-foreground">Chemin :</span>{" "}
               {result.path}
             </div>
             <div>
-              <span className="font-medium text-foreground">Expire dans:</span>{" "}
+              <span className="font-medium text-foreground">Expire dans :</span>{" "}
               {result.expiresIn}s
             </div>
             <div>
-              <span className="font-medium text-foreground">Token:</span>{" "}
+              <span className="font-medium text-foreground">Token :</span>{" "}
               <span className="break-all">{result.token}</span>
             </div>
           </div>
@@ -126,4 +141,3 @@ export function UploadDemo(): JSX.Element {
     </div>
   );
 }
-

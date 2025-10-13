@@ -32,10 +32,7 @@ export function getVehiclesByDealer(dealerId: string): Vehicle[] {
   return vehicles.filter((vehicle) => vehicle.dealerId === dealerId);
 }
 
-export function getRelatedVehicles(
-  vehicle: Vehicle,
-  limit = 3,
-): Vehicle[] {
+export function getRelatedVehicles(vehicle: Vehicle, limit = 3): Vehicle[] {
   return vehicles
     .filter(
       (candidate) =>

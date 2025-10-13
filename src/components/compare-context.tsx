@@ -49,9 +49,7 @@ interface CompareProviderProps {
   dealers: DealerSummary[];
 }
 
-const CompareContext = createContext<CompareContextValue | undefined>(
-  undefined,
-);
+const CompareContext = createContext<CompareContextValue | undefined>(undefined);
 
 export function CompareProvider({
   children,
@@ -134,9 +132,7 @@ export function CompareProvider({
   );
 
   return (
-    <CompareContext.Provider value={contextValue}>
-      {children}
-    </CompareContext.Provider>
+    <CompareContext.Provider value={contextValue}>{children}</CompareContext.Provider>
   );
 }
 

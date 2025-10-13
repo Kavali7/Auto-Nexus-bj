@@ -10,32 +10,37 @@ export async function getFavoriteSummariesByToken(
     return [];
   }
 
-  const favorites = await prisma.favorite.findMany({
-    where: {
-      visitor: {
-        sessionToken: token,
+  try {
+    const favorites = await prisma.favorite.findMany({
+      where: {
+        visitor: {
+          sessionToken: token,
+        },
       },
-    },
-    include: {
-      vehicle: {
-        include: {
-          gallery: {
-            orderBy: {
-              position: "asc",
+      include: {
+        vehicle: {
+          include: {
+            gallery: {
+              orderBy: {
+                position: "asc",
+              },
             },
           },
         },
       },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
-  return favorites.map((favorite) => ({
-    vehicle: serializeVehicle(favorite.vehicle),
-    createdAt: favorite.createdAt.toISOString(),
-  }));
+    return favorites.map((favorite) => ({
+      vehicle: serializeVehicle(favorite.vehicle),
+      createdAt: favorite.createdAt.toISOString(),
+    }));
+  } catch (error) {
+    console.warn("[prisma:fallback] favorites by token", error);
+    return [];
+  }
 }
 
 export async function getFavoritesForCurrentVisitor(): Promise<FavoriteSummary[]> {

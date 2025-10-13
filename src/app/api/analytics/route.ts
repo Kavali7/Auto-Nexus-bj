@@ -1,58 +1,35 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-
-import { Prisma } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
-import {
-  attachVisitorCookie,
-  createVisitorSession,
-  getVisitorByToken,
-  VISITOR_COOKIE_NAME,
-} from "@/server/visitors";
 
 type AnalyticsPayload = {
   event?: string;
   payload?: unknown;
 };
 
+const DEMO_MESSAGE =
+  "Demo mode: analytics events are simulated. Persistence will be enabled once Supabase is connected.";
+
 export async function POST(request: Request): Promise<NextResponse> {
-  const body = (await request.json()) as AnalyticsPayload;
+  let body: AnalyticsPayload = {};
+
+  try {
+    body = (await request.json()) as AnalyticsPayload;
+  } catch {
+    body = {};
+  }
+
   if (!body.event) {
-    return NextResponse.json({ error: "event is required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "event is required" },
+      { status: 400, headers: { "Cache-Control": "no-store" } },
+    );
   }
 
-  const store = await cookies();
-  let token = store.get(VISITOR_COOKIE_NAME)?.value;
-  let visitor = token ? await getVisitorByToken(token) : null;
-  let createdSession = false;
-  let payload: Prisma.InputJsonValue | Prisma.NullableJsonNullValueInput | undefined;
-
-  if (body.payload === undefined) {
-    payload = undefined;
-  } else if (body.payload === null) {
-    payload = Prisma.JsonNull;
-  } else {
-    payload = body.payload as Prisma.InputJsonValue;
-  }
-
-  if (!visitor) {
-    const session = await createVisitorSession();
-    visitor = session.visitor;
-    token = session.token;
-    createdSession = true;
-  }
-
-  await prisma.analyticsEvent.create({
-    data: {
-      event: body.event,
-      ...(payload !== undefined ? { payload } : {}),
-      visitorId: visitor?.id,
+  return NextResponse.json(
+    {
+      ok: true,
+      demo: true,
+      message: DEMO_MESSAGE,
     },
-  });
-
-  const response = NextResponse.json({ ok: true });
-  if (createdSession && token) {
-    attachVisitorCookie(response.cookies, token);
-  }
-  return response;
+    { status: 202, headers: { "Cache-Control": "no-store" } },
+  );
 }

@@ -12,16 +12,12 @@ async function list(prefix = "", indent = ""): Promise<void> {
   });
 
   if (error) {
-    throw new Error(
-      `Erreur lors du listing du prefixe "${prefix}": ${error.message}`,
-    );
+    throw new Error(`Erreur lors du listing du prefixe "${prefix}": ${error.message}`);
   }
 
   for (const entry of data ?? []) {
     const path = prefix ? `${prefix}/${entry.name}` : entry.name;
-    const display = entry.name.endsWith("/")
-      ? `${entry.name} (folder)`
-      : entry.name;
+    const display = entry.name.endsWith("/") ? `${entry.name} (folder)` : entry.name;
 
     console.log(`${indent}${display}`);
 

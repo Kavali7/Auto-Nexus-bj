@@ -5,10 +5,7 @@
 import type { ChangeEvent } from "react";
 import { useCallback, useMemo, useRef, useState } from "react";
 
-import {
-  type SignedUploadResponse,
-  useSignedUpload,
-} from "@/hooks/use-signed-upload";
+import { type SignedUploadResponse, useSignedUpload } from "@/hooks/use-signed-upload";
 
 type GalleryItem = SignedUploadResponse & {
   originalName: string;
@@ -55,8 +52,7 @@ export function VehicleMediaUploader(): JSX.Element {
           ...current,
         ]);
       } catch (error) {
-        const message =
-          error instanceof Error ? error.message : String(error ?? "");
+        const message = error instanceof Error ? error.message : String(error ?? "");
         setFormMessage(
           message || "Impossible d'uploader le fichier. Vérifiez la console.",
         );
@@ -94,8 +90,7 @@ export function VehicleMediaUploader(): JSX.Element {
     [vehicleName, notes, gallery],
   );
 
-  const consolidatedMessage =
-    formMessage ?? state.error ?? state.message ?? undefined;
+  const consolidatedMessage = formMessage ?? state.error ?? state.message ?? undefined;
 
   return (
     <div className="space-y-4">
@@ -149,8 +144,8 @@ export function VehicleMediaUploader(): JSX.Element {
             Réinitialiser la sélection
           </button>
           <p className="text-sm text-muted-foreground">
-            Chaque image passe par `/api/uploads/sign` puis est uploadée sur
-            Supabase Storage.
+            Chaque image passe par `/api/uploads/sign` puis est uploadée sur Supabase
+            Storage.
           </p>
         </div>
 
@@ -183,12 +178,8 @@ export function VehicleMediaUploader(): JSX.Element {
                     loading="lazy"
                   />
                   <div className="space-y-1 border-t border-border bg-muted/20 p-3 text-xs text-muted-foreground">
-                    <p className="font-medium text-foreground">
-                      {item.originalName}
-                    </p>
-                    <p className="break-all">
-                      {item.path.replace(/^vehicles\//, "")}
-                    </p>
+                    <p className="font-medium text-foreground">{item.originalName}</p>
+                    <p className="break-all">{item.path.replace(/^vehicles\//, "")}</p>
                     <button
                       type="button"
                       onClick={() => handleRemove(item.path)}
@@ -216,8 +207,8 @@ export function VehicleMediaUploader(): JSX.Element {
           <code>{payloadPreview}</code>
         </pre>
         <p className="text-xs text-muted-foreground">
-          Branchez ce payload sur votre mutation Prisma (ex: `Vehicle.create`) en
-          stockant `path` et `publicUrl` pour alimenter les galeries front.
+          Branchez ce payload sur votre mutation Prisma (ex: `Vehicle.create`) en stockant
+          `path` et `publicUrl` pour alimenter les galeries front.
         </p>
       </div>
     </div>

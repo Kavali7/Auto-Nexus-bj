@@ -205,23 +205,18 @@ async function uploadVariant(
     );
   }
 
-  const response = await supabase.storage.from(params.bucket).upload(
-    params.path,
-    params.buffer,
-    {
+  const response = await supabase.storage
+    .from(params.bucket)
+    .upload(params.path, params.buffer, {
       contentType: params.contentType,
       cacheControl: "31536000",
       upsert: true,
-    },
-  );
+    });
 
   if (response.error) {
-    throw new Error(
-      `Echec upload Supabase (${params.path}): ${response.error.message}`,
-    );
+    throw new Error(`Echec upload Supabase (${params.path}): ${response.error.message}`);
   }
 
-  // TODO: dès que le client Supabase expose updateMetadata, propager params.metadata.
   void params.metadata;
 }
 
@@ -270,10 +265,7 @@ async function processManifest({
     ]);
 
     const normalizedTarget = entry.target.replace(/\\/g, "/");
-    const basePath = normalizedTarget.replace(
-      /(\.jpg|\.jpeg|\.png|\.webp|\.avif)$/i,
-      "",
-    );
+    const basePath = normalizedTarget.replace(/(\.jpg|\.jpeg|\.png|\.webp|\.avif)$/i, "");
 
     const variantConfigs: Array<{
       key: keyof typeof variants;

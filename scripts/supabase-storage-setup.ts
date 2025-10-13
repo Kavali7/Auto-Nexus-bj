@@ -18,9 +18,7 @@ async function main() {
     await supabase.storage.getBucket(bucket);
 
   if (getError && !/not found/i.test(getError.message ?? "")) {
-    throw new Error(
-      `Erreur Supabase lors de la lecture du bucket: ${getError.message}`,
-    );
+    throw new Error(`Erreur Supabase lors de la lecture du bucket: ${getError.message}`);
   }
 
   if (existingBucket) {

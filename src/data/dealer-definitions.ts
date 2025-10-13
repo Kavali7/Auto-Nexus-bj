@@ -5,8 +5,7 @@ type DealerMedia = {
   galleryPaths: string[];
 };
 
-export type DealerDefinition = Omit<Dealer, "heroImage" | "gallery"> &
-  DealerMedia;
+export type DealerDefinition = Omit<Dealer, "heroImage" | "gallery"> & DealerMedia;
 
 export const dealerDefinitions: DealerDefinition[] = [
   {
@@ -17,14 +16,14 @@ export const dealerDefinitions: DealerDefinition[] = [
     phone: "95606058",
     whatsapp: "95606058",
     email: "hello@nexuspremium.bj",
-    headline: "Sélection prestige avec financement express",
+    headline: "Selection prestige avec financement express",
     rating: 4.8,
     ratingCount: 86,
     logo: "/brand/anx-logo.png",
     specialties: ["SUV premium", "Import USA", "Financement"],
     address: "Boulevard de la Marina, Cotonou",
     description:
-      "Showroom phare Auto Nexus BJ : véhicules certifiés avec historique transparent, pack photo complet et garanties partenaires.",
+      "Showroom phare Auto Nexus BJ : vehicules certifies avec historique transparent, pack photo complet et garanties partenaires.",
     website: "https://autonexus.bj/nexus-premium",
     social: {
       instagram: "https://instagram.com/nexuspremiumautos",
@@ -43,18 +42,18 @@ export const dealerDefinitions: DealerDefinition[] = [
   {
     id: "cfaomotors",
     slug: "cfaomotors",
-    name: "CFAO Motors Bénin",
+    name: "CFAO Motors Benin",
     city: "Cotonou",
     phone: "95606058",
     whatsapp: "95606058",
     email: "contact@cfaomotors.bj",
-    headline: "Concession officielle multi-marques avec atelier certifié",
+    headline: "Concession officielle multi-marques avec atelier certifie",
     rating: 4.6,
     ratingCount: 134,
-    specialties: ["Neufs", "Atelier certifié", "Fleet"],
+    specialties: ["Neufs", "Atelier certifie", "Fleet"],
     address: "PK3 Route de Porto-Novo, Cotonou",
     description:
-      "Importateur officiel. Gamme Toyota, Suzuki, Daihatsu, services après-vente premium et solutions corporate.",
+      "Importateur officiel. Gamme Toyota, Suzuki, Daihatsu, services apres-vente premium et solutions corporate.",
     website: "https://www.cfaogroup.com",
     foundedYear: 2005,
     staffCount: 120,
@@ -73,12 +72,12 @@ export const dealerDefinitions: DealerDefinition[] = [
     city: "Porto-Novo",
     phone: "95606058",
     whatsapp: "95606058",
-    headline: "Occasions récentes, focus pick-up & utilitaires",
+    headline: "Occasions recentes, focus pick-up & utilitaires",
     rating: 4.4,
     ratingCount: 52,
     specialties: ["Pick-up", "Utilitaires", "Garanties 6 mois"],
     description:
-      "Sélection d'utilitaires import UE et Asie, révisés et livrés avec carnet d'entretien digital.",
+      "Selection d'utilitaires import UE et Asie, revises et livres avec carnet d'entretien digital.",
     foundedYear: 2014,
     staffCount: 18,
     inventorySize: 48,
@@ -96,12 +95,12 @@ export const dealerDefinitions: DealerDefinition[] = [
     city: "Parakou",
     phone: "95606058",
     whatsapp: "95606058",
-    headline: "SUV & berlines familiales prêts à partir",
+    headline: "SUV & berlines familiales prets a partir",
     rating: 4.7,
     ratingCount: 64,
     specialties: ["SUV urbains", "Berlines", "Location avec option d'achat"],
     description:
-      "Spécialiste véhicules familiaux, livraison dans tout le Bénin et pack photo 360° disponible.",
+      "Specialiste vehicules familiaux, livraison dans tout le Benin et pack photo 360 deg  disponible.",
     foundedYear: 2010,
     staffCount: 30,
     inventorySize: 54,
@@ -120,13 +119,13 @@ export const dealerDefinitions: DealerDefinition[] = [
     phone: "91887766",
     whatsapp: "91887766",
     email: "contact@atlanticmotors.bj",
-    headline: "Hybrides & électriques premium prêts à livrer",
+    headline: "Hybrides & electriques premium prets a livrer",
     rating: 4.5,
     ratingCount: 41,
-    specialties: ["Hybrides", "Électriques", "Fleet corporate"],
+    specialties: ["Hybrides", "Electriques", "Fleet corporate"],
     address: "Zone commerciale Les Cocotiers, Cotonou",
     description:
-      "Concessionnaire spécialisé dans les motorisations électrifiées, accompagnement financement vert et maintenance dédiée.",
+      "Concessionnaire specialise dans les motorisations electrifiees, accompagnement financement vert et maintenance dediee.",
     website: "https://atlanticmotors.bj",
     foundedYear: 2019,
     staffCount: 22,

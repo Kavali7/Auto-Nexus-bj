@@ -75,9 +75,9 @@ export function ComparePageContent(): JSX.Element {
               Comparez vos vehicules coups de coeur
             </h1>
             <p className="max-w-3xl text-base text-muted-foreground sm:text-lg">
-              Cette vue statique illustre la future experience Meilisearch : ajouter
-              des vehicules depuis le listing ou les fiches et retrouvez-les ici
-              pour un tableau comparatif detaille.
+              Cette vue statique illustre la future experience Meilisearch : ajouter des
+              vehicules depuis le listing ou les fiches et retrouvez-les ici pour un
+              tableau comparatif detaille.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -98,8 +98,8 @@ export function ComparePageContent(): JSX.Element {
               <CardHeader>
                 <CardTitle>Aucun vehicule selectionne</CardTitle>
                 <CardDescription>
-                  Ajoutez des vehicules via le bouton &quot;Ajouter au comparer&quot; sur les
-                  listings ou fiches pour visualiser le tableau comparatif.
+                  Ajoutez des vehicules via le bouton &quot;Ajouter au comparer&quot; sur
+                  les listings ou fiches pour visualiser le tableau comparatif.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -145,10 +145,7 @@ export function ComparePageContent(): JSX.Element {
                           {vehicle.dealerName}
                         </span>
                       </p>
-                      <CompareToggleButton
-                        vehicleId={vehicle.id}
-                        size="sm"
-                      >
+                      <CompareToggleButton vehicleId={vehicle.id} size="sm">
                         Retirer du comparateur
                       </CompareToggleButton>
                     </CardContent>
@@ -160,8 +157,8 @@ export function ComparePageContent(): JSX.Element {
                 <CardHeader>
                   <CardTitle>Tableau comparatif</CardTitle>
                   <CardDescription>
-                    Apercu de la grille Phase 2 : colonnes dynamiques, filtres,
-                    export PDF et stickiness sur desktop.
+                    Apercu de la grille Phase 2 : colonnes dynamiques, filtres, export PDF
+                    et stickiness sur desktop.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="overflow-x-auto">
@@ -180,11 +177,12 @@ export function ComparePageContent(): JSX.Element {
                           key={row.label}
                           className="grid grid-cols-[160px_repeat(auto-fit,minmax(160px,1fr))] gap-2"
                         >
-                          <span className="font-medium text-foreground">
-                            {row.label}
-                          </span>
+                          <span className="font-medium text-foreground">{row.label}</span>
                           {entries.map((vehicle) => (
-                            <span key={`${vehicle.id}-${row.label}`} className="text-center">
+                            <span
+                              key={`${vehicle.id}-${row.label}`}
+                              className="text-center"
+                            >
                               {row.accessor(vehicle)}
                             </span>
                           ))}

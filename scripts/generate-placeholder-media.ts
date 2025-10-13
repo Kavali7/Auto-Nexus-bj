@@ -51,8 +51,7 @@ function buildVehicleTasks(): Map<string, PlaceholderTask> {
       const normalized = normalizeTargetPath(media.file);
       const pngSource = normalized.replace(/\.jpg$/i, ".png");
       const sourcePath = resolve(OUTPUT_ROOT, pngSource);
-      const palette =
-        vehiclePalette[media.kind] ?? vehiclePalette.STANDARD;
+      const palette = vehiclePalette[media.kind] ?? vehiclePalette.STANDARD;
 
       tasks.set(normalized, {
         sourcePath,
@@ -83,10 +82,7 @@ function buildDealerTasks(): Map<string, PlaceholderTask> {
     dealer.galleryPaths.forEach((path, index) => {
       const normalized = normalizeTargetPath(path);
       tasks.set(normalized, {
-        sourcePath: resolve(
-          OUTPUT_ROOT,
-          normalized.replace(/\.jpg$/i, ".png"),
-        ),
+        sourcePath: resolve(OUTPUT_ROOT, normalized.replace(/\.jpg$/i, ".png")),
         title: dealer.name,
         subtitle:
           index === 0
@@ -151,19 +147,14 @@ async function generatePlaceholder(task: PlaceholderTask): Promise<void> {
 
   const svgBuffer = Buffer.from(svg);
 
-  await sharp(svgBuffer)
-    .png({ quality: 100 })
-    .toFile(sourcePath);
+  await sharp(svgBuffer).png({ quality: 100 }).toFile(sourcePath);
 }
 
 async function main(): Promise<void> {
   const vehicleTasks = buildVehicleTasks();
   const dealerTasks = buildDealerTasks();
 
-  const mergedTasks = new Map<string, PlaceholderTask>([
-    ...vehicleTasks,
-    ...dealerTasks,
-  ]);
+  const mergedTasks = new Map<string, PlaceholderTask>([...vehicleTasks, ...dealerTasks]);
 
   let created = 0;
   for (const task of mergedTasks.values()) {

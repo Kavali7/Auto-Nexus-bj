@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 
 import { AnimatedSection } from "@/components/animated-section";
@@ -52,27 +52,83 @@ const fallbackReasonLabel: Record<VehicleSearchFallbackReason, string> = {
   "missing-documents": "Documents manquants",
 };
 
-async function searchFetcher(
-  [
-    ,
-    query,
-    brandFilter,
-    cityFilter,
-    fuelFilter,
-    conditionFilter,
-    priceFilter,
-    limitValue,
-  ]: readonly [
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-    PriceFilterValue,
-    string,
-  ],
-): Promise<VehicleSearchResponse> {
+type FilterState = {
+  query: string;
+  brand: string;
+  city: string;
+  fuel: string;
+  condition: string;
+  priceRange: PriceFilterValue;
+};
+
+function applyFiltersToVehicles(
+  vehicles: VehicleSummary[],
+  filters: FilterState,
+): VehicleSummary[] {
+  const tokens = filters.query.toLowerCase().split(/\s+/).filter(Boolean);
+
+  const priceConfig = priceFilterMap[filters.priceRange];
+
+  return vehicles.filter((vehicle) => {
+    if (filters.brand !== "Toutes" && vehicle.brand !== filters.brand) {
+      return false;
+    }
+    if (filters.city !== "Toutes" && vehicle.city !== filters.city) {
+      return false;
+    }
+    if (filters.fuel !== "Tout" && vehicle.fuel !== filters.fuel) {
+      return false;
+    }
+    if (filters.condition !== "Toutes" && vehicle.condition !== filters.condition) {
+      return false;
+    }
+    if (priceConfig?.min !== undefined && vehicle.price < priceConfig.min) {
+      return false;
+    }
+    if (priceConfig?.max !== undefined && vehicle.price > priceConfig.max) {
+      return false;
+    }
+
+    if (tokens.length > 0) {
+      const haystack = [
+        vehicle.brand,
+        vehicle.model,
+        vehicle.city,
+        String(vehicle.year ?? ""),
+        vehicle.transmission ?? "",
+        vehicle.fuel ?? "",
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      if (!tokens.every((token) => haystack.includes(token))) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+}
+
+async function searchFetcher([
+  ,
+  query,
+  brandFilter,
+  cityFilter,
+  fuelFilter,
+  conditionFilter,
+  priceFilter,
+  limitValue,
+]: readonly [
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  PriceFilterValue,
+  string,
+]): Promise<VehicleSearchResponse> {
   const filters: VehicleSearchRequest["filters"] = {};
 
   if (brandFilter && brandFilter !== "Toutes") {
@@ -135,6 +191,10 @@ export function VehiclesExplorer({
   const [condition, setCondition] = useState<ConditionFilter>("Toutes");
   const [priceRange, setPriceRange] = useState<PriceFilterValue>("all");
   const [resultLimit, setResultLimit] = useState(pageSize);
+  const [forceMockMode, setForceMockMode] = useState(false);
+  const [fallbackReasonState, setFallbackReasonState] = useState<
+    VehicleSearchFallbackReason | undefined
+  >(undefined);
 
   useEffect(() => {
     const timeout = setTimeout(() => setDebouncedSearch(search), 200);
@@ -150,71 +210,205 @@ export function VehiclesExplorer({
     [dealers],
   );
 
-  const initialResponse = useMemo<VehicleSearchResponse>(
-    () => ({
-      hits: vehicles,
-      estimatedTotalHits: vehicles.length,
-      source: "database",
-      fallback: false,
-    }),
-    [vehicles],
-  );
-
-  const swrKey = useMemo(
+  const filteredMockResults = useMemo(
     () =>
-      [
-        "vehicles-search",
-        debouncedSearch,
+      applyFiltersToVehicles(vehicles, {
+        query: debouncedSearch,
         brand,
         city,
         fuel,
         condition,
         priceRange,
-        resultLimit.toString(),
-      ] as const,
-    [debouncedSearch, brand, city, fuel, condition, priceRange, resultLimit],
+      }),
+    [vehicles, debouncedSearch, brand, city, fuel, condition, priceRange],
+  );
+
+  const hasUserFilters =
+    debouncedSearch.trim().length > 0 ||
+    brand !== "Toutes" ||
+    city !== "Toutes" ||
+    fuel !== "Tout" ||
+    condition !== "Toutes" ||
+    priceRange !== "all";
+
+  const shouldUseRemote = hasUserFilters && !forceMockMode;
+
+  const initialResponse = useMemo<VehicleSearchResponse>(
+    () => ({
+      hits: filteredMockResults,
+      estimatedTotalHits: filteredMockResults.length,
+      source: "database",
+      fallback: forceMockMode || (hasUserFilters && !shouldUseRemote),
+      fallbackReason:
+        forceMockMode || (hasUserFilters && !shouldUseRemote)
+          ? fallbackReasonState
+          : undefined,
+    }),
+    [
+      filteredMockResults,
+      hasUserFilters,
+      shouldUseRemote,
+      forceMockMode,
+      fallbackReasonState,
+    ],
+  );
+
+  const swrKey = useMemo(
+    () =>
+      !shouldUseRemote
+        ? null
+        : ([
+            "vehicles-search",
+            debouncedSearch,
+            brand,
+            city,
+            fuel,
+            condition,
+            priceRange,
+            resultLimit.toString(),
+          ] as const),
+    [
+      shouldUseRemote,
+      debouncedSearch,
+      brand,
+      city,
+      fuel,
+      condition,
+      priceRange,
+      resultLimit,
+    ],
+  );
+
+  const handleSearch = useCallback(
+    async (
+      key: readonly [
+        string,
+        string,
+        string,
+        string,
+        string,
+        string,
+        PriceFilterValue,
+        string,
+      ],
+    ): Promise<VehicleSearchResponse> => {
+      const [
+        ,
+        queryValue,
+        brandValue,
+        cityValue,
+        fuelValue,
+        conditionValue,
+        priceValue,
+        limitValue,
+      ] = key;
+
+      try {
+        const response = await searchFetcher(key);
+
+        if (response.fallback) {
+          setFallbackReasonState(response.fallbackReason ?? "meilisearch-error");
+          setForceMockMode(true);
+        } else {
+          setFallbackReasonState(undefined);
+        }
+
+        return response;
+      } catch (error) {
+        console.error("Vehicle search failed", error);
+        setFallbackReasonState("meilisearch-error");
+        setForceMockMode(true);
+
+        const fallbackHits = applyFiltersToVehicles(vehicles, {
+          query: queryValue,
+          brand: brandValue,
+          city: cityValue,
+          fuel: fuelValue,
+          condition: conditionValue,
+          priceRange: priceValue,
+        });
+
+        const parsedLimit = Number.parseInt(limitValue, 10);
+        const limitedHits = Number.isNaN(parsedLimit)
+          ? fallbackHits
+          : fallbackHits.slice(0, parsedLimit);
+
+        return {
+          hits: limitedHits,
+          estimatedTotalHits: fallbackHits.length,
+          source: "database",
+          fallback: true,
+          fallbackReason: "meilisearch-error",
+        };
+      }
+    },
+    [vehicles],
   );
 
   const {
-    data: searchData,
-    error: searchError,
+    data: remoteData,
     isLoading,
     isValidating,
-  } = useSWR<VehicleSearchResponse>(swrKey, searchFetcher, {
+  } = useSWR<VehicleSearchResponse>(swrKey, handleSearch, {
     fallbackData: initialResponse,
     keepPreviousData: true,
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
     revalidateIfStale: false,
+    shouldRetryOnError: false,
   });
 
-  const resultMeta = searchData ?? initialResponse;
-  const fullResults = searchData?.hits ?? initialResponse.hits;
-  const visibleResults = fullResults.slice(0, resultLimit);
-  const totalResults = resultMeta.estimatedTotalHits ?? fullResults.length;
-  const isSearching = isLoading || isValidating;
+  const usingRemoteData =
+    Boolean(remoteData) && shouldUseRemote && !remoteData?.fallback && !forceMockMode;
 
-  const brandOptions = useMemo(
-    () => [
-      "Toutes",
-      ...Array.from(new Set(vehicles.map((vehicle) => vehicle.brand))),
-    ],
-    [vehicles],
-  );
-  const cityOptions = useMemo(
-    () => [
-      "Toutes",
-      ...Array.from(new Set(vehicles.map((vehicle) => vehicle.city))),
-    ],
-    [vehicles],
-  );
-  const fuelOptions = useMemo(
-    () => [
-      "Tout",
-      ...Array.from(new Set(vehicles.map((vehicle) => vehicle.fuel))),
-    ],
-    [vehicles],
-  );
+  const results = usingRemoteData ? remoteData!.hits : filteredMockResults;
+
+  const totalResults = usingRemoteData
+    ? (remoteData!.estimatedTotalHits ?? remoteData!.hits.length)
+    : filteredMockResults.length;
+
+  const visibleResults = results.slice(0, resultLimit);
+
+  const fallbackActive =
+    !usingRemoteData && (forceMockMode || (shouldUseRemote && hasUserFilters));
+
+  const fallbackReason = fallbackActive
+    ? (fallbackReasonState ?? remoteData?.fallbackReason)
+    : undefined;
+
+  const resultMeta: VehicleSearchResponse = usingRemoteData
+    ? remoteData!
+    : {
+        hits: results,
+        estimatedTotalHits: totalResults,
+        source: "database",
+        fallback: fallbackActive,
+        fallbackReason,
+      };
+
+  const isSearching = shouldUseRemote ? isLoading || isValidating : false;
+  const fallbackLabel = fallbackReason ? fallbackReasonLabel[fallbackReason] : undefined;
+
+  const brandOptions = useMemo(() => {
+    const brands = Array.from(new Set(vehicles.map((vehicle) => vehicle.brand))).sort(
+      (a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }),
+    );
+    return ["Toutes", ...brands];
+  }, [vehicles]);
+
+  const cityOptions = useMemo(() => {
+    const cities = Array.from(new Set(vehicles.map((vehicle) => vehicle.city))).sort(
+      (a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }),
+    );
+    return ["Toutes", ...cities];
+  }, [vehicles]);
+
+  const fuelOptions = useMemo(() => {
+    const fuels = Array.from(new Set(vehicles.map((vehicle) => vehicle.fuel))).sort(
+      (a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }),
+    );
+    return ["Tout", ...fuels];
+  }, [vehicles]);
   const conditionOptions: ConditionFilter[] = ["Toutes", "Neuf", "Occasion"];
   const priceOptions = useMemo(
     () =>
@@ -267,22 +461,19 @@ export function VehiclesExplorer({
                 Filtrez par marque, ville, energie et budget
               </h2>
               <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
-                Cette vue simule Meilisearch : combinaisons multi-filtres, tri et suggestions pour alimenter le comparateur.
+                Cette vue simule Meilisearch : combinaisons multi-filtres, tri et
+                suggestions pour alimenter le comparateur.
               </p>
             </div>
             <div className="flex flex-col gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
               <span>Hits trouves : {resultMeta.estimatedTotalHits}</span>
               <span>
                 Source :{" "}
-                {resultMeta.source === "meilisearch"
-                  ? "Meilisearch"
-                  : "Base de donnees"}
+                {resultMeta.source === "meilisearch" ? "Meilisearch" : "Base de donnees"}
                 {resultMeta.fallback ? " (fallback)" : ""}
               </span>
               {resultMeta.fallbackReason ? (
-                <span>
-                  Raison : {fallbackReasonLabel[resultMeta.fallbackReason]}
-                </span>
+                <span>Raison : {fallbackReasonLabel[resultMeta.fallbackReason]}</span>
               ) : null}
             </div>
           </div>
@@ -331,9 +522,9 @@ export function VehiclesExplorer({
                 ? "Recherche en cours..."
                 : `${visibleResults.length} / ${totalResults} resultats`}
             </Badge>
-            {searchError ? (
-              <span className="text-red-600">
-                Erreur de recherche - donnees en cache affichees
+            {fallbackActive ? (
+              <span className="text-xs text-amber-600">
+                Mode fallback actif{fallbackLabel ? ` - ${fallbackLabel}` : ""}
               </span>
             ) : null}
             {search ||
@@ -354,7 +545,8 @@ export function VehiclesExplorer({
           </p>
           <p className="text-sm text-muted-foreground">
             Ces modeles ont plusieurs offres - parfait pour la demo comparateur.
-            Ajoutez-les via &quot;Ajouter au comparer&quot; pour les visualiser dans /comparer.
+            Ajoutez-les via &quot;Ajouter au comparer&quot; pour les visualiser dans
+            /comparer.
           </p>
           <div className="space-y-2">
             {compareSuggestions.map((group) => (
@@ -366,7 +558,8 @@ export function VehiclesExplorer({
                   {group[0].brand} {group[0].model}
                 </p>
                 <p>
-                  {group.length} annonces ({group.map((vehicle) => vehicle.city).join(", ")})
+                  {group.length} annonces (
+                  {group.map((vehicle) => vehicle.city).join(", ")})
                 </p>
               </div>
             ))}
@@ -381,9 +574,7 @@ export function VehiclesExplorer({
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {visibleResults.map((vehicle) => {
               const dealer = dealersMap.get(vehicle.dealerId);
-              return (
-                <VehicleCard key={vehicle.id} vehicle={vehicle} dealer={dealer} />
-              );
+              return <VehicleCard key={vehicle.id} vehicle={vehicle} dealer={dealer} />;
             })}
           </div>
         )}
@@ -418,9 +609,7 @@ function FilterSelect({
   onChange,
 }: FilterSelectProps): JSX.Element {
   const normalizedOptions = options.map((option) =>
-    typeof option === "string"
-      ? { value: option, label: option }
-      : option,
+    typeof option === "string" ? { value: option, label: option } : option,
   );
 
   return (
@@ -458,5 +647,3 @@ function CardEmptyState({ search }: { search: string }): JSX.Element {
     </div>
   );
 }
-
-

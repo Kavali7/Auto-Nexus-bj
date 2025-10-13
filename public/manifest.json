@@ -1,0 +1,34 @@
+{
+  "name": "Auto Nexus BJ",
+  "short_name": "Auto Nexus",
+  "description": "Marketplace auto premium au Benin : explorez, comparez et contactez les concessionnaires automobiles.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0E2C4A",
+  "theme_color": "#1878C8",
+  "icons": [
+    {
+      "src": "/favicons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicons/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["automotive", "shopping"],
+  "lang": "fr"
+}

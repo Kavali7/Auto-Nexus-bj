@@ -3,6 +3,7 @@
 Prototype Next.js (App Router) pour mettre en scene l'univers Auto Nexus BJ : contenus mocks, UI premium, filtres instantanes, comparateur, services et pitch investisseurs. Tout est pret pour convaincre partenaires et levee de fonds.
 
 ## Demarrage rapide
+
 - `npm install`
 - `npm run dev`
 - ouvrir `http://localhost:3000`
@@ -10,6 +11,7 @@ Prototype Next.js (App Router) pour mettre en scene l'univers Auto Nexus BJ : co
 > Turbopack est actif par defaut (`next dev --turbopack`). Pour revenir sur Webpack : `npm run dev -- --no-turbo`.
 
 ## Structure
+
 - `src/app/` : pages App Router (landing, voitures, concessionnaires, services, dashboard, comparer...).
 - `src/components/` : design system shadcn/ui + composants maison (masonry, compare bar, explorers, dashboard UI...).
 - `src/data/` : datasets mock (vehicles, dealers, services, types).
@@ -18,6 +20,7 @@ Prototype Next.js (App Router) pour mettre en scene l'univers Auto Nexus BJ : co
 - `docs/` : vision produit originale (README historique + La trame du projet.docx).
 
 ## Pages & fonctionnalites majeures
+
 - `/` : landing immersive (hero, stats, mur photo masonry, stack, services, concessionnaires, bloc investisseurs + structured data JSON-LD).
 - `/voitures` : listing mock Meilisearch avec filtres instantanes, suggestions comparateur, CTA demo.
 - `/voitures/[slug]` : fiche vehicule premium (galerie, specs, CTA WhatsApp/Appel, comparateur pret).
@@ -27,6 +30,7 @@ Prototype Next.js (App Router) pour mettre en scene l'univers Auto Nexus BJ : co
 - `/dashboard` : maquette tableau de bord concessionnaire (KPIs leads, pipeline, inventaire, actions rapides).
 
 ## Points techniques clefs
+
 - Next.js 15 (App Router) + React 19 + Tailwind CSS 4.
 - shadcn/ui (button, badge, card, tabs, skeleton, input...) + class-variance-authority + tailwind-merge.
 - Framer Motion pour les reveals scroll, skeletons pour loaders, context compare persistant (localStorage).
@@ -34,6 +38,7 @@ Prototype Next.js (App Router) pour mettre en scene l'univers Auto Nexus BJ : co
 - Tooling : TypeScript strict, ESLint flat config, Prettier, scripts `npm run lint`, `npm run format`.
 
 ## Setup data & services
+
 1. Copier `.env.example` vers `.env.local` puis renseigner Meilisearch, Supabase (URL, ANON, SERVICE_ROLE, STORAGE_BUCKET) et Postgres.
 2. Lancer Meilisearch local (`./meilisearch --master-key ...`) puis `npm run meili:sync` pour indexer les vehicules mock.
 3. Initialiser la base : `npm run prisma:generate`, `npm run db:push`, puis `npm run db:seed`.
@@ -45,8 +50,16 @@ Prototype Next.js (App Router) pour mettre en scene l'univers Auto Nexus BJ : co
 9. Tester l'intégration front : `npm run dev` puis utiliser le dashboard > cartes "Upload Supabase Storage (POC)" et "Nouvelle annonce — médias & métadonnées" pour valider l'UX de dépôt et le payload prêt à persister.
 
 > Note : sans services externes, l'app se base sur les mocks (recherche locale, donnees JSON).
+> Activez le mode demo statique (`NEXT_PUBLIC_STATIC_DEMO_MODE=true` et `STATIC_DEMO_MODE=true`) pour bloquer les appels analytics/favoris et afficher le message de simulation lors des interactions.
+
+## QA & tests visuels
+
+- Audit complet : `npm run lighthouse -- --url=http://localhost:3000` (rapports HTML/JSON dans `reports/lighthouse/` pour mobile et desktop).
+- CLS : les galeries utilisent des ratios fixes, vérifiez toute nouvelle image avec Chrome DevTools → Layout Shift Regions.
+- Captures & démo : suivez [`docs/visual-checklist.md`](./docs/visual-checklist.md) pour la QA et [`docs/demo.md`](./docs/demo.md) pour le storytelling + fichiers 16:9 / mobile à produire (`docs/captures/`).
 
 ## Supabase Storage & flux upload
+
 - **API `/api/uploads/sign`** : attend `filename`, `contentType`, `folder?`, `expiresIn?`, `upsert?`. Retourne `uploadUrl`, `uploadHeaders`, `publicUrl`, `path`, `expiresAt`.
 - **Hook `useSignedUpload`** (`src/hooks/use-signed-upload.ts`) : fournit `uploadFile(file, options)`, `state`, `result`, `reset`. Il s'occupe de la requête POST, du PUT signé et du reporting d'erreurs.
 - **Composants front** :
@@ -56,13 +69,13 @@ Prototype Next.js (App Router) pour mettre en scene l'univers Auto Nexus BJ : co
 - **Migration Cloudinary** : `npm run cloudinary:migrate` copie les assets source dans le bucket Supabase (support dry-run, manifest JSON). Voir `scripts/cloudinary-to-supabase.ts` pour les options avancées.
 
 ## Prochaines etapes suggerees
+
 1. Brancher Meilisearch / Algolia pour rendre les filtres et le comparateur interactifs.
 2. Connecter Supabase + Prisma pour persister inventaire, leads, comptes concessionnaires.
 3. Finaliser la pipeline Supabase Storage (traitements images, CDN) et instrumentation analytics (Vercel, LogSnag).
 
 Besoin d'une demo guidee, d'un deck ou d'un argumentaire personnalise ? Ping WhatsApp (95606058) ou ouvrez une issue.
 Conception : Growpeak Agence (agence, pas le client).
-
 
 Projet URL :https://tqupiggepzqjhpvtnxqy.supabase.co
 
@@ -74,18 +87,16 @@ SUPABASE_STORAGE_BUCKET:Auto-Nexus-bj
 
 DATABASE_URL :postgresql://postgres:Auto-Nexus-bj25@db.tqupiggepzqjhpvtnxqy.supabase.co:5432/postgres?sslmode=require
 
-
 Get-Content .env.local | ForEach-Object {if ($_ -match '^\s*#' -or $_ -match '^\s*$'){ return }$name, $value = $_ -split '=', 2 $trimmed = $value.Trim('"')[Environment]::SetEnvironmentVariable($name, $trimmed, "Process")
-
 
 npm run db:push
 npm run db:seed
 
-ComputerName     : aws-1-us-east-2.pooler.supabase.com
-RemoteAddress    : 3.148.140.216
-RemotePort       : 6543
-InterfaceAlias   : Wi-Fi
-SourceAddress    : 10.50.101.165
+ComputerName : aws-1-us-east-2.pooler.supabase.com
+RemoteAddress : 3.148.140.216
+RemotePort : 6543
+InterfaceAlias : Wi-Fi
+SourceAddress : 10.50.101.165
 TcpTestSucceeded : True
 
 postgresql://postgres.tqupiggepzqjhpvtnxqy:Auto-Nexus-bj25@aws-1-us-east-2.pooler.supabase.com:6543/postgres?sslmode=require
@@ -95,10 +106,9 @@ postgresql://postgres.tqupiggepzqjhpvtnxqy:Auto-Nexus-bj2025@aws-1-us-east-2.poo
 
 Test-NetConnection db.tqupiggepzqjhpvtnxqy.supabase.co -Port 5432
 
-
 Get-Content .env.local | ForEach-Object {
-  if ($_ -match '^\s*#' -or $_ -match '^\s*$') { return }
-  $name, $value = $_ -split '=', 2
+if ($_ -match '^\s*#' -or $_ -match '^\s*$') { return }
+$name, $value = $_ -split '=', 2
   $trimmed = $value.Trim('"')
   [Environment]::SetEnvironmentVariable($name, $trimmed, "Process")
 }
@@ -113,8 +123,6 @@ Ou passer par le Supabase CLI depuis le projet :
 npx supabase db remote query --file scripts/supabase-storage-policies.sql
 (en étant authentifié au CLI avec ton projet).
 
-
-
 Important pour moi :Set-DnsClientServerAddress -InterfaceAlias "Wi-Fi" -ResetServerAddresses
 ipconfig /flushdns
 Set-DnsClientServerAddress -InterfaceAlias "Wi-Fi" -ServerAddresses 1.1.1.1,8.8.8.8
@@ -125,122 +133,112 @@ Get-NetIPAddress -InterfaceAlias "Wi-Fi" -AddressFamily IPv6
 Test-NetConnection db.tqupiggepzqjhpvtnxqy.supabase.co -Port 5432 -InformationLevel Detailed
 Test-NetConnection aws-1-us-east-2.pooler.supabase.com -Port 6543 -InformationLevel Detailed
 
-
-
-
-
 Alternative sans Prisma
 
-Toute la logique serveur lit/écrit via Prisma Client exporté dans src/lib/prisma.ts:1 et consommé dans les services Next (src/server/vehicles.ts:66, src/server/dealers.ts:36, src/server/visitors.ts:23). Passer “sans Prisma” impliquerait de réécrire ces modules avec pg, supabase-js, ou HTTP RPC, recréer les types, gérer la transformation des données, la mise en cache et les transactions : c’est un chantier important avec faible chance de succès rapide.
-
-
-
-
+Toute la logique serveur lit/écrit via Prisma Client exporté dans src/lib/prisma.ts:1 et consommé dans les services Next (src/server/vehicles.ts:66, src/server/dealers.ts:36, src/server/visitors.ts:23). Passer "sans Prisma" impliquerait de réécrire ces modules avec pg, supabase-js, ou HTTP RPC, recréer les types, gérer la transformation des données, la mise en cache et les transactions : c'est un chantier important avec faible chance de succès rapide.
 
 npm run build
 
 > auto-nexus-bj@0.1.0 build
 > next build --turbopack
 
-   ▲ Next.js 15.5.4 (Turbopack)
-   - Environments: .env.local, .env
+▲ Next.js 15.5.4 (Turbopack)
 
-   Creating an optimized production build ...
- ✓ Finished writing to disk in 142ms
- ✓ Compiled successfully in 18.6s
- ✓ Linting and checking validity of types    
- ✓ Collecting page data    
+- Environments: .env.local, .env
+
+Creating an optimized production build ...
+✓ Finished writing to disk in 142ms
+✓ Compiled successfully in 18.6s
+✓ Linting and checking validity of types  
+ ✓ Collecting page data  
  ✓ Generating static pages (21/21)
- ✓ Collecting build traces
- ✓ Finalizing page optimization
+✓ Collecting build traces
+✓ Finalizing page optimization
 
-Route (app)                               Size  First Load JS
-┌ ○ /                                  7.67 kB         179 kB
-├ ○ /_not-found                            0 B         134 kB
-├ ƒ /api/analytics                         0 B            0 B
-├ ƒ /api/dashboard/export                  0 B            0 B
-├ ƒ /api/favorites                         0 B            0 B
-├ ƒ /api/search                            0 B            0 B
-├ ƒ /api/uploads/sign                      0 B            0 B
-├ ƒ /api/vehicles                          0 B            0 B
-├ ○ /comparer                          2.22 kB         174 kB
-├ ○ /concessionnaires                      0 B         172 kB
-├ ● /concessionnaires/[slug]               0 B         174 kB
-├   ├ /concessionnaires/nexus-premium
-├   ├ /concessionnaires/cfaomotors
-├   ├ /concessionnaires/get-motors
-├   └ [+2 more paths]
-├ ○ /dashboard                         3.09 kB         175 kB
-├ ○ /services                              0 B         172 kB
-├ ○ /voitures                          7.32 kB         181 kB
-└ ● /voitures/[slug]                   2.01 kB         174 kB
-+ First Load JS shared by all           143 kB
-  ├ chunks/079d5ede7af38810.js         58.9 kB
-  ├ chunks/5564f493499345f1.js         24.1 kB
-  ├ chunks/637fca1de0101f95.js         11.1 kB
-  ├ chunks/8082ab48faca5ea1.js         17.2 kB
-  └ other shared chunks (total)        31.7 kB
+Route (app) Size First Load JS
+┌ ○ / 7.67 kB 179 kB
+├ ○ /\_not-found 0 B 134 kB
+├ ƒ /api/analytics 0 B 0 B
+├ ƒ /api/dashboard/export 0 B 0 B
+├ ƒ /api/favorites 0 B 0 B
+├ ƒ /api/search 0 B 0 B
+├ ƒ /api/uploads/sign 0 B 0 B
+├ ƒ /api/vehicles 0 B 0 B
+├ ○ /comparer 2.22 kB 174 kB
+├ ○ /concessionnaires 0 B 172 kB
+├ ● /concessionnaires/[slug] 0 B 174 kB
+├ ├ /concessionnaires/nexus-premium
+├ ├ /concessionnaires/cfaomotors
+├ ├ /concessionnaires/get-motors
+├ └ [+2 more paths]
+├ ○ /dashboard 3.09 kB 175 kB
+├ ○ /services 0 B 172 kB
+├ ○ /voitures 7.32 kB 181 kB
+└ ● /voitures/[slug] 2.01 kB 174 kB
 
+- First Load JS shared by all 143 kB
+  ├ chunks/079d5ede7af38810.js 58.9 kB
+  ├ chunks/5564f493499345f1.js 24.1 kB
+  ├ chunks/637fca1de0101f95.js 11.1 kB
+  ├ chunks/8082ab48faca5ea1.js 17.2 kB
+  └ other shared chunks (total) 31.7 kB
 
-○  (Static)   prerendered as static content
-●  (SSG)      prerendered as static HTML (uses generateStaticParams)
-ƒ  (Dynamic)  server-rendered on demand
+○ (Static) prerendered as static content
+● (SSG) prerendered as static HTML (uses generateStaticParams)
+ƒ (Dynamic) server-rendered on demand
 
 PS E:\Mes traveaux\AA-SAAS\Auto2\auto-nexus-bj>
 
-
-prisma studio 
-
-
-
+prisma studio
 
 "Il faut inspecter correctement le projet pour comprendre. L'utilisation de l'url direct nécessite ipv6. Ce qui n'est pas. Alors les tables ont été crées directeement dans supabase sql. Tout avait été parfait jusqu'à la commande npm run build qui a renvoyé "npm run build
 
 > auto-nexus-bj@0.1.0 build
 > next build --turbopack
 
-   ▲ Next.js 15.5.4 (Turbopack)
-   - Environments: .env.local, .env
+▲ Next.js 15.5.4 (Turbopack)
 
-   Creating an optimized production build ...
- ✓ Finished writing to disk in 142ms
- ✓ Compiled successfully in 18.6s
- ✓ Linting and checking validity of types    
- ✓ Collecting page data    
+- Environments: .env.local, .env
+
+Creating an optimized production build ...
+✓ Finished writing to disk in 142ms
+✓ Compiled successfully in 18.6s
+✓ Linting and checking validity of types  
+ ✓ Collecting page data  
  ✓ Generating static pages (21/21)
- ✓ Collecting build traces
- ✓ Finalizing page optimization
+✓ Collecting build traces
+✓ Finalizing page optimization
 
-Route (app)                               Size  First Load JS
-┌ ○ /                                  7.67 kB         179 kB
-├ ○ /_not-found                            0 B         134 kB
-├ ƒ /api/analytics                         0 B            0 B
-├ ƒ /api/dashboard/export                  0 B            0 B
-├ ƒ /api/favorites                         0 B            0 B
-├ ƒ /api/search                            0 B            0 B
-├ ƒ /api/uploads/sign                      0 B            0 B
-├ ƒ /api/vehicles                          0 B            0 B
-├ ○ /comparer                          2.22 kB         174 kB
-├ ○ /concessionnaires                      0 B         172 kB
-├ ● /concessionnaires/[slug]               0 B         174 kB
-├   ├ /concessionnaires/nexus-premium
-├   ├ /concessionnaires/cfaomotors
-├   ├ /concessionnaires/get-motors
-├   └ [+2 more paths]
-├ ○ /dashboard                         3.09 kB         175 kB
-├ ○ /services                              0 B         172 kB
-├ ○ /voitures                          7.32 kB         181 kB
-└ ● /voitures/[slug]                   2.01 kB         174 kB
-+ First Load JS shared by all           143 kB
-  ├ chunks/079d5ede7af38810.js         58.9 kB
-  ├ chunks/5564f493499345f1.js         24.1 kB
-  ├ chunks/637fca1de0101f95.js         11.1 kB
-  ├ chunks/8082ab48faca5ea1.js         17.2 kB
-  └ other shared chunks (total)        31.7 kB
+Route (app) Size First Load JS
+┌ ○ / 7.67 kB 179 kB
+├ ○ /\_not-found 0 B 134 kB
+├ ƒ /api/analytics 0 B 0 B
+├ ƒ /api/dashboard/export 0 B 0 B
+├ ƒ /api/favorites 0 B 0 B
+├ ƒ /api/search 0 B 0 B
+├ ƒ /api/uploads/sign 0 B 0 B
+├ ƒ /api/vehicles 0 B 0 B
+├ ○ /comparer 2.22 kB 174 kB
+├ ○ /concessionnaires 0 B 172 kB
+├ ● /concessionnaires/[slug] 0 B 174 kB
+├ ├ /concessionnaires/nexus-premium
+├ ├ /concessionnaires/cfaomotors
+├ ├ /concessionnaires/get-motors
+├ └ [+2 more paths]
+├ ○ /dashboard 3.09 kB 175 kB
+├ ○ /services 0 B 172 kB
+├ ○ /voitures 7.32 kB 181 kB
+└ ● /voitures/[slug] 2.01 kB 174 kB
 
+- First Load JS shared by all 143 kB
+  ├ chunks/079d5ede7af38810.js 58.9 kB
+  ├ chunks/5564f493499345f1.js 24.1 kB
+  ├ chunks/637fca1de0101f95.js 11.1 kB
+  ├ chunks/8082ab48faca5ea1.js 17.2 kB
+  └ other shared chunks (total) 31.7 kB
 
-○  (Static)   prerendered as static content
-●  (SSG)      prerendered as static HTML (uses generateStaticParams)
-ƒ  (Dynamic)  server-rendered on demand
+○ (Static) prerendered as static content
+● (SSG) prerendered as static HTML (uses generateStaticParams)
+ƒ (Dynamic) server-rendered on demand
 
 PS E:\Mes traveaux\AA-SAAS\Auto2\auto-nexus-bj>" L'étape suivante devrait être "npm run db:push" . Le PC s'était éteint faute de batérie. Je suis étonné que une fois ce problème reglé, la même commande renvoie une erreur. Que se passe t-il ? Comment régler cette situation?"

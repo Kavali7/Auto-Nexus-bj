@@ -11,7 +11,10 @@ export async function GET() {
     summary: {
       dealers: dealersDataset.length,
       vehicles: vehiclesDataset.length,
-      highlightedBrands: Array.from(new Set(vehiclesDataset.map((v) => v.brand))).slice(0, 5),
+      highlightedBrands: Array.from(new Set(vehiclesDataset.map((v) => v.brand))).slice(
+        0,
+        5,
+      ),
     },
     dealers: dealersDataset,
     vehicles: vehiclesDataset,

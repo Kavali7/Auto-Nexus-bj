@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { AnimatedSection } from "@/components/animated-section";
+import { LeadForm } from "@/components/lead-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,8 +46,9 @@ export default function DealersPage(): JSX.Element {
             </h1>
             <p className="max-w-3xl text-base text-muted-foreground sm:text-lg">
               Ces partenaires couvrent le spectre premium, multi-marques et utilitaires.
-              Chacun dispose d’une équipe dédiée Auto Nexus BJ, d’un numéro WhatsApp
-              commercial et d’un accès au dashboard pour gérer photos/prix/disponibilité.
+              Chacun dispose d&apos;une équipe dédiée Auto Nexus BJ, d&apos;un numéro
+              WhatsApp commercial et d&apos;un accès au dashboard pour gérer
+              photos/prix/disponibilité.
             </p>
             <div className="grid gap-3">
               {heroHighlights.map((item) => (
@@ -75,12 +77,15 @@ export default function DealersPage(): JSX.Element {
             <CardHeader>
               <CardTitle>Ce que nous proposons</CardTitle>
               <CardDescription>
-                Un pack d’activation complet pour faire rayonner chaque concessionnaire.
+                Un pack d&apos;activation complet pour faire rayonner chaque
+                concessionnaire.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-muted-foreground">
               <p>• Shooting photo pro (18 vues) & retouches.</p>
-              <p>• Mise en ligne <strong>&lt; 24h</strong> (whitelabel dashboard).</p>
+              <p>
+                • Mise en ligne <strong>&lt; 24h</strong> (whitelabel dashboard).
+              </p>
               <p>• Leads WhatsApp + email + suivi conversion.</p>
               <p>• Campagnes marketing cofinancées (social ads, SMS, events).</p>
             </CardContent>
@@ -113,11 +118,9 @@ export default function DealersPage(): JSX.Element {
                 className="flex h-full flex-col overflow-hidden border-border/70 bg-white/95 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="relative h-48 w-full overflow-hidden">
-                    <Image
-                      src={
-                      dealer.heroImage ?? "/brand/anx-logo.png"
-                      }
-                      alt={dealer.name}
+                  <Image
+                    src={dealer.heroImage ?? "/brand/anx-logo.png"}
+                    alt={dealer.name}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -163,9 +166,7 @@ export default function DealersPage(): JSX.Element {
                 </CardContent>
                 <CardFooter className="mt-auto flex flex-wrap gap-3 border-t border-border/70 bg-muted/30 p-4">
                   <Button asChild size="sm">
-                    <Link href={`/concessionnaires/${dealer.slug}`}>
-                      Voir la vitrine
-                    </Link>
+                    <Link href={`/concessionnaires/${dealer.slug}`}>Voir la vitrine</Link>
                   </Button>
                   <Button asChild size="sm" variant="outline">
                     <Link
@@ -188,6 +189,47 @@ export default function DealersPage(): JSX.Element {
               </Card>
             );
           })}
+        </AnimatedSection>
+        <AnimatedSection delay={0.1} className="mx-auto w-full max-w-6xl px-6">
+          <Card className="border-border/70 bg-white/95 shadow-sm">
+            <CardHeader className="space-y-2">
+              <CardTitle>Rejoindre Auto Nexus BJ</CardTitle>
+              <CardDescription>
+                Simulation de formulaire onboarding: les donnees seront stockees dans Supabase lors du go live.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <LeadForm
+                context="concessionnaires-page"
+                submitLabel="Demander un onboarding"
+                successMessage="Merci ! Nous vous recontacterons pendant la demo pour finaliser l onboarding et partager le pack media."
+                fields={[
+                  {
+                    name: "company",
+                    label: "Nom de la concession",
+                    placeholder: "Votre raison sociale",
+                  },
+                  {
+                    name: "contact",
+                    label: "Contact principal",
+                    placeholder: "Email ou telephone",
+                  },
+                  {
+                    name: "portfolio",
+                    label: "Nombre de vehicules",
+                    placeholder: "Ex: 25 annonces photo-ready",
+                    required: false,
+                  },
+                  {
+                    name: "message",
+                    label: "Message",
+                    type: "textarea",
+                    placeholder: "Partagez vos attentes: shooting, leads, logistique...",
+                  },
+                ]}
+              />
+            </CardContent>
+          </Card>
         </AnimatedSection>
       </main>
     </div>

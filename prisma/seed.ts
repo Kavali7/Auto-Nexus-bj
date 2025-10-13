@@ -71,9 +71,7 @@ async function main() {
       colorInterior: vehicle.colorInterior,
       featured: vehicle.featured ?? false,
       heroImage: vehicle.heroImage,
-      specs: JSON.parse(
-        JSON.stringify(vehicle.specs ?? []),
-      ) as Prisma.JsonArray,
+      specs: JSON.parse(JSON.stringify(vehicle.specs ?? [])) as Prisma.JsonArray,
       highlights: vehicle.highlights,
       available: vehicle.available,
       gallery: {

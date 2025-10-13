@@ -1,8 +1,4 @@
-import type {
-  Vehicle,
-  VehicleMediaKind,
-  VehicleSpec,
-} from "./types";
+import type { Vehicle, VehicleMediaKind, VehicleSpec } from "./types";
 
 type MediaEntry = {
   file: string;
@@ -107,7 +103,7 @@ export const vehicleDefinitions: VehicleDefinition[] = [
     featured: true,
     heroImagePath: "vehicles/toyota_hilux_2022_ext01.jpg",
     highlights: [
-      "Carnet d’entretien numérique",
+      "Carnet d'entretien numérique",
       "Kit off-road + protections basses",
       "Financement pro 24 mois disponible",
     ],
@@ -141,7 +137,7 @@ export const vehicleDefinitions: VehicleDefinition[] = [
       },
       {
         file: "vehicles/toyota_hilux_2022_det01.jpg",
-        label: "Jantes 18\" noires",
+        label: 'Jantes 18" noires',
         kind: "DETAIL",
       },
       {
@@ -307,7 +303,7 @@ export const vehicleDefinitions: VehicleDefinition[] = [
     heroImagePath: "vehicles/bmw_x5_2020_ext01.jpg",
     highlights: [
       "Historique BMW Premium Selection",
-      "Pack M Sport + jantes 21\"",
+      'Pack M Sport + jantes 21"',
       "Garantie 12 mois Nexus Certified",
     ],
     specs: [
@@ -505,7 +501,7 @@ export const vehicleDefinitions: VehicleDefinition[] = [
     heroImagePath: "vehicles/nissan_patrol_2022_ext01.jpg",
     highlights: [
       "Suspension hydraulique HBMC",
-      "Pack Skyline LED + jantes 20\"",
+      'Pack Skyline LED + jantes 20"',
       "Sièges ventilés 7 places",
     ],
     specs: [
@@ -594,7 +590,7 @@ export const vehicleDefinitions: VehicleDefinition[] = [
       },
       {
         file: "vehicles/hyundai_tucson_2022_int01.jpg",
-        label: "Double écran 10\"3",
+        label: 'Double écran 10"3',
         kind: "INTERIOR",
       },
       {
@@ -660,7 +656,7 @@ export const vehicleDefinitions: VehicleDefinition[] = [
       },
       {
         file: "vehicles/ford_ranger_2023_int01.jpg",
-        label: "Cockpit Raptor 12\"",
+        label: 'Cockpit Raptor 12"',
         kind: "INTERIOR",
       },
       {
@@ -966,7 +962,7 @@ export const vehicleDefinitions: VehicleDefinition[] = [
     dealerId: "nexus-premium",
     heroImagePath: "vehicles/audi_q7_2022_ext01.jpg",
     highlights: [
-      "Pack S line + jantes 21\"",
+      'Pack S line + jantes 21"',
       "Virtual Cockpit & MMI dual screen",
       "Suspension adaptative & 7 places",
     ],
@@ -1034,7 +1030,7 @@ export const vehicleDefinitions: VehicleDefinition[] = [
     highlights: [
       "3.0 V6 TDI 240 ch + 600 Nm",
       "Système 4Motion avec blocages",
-      "Infotainment 12\" + IQ.Light",
+      'Infotainment 12" + IQ.Light',
     ],
     specs: [
       { label: "Transmission", value: "Auto 10 rapports" },
@@ -1056,7 +1052,7 @@ export const vehicleDefinitions: VehicleDefinition[] = [
       },
       {
         file: "vehicles/vw_amarok_2024_int01.jpg",
-        label: "Console 12\" IQ.Light",
+        label: 'Console 12" IQ.Light',
         kind: "INTERIOR",
       },
       {
@@ -1066,7 +1062,7 @@ export const vehicleDefinitions: VehicleDefinition[] = [
       },
       {
         file: "vehicles/vw_amarok_2024_det01.jpg",
-        label: "Jantes 19\" Sport",
+        label: 'Jantes 19" Sport',
         kind: "DETAIL",
       },
       {

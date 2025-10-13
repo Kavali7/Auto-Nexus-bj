@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { AnimatedSection } from "@/components/animated-section";
+import { LeadForm } from "@/components/lead-form";
 import { CompareToggleButton } from "@/components/compare-toggle-button";
 import { VehicleCard } from "@/components/vehicle-card";
 import { VehicleGallery } from "@/components/vehicle-gallery";
@@ -12,6 +13,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -19,11 +21,7 @@ import { Button } from "@/components/ui/button";
 import { formatMileage, formatPriceXof } from "@/lib/format";
 import { buildWhatsappLink } from "@/lib/whatsapp";
 import { getDealerById, getDealers } from "@/server/dealers";
-import {
-  getRelatedVehicles,
-  getVehicleBySlug,
-  getVehicleSlugs,
-} from "@/server/vehicles";
+import { getRelatedVehicles, getVehicleBySlug, getVehicleSlugs } from "@/server/vehicles";
 import type { DealerSummary, VehicleSummary } from "@/types/catalog";
 
 type PageParams = {
@@ -33,10 +31,19 @@ type PageParams = {
 const specGroupConfig = [
   { title: "Performance", keywords: ["puissance", "0-100", "couple", "vitesse"] },
   { title: "Energie", keywords: ["batterie", "autonomie", "consommation", "emission"] },
-  { title: "Transmission", keywords: ["transmission", "boite", "roues motrices", "drivetrain"] },
-  { title: "Dimensions", keywords: ["longueur", "largeur", "hauteur", "empattement", "garde"] },
+  {
+    title: "Transmission",
+    keywords: ["transmission", "boite", "roues motrices", "drivetrain"],
+  },
+  {
+    title: "Dimensions",
+    keywords: ["longueur", "largeur", "hauteur", "empattement", "garde"],
+  },
   { title: "Confort", keywords: ["siege", "sellerie", "climatisation", "ambiance"] },
-  { title: "Technologie", keywords: ["infotainment", "ecran", "audio", "assistant", "interface"] },
+  {
+    title: "Technologie",
+    keywords: ["infotainment", "ecran", "audio", "assistant", "interface"],
+  },
   { title: "Securite", keywords: ["airbag", "abs", "adas", "freinage"] },
 ] as const;
 
@@ -50,9 +57,7 @@ function groupVehicleSpecs(specs: VehicleSummary["specs"]) {
   for (const spec of specs) {
     const normalized = spec.label.toLowerCase();
     const match = groups.find((group, index) =>
-      specGroupConfig[index].keywords.some((keyword) =>
-        normalized.includes(keyword),
-      ),
+      specGroupConfig[index].keywords.some((keyword) => normalized.includes(keyword)),
     );
 
     if (match) {
@@ -133,7 +138,7 @@ export default async function VehicleDetail({
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Hero vehicle={vehicle} dealer={dealer ?? undefined} whatsappLink={whatsappLink} />
-      <main className="flex flex-1 flex-col gap-12 bg-muted/20 py-12">
+      <main className="flex flex-1 flex-col gap-12 bg-muted/20 py-12 pb-32 lg:pb-12">
         <div className="mx-auto grid w-full max-w-6xl gap-10 px-6 lg:grid-cols-[1.8fr_1fr]">
           <section className="space-y-8">
             <AnimatedSection>
@@ -143,8 +148,16 @@ export default async function VehicleDetail({
                 vehicleName={`${vehicle.brand} ${vehicle.model}`}
               />
             </AnimatedSection>
+            {related.length > 0 ? (
+              <AnimatedSection delay={0.05}>
+                <QuickCompareCard vehicle={vehicle} competitor={related[0]} />
+              </AnimatedSection>
+            ) : null}
             <AnimatedSection delay={0.1}>
-              <SpecificationTabs vehicle={vehicle} />
+              <VehicleSpecsPanel vehicle={vehicle} />
+            </AnimatedSection>
+            <AnimatedSection delay={0.15}>
+              <FinancingAndLogistics vehicle={vehicle} dealer={dealer ?? undefined} />
             </AnimatedSection>
           </section>
           <aside className="space-y-6">
@@ -163,6 +176,7 @@ export default async function VehicleDetail({
           </aside>
         </div>
       </main>
+      <MobileStickyCta vehicle={vehicle} whatsappLink={whatsappLink} />
     </div>
   );
 }
@@ -200,8 +214,8 @@ function Hero({
                 {vehicle.trim ? ` - ${vehicle.trim}` : ""}
               </h1>
               <p className="max-w-2xl text-base text-white/80 sm:text-lg">
-                {vehicle.year} - {vehicle.condition} - {formatMileage(vehicle.mileage)} - {vehicle.fuel} -{" "}
-                {vehicle.transmission}
+                {vehicle.year} - {vehicle.condition} - {formatMileage(vehicle.mileage)} -{" "}
+                {vehicle.fuel} - {vehicle.transmission}
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-4 text-sm uppercase tracking-[0.18em] text-white/70">
@@ -257,45 +271,45 @@ function Hero({
   );
 }
 
-function SpecificationTabs({
-  vehicle,
-}: {
-  vehicle: VehicleSummary;
-}): JSX.Element {
+function VehicleSpecsPanel({ vehicle }: { vehicle: VehicleSummary }): JSX.Element {
   const groupedSpecs = groupVehicleSpecs(vehicle.specs);
 
   return (
     <Card className="border-border/80 bg-white/95 shadow">
       <CardHeader>
-        <CardTitle className="text-xl font-semibold">
-          Fiche technique et experience
-        </CardTitle>
+        <CardTitle className="text-xl font-semibold">Fiche technique regroupee</CardTitle>
         <CardDescription>
-          Contenu statique qui sera pilote par Supabase (specs) et un CMS (storytelling).
+          Regroupement thematique pour une lecture rapide avant l integration Supabase.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
-        <div className="space-y-6">
+        <div className="grid gap-4 md:grid-cols-2">
           {groupedSpecs.map((group) => (
-            <div key={group.title} className="space-y-3">
-              <h3 className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                {group.title}
-              </h3>
-              <div className="grid gap-3 sm:grid-cols-2">
+            <div
+              key={group.title}
+              className="flex flex-col gap-4 rounded-2xl border border-border bg-muted/20 p-5"
+            >
+              <div className="space-y-1">
+                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                  {group.title}
+                </p>
+                <div className="h-0.5 w-10 bg-brand" />
+              </div>
+              <dl className="space-y-3 text-sm text-muted-foreground">
                 {group.items.map((spec) => (
                   <div
                     key={spec.label}
-                    className="rounded-lg border border-border bg-muted/20 p-4"
+                    className="flex items-baseline justify-between gap-4 border-b border-border/30 pb-2 last:border-b-0 last:pb-0"
                   >
-                    <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                    <dt className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
                       {spec.label}
-                    </p>
-                    <p className="mt-2 text-base font-semibold text-foreground">
+                    </dt>
+                    <dd className="text-base font-semibold text-foreground">
                       {spec.value}
-                    </p>
+                    </dd>
                   </div>
                 ))}
-              </div>
+              </dl>
             </div>
           ))}
         </div>
@@ -315,6 +329,202 @@ function SpecificationTabs({
   );
 }
 
+function QuickCompareCard({
+  vehicle,
+  competitor,
+}: {
+  vehicle: VehicleSummary;
+  competitor: VehicleSummary;
+}): JSX.Element {
+  const metrics = [
+    {
+      label: "Prix",
+      format: (value: VehicleSummary) => formatPriceXof(value.price),
+    },
+    {
+      label: "Kilometrage",
+      format: (value: VehicleSummary) => formatMileage(value.mileage),
+    },
+    {
+      label: "Annee",
+      format: (value: VehicleSummary) => value.year.toString(),
+    },
+    {
+      label: "Condition",
+      format: (value: VehicleSummary) => value.condition,
+    },
+    {
+      label: "Energie",
+      format: (value: VehicleSummary) => value.fuel,
+    },
+    {
+      label: "Transmission",
+      format: (value: VehicleSummary) => value.transmission,
+    },
+  ] as const;
+
+  const priceDelta = competitor.price - vehicle.price;
+  const priceDeltaLabel =
+    priceDelta === 0
+      ? "Identique"
+      : `${priceDelta > 0 ? "+" : "-"}${formatPriceXof(Math.abs(priceDelta))}`;
+
+  return (
+    <Card className="border-border/80 bg-white/95 shadow">
+      <CardHeader className="space-y-2">
+        <CardTitle className="text-lg text-foreground">Comparaison rapide</CardTitle>
+        <CardDescription className="text-sm text-muted-foreground">
+          Vue express avant d ouvrir le comparateur complet.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid items-start gap-6 lg:grid-cols-[1fr_auto_1fr]">
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              Selection Auto Nexus BJ
+            </p>
+            <p className="text-base font-semibold text-foreground">
+              {vehicle.brand} {vehicle.model}
+            </p>
+            <dl className="space-y-2 text-sm text-muted-foreground">
+              {metrics.map((metric) => (
+                <div
+                  key={metric.label}
+                  className="flex items-center justify-between gap-4"
+                >
+                  <dt className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                    {metric.label}
+                  </dt>
+                  <dd className="font-medium text-foreground">
+                    {metric.format(vehicle)}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div className="flex items-center justify-center">
+            <Badge variant="secondary" className="border-border/60 bg-muted/40">
+              vs {priceDeltaLabel}
+            </Badge>
+          </div>
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              Offre similaire
+            </p>
+            <p className="text-base font-semibold text-foreground">
+              {competitor.brand} {competitor.model}
+            </p>
+            <dl className="space-y-2 text-sm text-muted-foreground">
+              {metrics.map((metric) => (
+                <div
+                  key={metric.label}
+                  className="flex items-center justify-between gap-4"
+                >
+                  <dt className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                    {metric.label}
+                  </dt>
+                  <dd className="font-medium text-foreground">
+                    {metric.format(competitor)}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button asChild size="sm" variant="outline">
+            <Link href="/comparer">Ouvrir le comparateur</Link>
+          </Button>
+          <CompareToggleButton vehicleId={vehicle.id} size="sm">
+            Ajouter ce modele
+          </CompareToggleButton>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function FinancingAndLogistics({
+  vehicle,
+  dealer,
+}: {
+  vehicle: VehicleSummary;
+  dealer?: DealerSummary;
+}): JSX.Element {
+  const monthlyEstimate = Math.round(vehicle.price / 24);
+
+  return (
+    <Card className="border-border/80 bg-white/95 shadow">
+      <CardHeader className="space-y-2">
+        <CardTitle className="text-lg font-semibold text-foreground">
+          Financement et livraison
+        </CardTitle>
+        <CardDescription className="text-sm text-muted-foreground">
+          Scenario demo pour rassurer un prospect (financement) et un investisseur
+          (logistique).
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="grid gap-4 md:grid-cols-2">
+        <div className="flex flex-col gap-4 rounded-2xl border border-border/70 bg-muted/15 p-5">
+          <div className="space-y-1">
+            <Badge variant="secondary" className="border-brand/20 bg-brand/10 text-brand">
+              Financement
+            </Badge>
+            <p className="text-sm font-semibold text-foreground">
+              Simulation 24 mois: {formatPriceXof(monthlyEstimate)} / mois
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Offre partenaire (banque locale + fintech) avec validation sous 48h.
+            </p>
+          </div>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li>Pack dossier digital (KYC, preuve revenus) charge sur Supabase</li>
+            <li>Assurance incluse la 1re annee, negociable ensuite</li>
+            <li>Option ballon ou valeur residuelle selon profil</li>
+          </ul>
+        </div>
+        <div className="flex flex-col gap-4 rounded-2xl border border-border/70 bg-muted/15 p-5">
+          <div className="space-y-1">
+            <Badge variant="secondary" className="border-brand/20 bg-brand/10 text-brand">
+              Livraison
+            </Badge>
+            <p className="text-sm font-semibold text-foreground">
+              Logistique premium Cotonou & Abomey-Calavi
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Inspection, detailing et convoyage coordonnes depuis la console back-office.
+            </p>
+          </div>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li>Checklist 40 points avant remise des clefs</li>
+            <li>Transport plateau ou chauffeur agree selon besoin</li>
+            <li>Option stockage et couverture showroom 48h</li>
+          </ul>
+        </div>
+      </CardContent>
+      <CardFooter className="flex flex-wrap items-center justify-between gap-3 border-t border-border/70 bg-muted/20 p-4">
+        <Button asChild size="sm">
+          <Link
+            href={
+              dealer?.whatsapp
+                ? buildWhatsappLink(
+                    dealer.whatsapp,
+                    "Je souhaite un plan de financement pour ce vehicule.",
+                  )
+                : "/contact"
+            }
+          >
+            Demander un plan
+          </Link>
+        </Button>
+        <Button asChild size="sm" variant="outline">
+          <Link href="#contact">Parler logistique</Link>
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
 function ContactCard({
   dealer,
   whatsappLink,
@@ -327,8 +537,8 @@ function ContactCard({
       <CardHeader className="space-y-3">
         <CardTitle className="text-lg text-foreground">Passer a l action</CardTitle>
         <CardDescription className="text-sm text-muted-foreground">
-          Contact direct pour WhatsApp, appel ou demande de devis. Les leads seront
-          captes dans Supabase lors du branchement back-office.
+          Contact direct pour WhatsApp, appel ou demande de devis. Les leads seront captes
+          dans Supabase lors du branchement back-office.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -354,6 +564,31 @@ function ContactCard({
             <Link href={`mailto:${dealer.email}`}>Demander une offre detaillee</Link>
           </Button>
         ) : null}
+        <LeadForm
+          context="vehicule-detail"
+          submitLabel="Recevoir le recap demo"
+          successMessage="Merci ! Lors du go live, ce formulaire enverra le recap fiche, le plan financement et le suivi WhatsApp."
+          fields={[
+            { name: "fullName", label: "Nom complet", placeholder: "Votre nom" },
+            {
+              name: "contact",
+              label: "Coordonnees",
+              placeholder: "Email ou telephone",
+            },
+            {
+              name: "budget",
+              label: "Budget",
+              placeholder: "Ex: 45 000 000 XOF",
+              required: false,
+            },
+            {
+              name: "message",
+              label: "Message",
+              type: "textarea",
+              placeholder: "Precisez vos attentes: financement, livraison, trade-in...",
+            },
+          ]}
+        />
         {dealer ? (
           <div className="rounded-xl border border-dashed border-brand/40 bg-brand/5 p-4 text-sm text-muted-foreground">
             <p className="font-semibold text-foreground">{dealer.name}</p>
@@ -363,6 +598,37 @@ function ContactCard({
         ) : null}
       </CardContent>
     </Card>
+  );
+}
+
+function MobileStickyCta({
+  vehicle,
+  whatsappLink,
+}: {
+  vehicle: VehicleSummary;
+  whatsappLink?: string;
+}): JSX.Element {
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-white/95 p-4 shadow-lg backdrop-blur lg:hidden">
+      <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4">
+        <div className="space-y-1">
+          <p className="text-sm font-semibold text-foreground">
+            {vehicle.brand} {vehicle.model}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {formatPriceXof(vehicle.price)} - {vehicle.condition}
+          </p>
+        </div>
+        <div className="flex flex-shrink-0 items-center gap-2">
+          <Button asChild size="sm">
+            <Link href={whatsappLink ?? "#contact"}>WhatsApp</Link>
+          </Button>
+          <CompareToggleButton vehicleId={vehicle.id} size="sm">
+            Comparer
+          </CompareToggleButton>
+        </div>
+      </div>
+    </div>
   );
 }
 

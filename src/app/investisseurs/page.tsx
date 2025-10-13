@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { AnimatedSection } from "@/components/animated-section";
+import { LeadForm } from "@/components/lead-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
@@ -11,13 +13,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { formatPriceXof } from "@/lib/format";
 
 const investorStats = [
-  { label: "GMV mock", value: formatPriceXof(66250000 + 48500000 + 38900000) },
-  { label: "Lead cible T3", value: "450 +" },
-  { label: "Partenaires pilotes", value: "03" },
+  {
+    label: "GMV mock",
+    value: formatPriceXof(66250000 + 48500000 + 38900000),
+    hint: "Projection sur le stock pilote",
+  },
+  {
+    label: "Lead cible T3",
+    value: "450+",
+    hint: "Campagnes digitales et PR locale",
+  },
+  {
+    label: "Partenaires pilotes",
+    value: "03",
+    hint: "Concessionnaires premium onboard",
+  },
 ];
 
 const valueProps = [
@@ -88,42 +101,76 @@ export const metadata: Metadata = {
 export default function InvestorsPage(): JSX.Element {
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <section className="border-b border-border bg-gradient-to-br from-white via-brand/10 to-transparent py-16">
-        <AnimatedSection className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-4">
-            <Badge variant="secondary" className="w-fit bg-brand/15 text-brand">
-              Fundraising preview
-            </Badge>
-            <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-              Auto Nexus BJ - deck investisseurs et demo
-            </h1>
-            <p className="max-w-2xl text-base text-muted-foreground sm:text-lg">
-              MVP marketplace auto premium, pret a connecter Supabase et Meilisearch. Cette page rassemble les hypotheses, la roadmap et les formulaires pour acceder au deck complet.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild size="lg">
-                <Link href="mailto:invest@autonexus.bj">Recevoir le deck PDF</Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link
-                  href="https://wa.me/95606058?text=Je%20souhaite%20reserver%20la%20demo%20investisseur%20Auto%20Nexus%20BJ"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Reserver la demo
-                </Link>
-              </Button>
-            </div>
-          </div>
-          <div className="grid w-full max-w-sm gap-4 rounded-2xl border border-brand/20 bg-white/90 p-6 shadow-lg sm:grid-cols-3 lg:grid-cols-1">
-            {investorStats.map((stat) => (
-              <div key={stat.label} className="space-y-1">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                  {stat.label}
+      <section className="relative isolate overflow-hidden border-b border-border bg-gradient-to-br from-white via-brand/10 to-transparent">
+        <AnimatedSection className="mx-auto w-full max-w-6xl px-6 py-16 lg:py-24">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16">
+            <div className="space-y-8">
+              <Badge className="w-fit bg-brand/15 text-brand">Fundraising preview</Badge>
+              <div className="space-y-4">
+                <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+                  Auto Nexus BJ - deck investisseurs et demo
+                </h1>
+                <p className="max-w-xl text-base text-muted-foreground sm:text-lg">
+                  Marketplace auto premium en phase MVP: traction mock, roadmap detaillee
+                  et acces direct au deck et aux sessions demo.
                 </p>
-                <p className="text-3xl font-semibold text-foreground">{stat.value}</p>
               </div>
-            ))}
+              <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                <Badge variant="outline" className="border-border/70">
+                  Deck PDF
+                </Badge>
+                <Badge variant="outline" className="border-border/70">
+                  Roadmap produit
+                </Badge>
+                <Badge variant="outline" className="border-border/70">
+                  Data room
+                </Badge>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg">
+                  <Link href="mailto:invest@autonexus.bj">Recevoir le deck PDF</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link
+                    href="https://wa.me/95606058?text=Je%20souhaite%20reserver%20la%20demo%20investisseur%20Auto%20Nexus%20BJ"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Reserver la demo
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="ghost">
+                  <Link href="#roadmap">Voir la roadmap</Link>
+                </Button>
+              </div>
+            </div>
+            <div className="grid gap-4">
+              <Card className="border-border/70 bg-white/95 shadow-lg">
+                <CardContent className="space-y-3 p-6 text-sm text-muted-foreground">
+                  <p className="font-semibold text-foreground">Objectif investisseurs</p>
+                  <p>
+                    Financer 18 mois de produit, go-to-market et operations pour
+                    industrialiser la marketplace Auto Nexus BJ et deployer les premiers
+                    leads reels.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="border-border/70 bg-white/95 shadow-lg">
+                <CardContent className="grid gap-4 p-6 sm:grid-cols-3 lg:grid-cols-1">
+                  {investorStats.map((stat) => (
+                    <div key={stat.label} className="space-y-1">
+                      <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                        {stat.label}
+                      </p>
+                      <p className="text-2xl font-semibold text-foreground">
+                        {stat.value}
+                      </p>
+                      <p className="text-xs text-muted-foreground/80">{stat.hint}</p>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </AnimatedSection>
       </section>
@@ -142,31 +189,34 @@ export default function InvestorsPage(): JSX.Element {
           ))}
         </AnimatedSection>
 
-        <AnimatedSection className="mx-auto w-full max-w-6xl px-6">
-          <Card className="border-border/70 bg-white/95 shadow-sm">
-            <CardHeader className="space-y-3">
-              <CardTitle className="text-2xl text-foreground">
-                Roadmap produit et traction cible
-              </CardTitle>
-              <CardDescription className="text-base text-muted-foreground">
-                Trois phases pour industrialiser les services, amplifier les revenus et preparer l expansion regionale.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-4 md:grid-cols-3">
-              {roadmap.map((step) => (
-                <div
-                  key={step.title}
-                  className="rounded-xl border border-dashed border-brand/30 bg-brand/5 p-5"
-                >
-                  <p className="text-xs uppercase tracking-[0.22em] text-brand">
-                    {step.title}
-                  </p>
-                  <p className="mt-2 text-sm text-muted-foreground">{step.detail}</p>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </AnimatedSection>
+        <div id="roadmap">
+          <AnimatedSection className="mx-auto w-full max-w-6xl px-6">
+            <Card className="border-border/70 bg-white/95 shadow-sm">
+              <CardHeader className="space-y-3">
+                <CardTitle className="text-2xl text-foreground">
+                  Roadmap produit et traction cible
+                </CardTitle>
+                <CardDescription className="text-base text-muted-foreground">
+                  Trois phases pour industrialiser les services, amplifier les revenus et
+                  preparer l expansion regionale.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-4 md:grid-cols-3">
+                {roadmap.map((step) => (
+                  <div
+                    key={step.title}
+                    className="rounded-xl border border-dashed border-brand/30 bg-brand/5 p-5"
+                  >
+                    <p className="text-xs uppercase tracking-[0.22em] text-brand">
+                      {step.title}
+                    </p>
+                    <p className="mt-2 text-sm text-muted-foreground">{step.detail}</p>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </AnimatedSection>
+        </div>
 
         <AnimatedSection className="mx-auto w-full max-w-6xl space-y-6 px-6">
           <div className="space-y-3">
@@ -174,12 +224,16 @@ export default function InvestorsPage(): JSX.Element {
               Questions clefs
             </h2>
             <p className="max-w-3xl text-base text-muted-foreground sm:text-lg">
-              Une base FAQ amenee a rejoindre la data-room Notion pour integrer documents et mises a jour metrics.
+              Une base FAQ amenee a rejoindre la data-room Notion pour integrer documents
+              et mises a jour metrics.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {faqItems.map((item) => (
-              <Card key={item.question} className="border-border/70 bg-white/95 shadow-sm">
+              <Card
+                key={item.question}
+                className="border-border/70 bg-white/95 shadow-sm"
+              >
                 <CardHeader className="space-y-2">
                   <CardTitle className="text-lg text-foreground">
                     {item.question}
@@ -201,23 +255,38 @@ export default function InvestorsPage(): JSX.Element {
             <CardHeader>
               <CardTitle>Formulaire deck et data-room</CardTitle>
               <CardDescription>
-                Les champs seront connectes a Supabase pour tracer les acces et envoyer le pack automatiquement.
+                Les champs seront connectes a Supabase pour tracer les acces et envoyer le
+                pack automatiquement.
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form className="space-y-4" action="#" method="post">
-                <Input name="name" placeholder="Nom et fonction" required />
-                <Input name="email" type="email" placeholder="Email professionnel" required />
-                <Input name="fund" placeholder="Organisation / fonds" />
-                <textarea
-                  name="context"
-                  placeholder="Interets: KPI, economie unite, expansion..."
-                  className="min-h-[120px] w-full rounded-md border border-border bg-white px-3 py-2 text-sm text-foreground shadow-sm focus-visible:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
-                />
-                <Button type="submit" className="w-full">
-                  Recevoir le pack investisseur
-                </Button>
-              </form>
+              <LeadForm
+                context="investisseurs-data-room"
+                submitLabel="Recevoir le pack investisseur"
+                successMessage="Merci ! Lors du go live, ce formulaire declenchera l envoi automatique du deck, de la data-room et du suivi demo."
+                fields={[
+                  { name: "name", label: "Nom et fonction", placeholder: "Votre nom et role" },
+                  {
+                    name: "email",
+                    label: "Email professionnel",
+                    type: "email",
+                    placeholder: "prenom.nom@fonds.com",
+                  },
+                  {
+                    name: "organisation",
+                    label: "Organisation / fonds",
+                    placeholder: "Nom du fonds ou structure",
+                    required: false,
+                  },
+                  {
+                    name: "focus",
+                    label: "Points d interet",
+                    type: "textarea",
+                    placeholder: "KPI, unit economics, expansion geographique...",
+                    required: false,
+                  },
+                ]}
+              />
             </CardContent>
           </Card>
           <Card className="border-border/70 bg-white/95 shadow-sm">

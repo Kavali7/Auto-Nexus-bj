@@ -22,10 +22,7 @@ export function VehicleMasonry({
 
   return (
     <div
-      className={cn(
-        "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3",
-        className,
-      )}
+      className={cn("grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3", className)}
     >
       {vehicles.map((vehicle) => {
         const dealer = dealerById.get(vehicle.dealerId);
@@ -35,7 +32,10 @@ export function VehicleMasonry({
             key={vehicle.id}
             className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white/90 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
           >
-            <Link href={`/voitures/${vehicle.slug}`} className="group flex h-full flex-col">
+            <Link
+              href={`/voitures/${vehicle.slug}`}
+              className="group flex h-full flex-col"
+            >
               <div className="relative aspect-[4/3] overflow-hidden">
                 <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <div className="absolute left-4 top-4 z-20 flex flex-wrap items-center gap-2">
@@ -52,9 +52,7 @@ export function VehicleMasonry({
                     {vehicle.year}
                   </Badge>
                   {vehicle.featured ? (
-                    <Badge className="bg-brand text-brand-foreground">
-                      Coup de cœur
-                    </Badge>
+                    <Badge className="bg-brand text-brand-foreground">Coup de cœur</Badge>
                   ) : null}
                 </div>
                 <Image

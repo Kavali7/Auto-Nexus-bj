@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCompare } from "@/components/compare-context";
 import { formatPriceXof } from "@/lib/format";
+import { useDemoNotice } from "@/hooks/use-demo-notice";
 
 export function CompareBar(): JSX.Element | null {
   const { selectedVehicles, removeVehicle, clear } = useCompare();
+  const notifyDemo = useDemoNotice();
 
   if (selectedVehicles.length === 0) {
     return null;
@@ -25,12 +27,14 @@ export function CompareBar(): JSX.Element | null {
               {selectedVehicles.length > 1 ? "s" : ""} à comparer
             </Badge>
             <span className="text-sm text-muted-foreground">
-              Ajoutez jusqu’à 4 annonces pour générer un tableau comparatif.
+              Ajoutez jusqu&apos;à 4 annonces pour générer un tableau comparatif.
             </span>
           </div>
           <div className="flex items-center gap-2">
             <Button asChild size="sm" variant="outline">
-              <Link href="/comparer">Ouvrir le comparateur</Link>
+              <Link href="/comparer" onClick={() => notifyDemo("analytics")}>
+                Ouvrir le comparateur
+              </Link>
             </Button>
             <Button size="sm" variant="ghost" onClick={clear}>
               Vider

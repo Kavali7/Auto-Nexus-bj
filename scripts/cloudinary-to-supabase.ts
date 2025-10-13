@@ -246,14 +246,12 @@ async function migrateResource(
 
   const arrayBuffer = await downloadResponse.arrayBuffer();
 
-  const { error } = await supabaseAdmin.storage.from(context.bucket).upload(
-    supabasePath,
-    arrayBuffer,
-    {
+  const { error } = await supabaseAdmin.storage
+    .from(context.bucket)
+    .upload(supabasePath, arrayBuffer, {
       contentType,
       upsert: context.upsert,
-    },
-  );
+    });
 
   if (error) {
     return {

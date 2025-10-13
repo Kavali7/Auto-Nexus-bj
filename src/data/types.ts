@@ -1,9 +1,4 @@
-export type FuelType =
-  | "Essence"
-  | "Diesel"
-  | "Hybride"
-  | "Électrique"
-  | "GPL";
+export type FuelType = "Essence" | "Diesel" | "Hybride" | "Électrique" | "GPL";
 
 export type TransmissionType = "Automatique" | "Manuelle";
 

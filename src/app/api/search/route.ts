@@ -1,16 +1,10 @@
 import { NextResponse } from "next/server";
 
-import {
-  getMeilisearchClient,
-  VEHICLES_INDEX,
-} from "@/lib/meilisearch/client";
+import { getMeilisearchClient, VEHICLES_INDEX } from "@/lib/meilisearch/client";
 import { getDealers } from "@/server/dealers";
 import { getVehicleSummariesByIds, getVehicles } from "@/server/vehicles";
 import type { VehicleSummary } from "@/types/catalog";
-import type {
-  VehicleSearchRequest,
-  VehicleSearchResponse,
-} from "@/types/search";
+import type { VehicleSearchRequest, VehicleSearchResponse } from "@/types/search";
 
 export async function POST(request: Request) {
   const body = (await request.json()) as VehicleSearchRequest;
@@ -51,8 +45,7 @@ export async function POST(request: Request) {
         if (orderedHits.length > 0) {
           return NextResponse.json({
             hits: orderedHits,
-            estimatedTotalHits:
-              searchResponse.estimatedTotalHits ?? orderedHits.length,
+            estimatedTotalHits: searchResponse.estimatedTotalHits ?? orderedHits.length,
             source: "meilisearch",
             fallback: false,
           } satisfies VehicleSearchResponse);
@@ -69,10 +62,7 @@ export async function POST(request: Request) {
         fallbackReason: hitIds.length === 0 ? "empty-index" : "missing-documents",
       } satisfies VehicleSearchResponse);
     } catch (error) {
-      console.warn(
-        "Meilisearch search failed, falling back to database filter",
-        error,
-      );
+      console.warn("Meilisearch search failed, falling back to database filter", error);
     }
   }
 
@@ -115,9 +105,7 @@ function buildFilterClauses(body: VehicleSearchRequest): string[] {
 async function fallbackFilter(body: VehicleSearchRequest, limit: number) {
   const normalizedQuery = (body.query ?? "").trim().toLowerCase();
   const [vehicles, dealers] = await Promise.all([getVehicles(), getDealers()]);
-  const dealerMap = new Map(
-    dealers.map((dealer) => [dealer.id, dealer] as const),
-  );
+  const dealerMap = new Map(dealers.map((dealer) => [dealer.id, dealer] as const));
 
   const filtered = vehicles.filter((vehicle) => {
     if (body.filters?.brand && body.filters.brand !== "Toutes") {

@@ -30,11 +30,7 @@ export function generateStaticParams(): PageParams[] {
   return dealers.map((dealer) => ({ slug: dealer.slug }));
 }
 
-export function generateMetadata({
-  params,
-}: {
-  params: PageParams;
-}): Metadata {
+export function generateMetadata({ params }: { params: PageParams }): Metadata {
   const dealer = getDealerBySlug(params.slug);
   if (!dealer) {
     return {
@@ -53,11 +49,7 @@ export function generateMetadata({
   };
 }
 
-export default function DealerDetail({
-  params,
-}: {
-  params: PageParams;
-}): JSX.Element {
+export default function DealerDetail({ params }: { params: PageParams }): JSX.Element {
   const dealer = getDealerBySlug(params.slug);
   if (!dealer) {
     notFound();
@@ -126,11 +118,9 @@ function Hero({
   return (
     <section className="relative isolate overflow-hidden border-b border-border bg-black text-white">
       <div className="absolute inset-0">
-          <Image
-            src={
-              dealer.heroImage ?? "/brand/anx-logo.png"
-            }
-            alt={dealer.name}
+        <Image
+          src={dealer.heroImage ?? "/brand/anx-logo.png"}
+          alt={dealer.name}
           fill
           className="object-cover opacity-70"
           priority
@@ -139,10 +129,7 @@ function Hero({
       <div className="absolute inset-0 bg-gradient-to-br from-black via-black/70 to-transparent" />
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-20 lg:flex-row lg:items-end lg:justify-between">
         <AnimatedSection className="space-y-4">
-          <Badge
-            variant="outline"
-            className="border-white/40 bg-white/10 text-white"
-          >
+          <Badge variant="outline" className="border-white/40 bg-white/10 text-white">
             {dealer.city}
           </Badge>
           <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
@@ -213,21 +200,21 @@ function AboutDealer({ dealer }: { dealer: Dealer }): JSX.Element {
           Engagement Auto Nexus BJ
         </CardTitle>
         <CardDescription>
-          Alignment stratégique avec le plan marketplace (quality first, lead
-          instantané, reporting).
+          Alignment stratégique avec le plan marketplace (quality first, lead instantané,
+          reporting).
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 text-sm text-muted-foreground">
         <p>
-          {dealer.name} propose un service complet : shooting photo premium,
-          gestion des leads en moins de 30 minutes et transparence sur l’historique
-          des véhicules. Le dashboard Auto Nexus BJ leur permet de mettre à jour
+          {dealer.name} propose un service complet : shooting photo premium, gestion des
+          leads en moins de 30 minutes et transparence sur l&apos;historique des
+          véhicules. Le dashboard Auto Nexus BJ leur permet de mettre à jour
           prix/disponibilité en temps réel.
         </p>
         <ul className="space-y-2">
           <li>• SLA suivi lead : réponse &lt; 30 minutes.</li>
           <li>• Garantie satisfaction : pack detailing + inspection remise.</li>
-          <li>• Formation équipe commerciale sur l’outil Auto Nexus BJ.</li>
+          <li>• Formation équipe commerciale sur l&apos;outil Auto Nexus BJ.</li>
         </ul>
       </CardContent>
     </Card>
@@ -251,10 +238,7 @@ function DealerGallery({ dealer }: { dealer: Dealer }): JSX.Element | null {
       </CardHeader>
       <CardContent className="grid gap-3 sm:grid-cols-2">
         {dealer.gallery.map((src, index) => (
-          <div
-            key={src}
-            className="relative aspect-video overflow-hidden rounded-xl"
-          >
+          <div key={src} className="relative aspect-video overflow-hidden rounded-xl">
             <Image
               src={src}
               alt={`${dealer.name} - vue ${index + 1}`}
@@ -293,9 +277,7 @@ function InventoryGrid({
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-2xl font-semibold text-foreground">
-          Sélection de véhicules
-        </h2>
+        <h2 className="text-2xl font-semibold text-foreground">Sélection de véhicules</h2>
         <Badge variant="outline">{inventory.length} annonces</Badge>
       </div>
       <div className="grid gap-6 md:grid-cols-2">
@@ -379,8 +361,7 @@ function PitchCard(): JSX.Element {
         <p>• Upsell services : shooting, marketing, logistique, financement.</p>
         <p>• Data analytics partagée (pricing, rotation stock, demande).</p>
         <p>
-          • Phase 2 : comparateur & favoris → rétention + cross-sell (assurance,
-          pièces).
+          • Phase 2 : comparateur & favoris → rétention + cross-sell (assurance, pièces).
         </p>
       </CardContent>
     </Card>

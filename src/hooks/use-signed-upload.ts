@@ -2,6 +2,8 @@
 
 import { useCallback, useState } from "react";
 
+import { isStaticDemoMode } from "@/lib/demo";
+
 export type SignedUploadResponse = {
   bucket: string;
   path: string;
@@ -29,6 +31,9 @@ export type UploadOptions = {
   expiresIn?: number;
 };
 
+const DEMO_UPLOAD_MESSAGE =
+  "Fonctionnalité à venir : l'upload signé sera activé après la connexion Supabase.";
+
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error) {
     return error.message;
@@ -41,9 +46,7 @@ function getErrorMessage(error: unknown): string {
   return "Une erreur inattendue s'est produite.";
 }
 
-export function useSignedUpload(
-  defaultOptions: UploadOptions = {},
-): {
+export function useSignedUpload(defaultOptions: UploadOptions = {}): {
   state: UploadState;
   result: SignedUploadResponse | null;
   uploadFile: (
@@ -71,19 +74,22 @@ export function useSignedUpload(
       const filename =
         file instanceof File && file.name
           ? file.name
-          : `asset-${Date.now()}.${(mergedOptions.contentType ?? "bin")
-              .split("/")
-              .pop() ?? "bin"}`;
+          : `asset-${Date.now()}.${
+              (mergedOptions.contentType ?? "bin").split("/").pop() ?? "bin"
+            }`;
 
       const contentType =
         mergedOptions.contentType ||
-        (file instanceof File && file.type
-          ? file.type
-          : "application/octet-stream");
+        (file instanceof File && file.type ? file.type : "application/octet-stream");
+
+      if (isStaticDemoMode) {
+        setState({ status: "idle", message: DEMO_UPLOAD_MESSAGE });
+        throw new Error(DEMO_UPLOAD_MESSAGE);
+      }
 
       setState({
         status: "signing",
-        message: "Génération de l'URL signée...",
+        message: "Génération de l'URL signée…",
       });
       setResult(null);
 
@@ -101,27 +107,41 @@ export function useSignedUpload(
         }),
       });
 
+      const hasJson =
+        signResponse.headers
+          .get("content-type")
+          ?.toLowerCase()
+          .includes("application/json") ?? false;
+      const responseBody = hasJson
+        ? await signResponse.json().catch(() => null)
+        : null;
+
+      if (signResponse.status === 204 || (responseBody as { demo?: boolean })?.demo) {
+        const message =
+          (responseBody as { message?: string })?.message ?? DEMO_UPLOAD_MESSAGE;
+        setState({ status: "idle", message });
+        throw new Error(message);
+      }
+
       if (!signResponse.ok) {
-        const errorBody = await signResponse.json().catch(() => ({}));
         const apiMessage =
-          typeof errorBody?.error === "string"
-            ? errorBody.error
+          typeof (responseBody as { error?: string })?.error === "string"
+            ? (responseBody as { error: string }).error
             : `HTTP ${signResponse.status}`;
 
         setState({
           status: "error",
-          error: `Impossible de créer l'upload signé: ${apiMessage}`,
+          error: `Impossible de créer l'upload signé : ${apiMessage}`,
         });
 
-        throw new Error(`Erreur API upload: ${apiMessage}`);
+        throw new Error(`Erreur API upload : ${apiMessage}`);
       }
 
-      const signedPayload =
-        (await signResponse.json()) as SignedUploadResponse;
+      const signedPayload = responseBody as SignedUploadResponse;
 
       setState({
         status: "uploading",
-        message: "Upload vers Supabase en cours...",
+        message: "Upload vers Supabase en cours…",
       });
 
       const uploadResponse = await fetch(
@@ -138,7 +158,7 @@ export function useSignedUpload(
 
       if (!uploadResponse.ok) {
         const uploadBody = await uploadResponse.text();
-        const errorMessage = `Upload Supabase échoué (${uploadResponse.status}): ${
+        const errorMessage = `Upload Supabase échoué (${uploadResponse.status}) : ${
           uploadBody || "raison inconnue"
         }`;
 
@@ -175,4 +195,3 @@ export function useSignedUpload(
     isUploading: state.status === "signing" || state.status === "uploading",
   };
 }
-

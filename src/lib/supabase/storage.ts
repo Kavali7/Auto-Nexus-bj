@@ -69,10 +69,7 @@ export type SignedUploadPayload = {
   expiresAt: string;
 };
 
-export function getPublicStorageUrl(
-  path: string,
-  bucketName = getBucketName(),
-) {
+export function getPublicStorageUrl(path: string, bucketName = getBucketName()) {
   const cleanPath = path.replace(/^\/*/, "");
 
   const cdnUrl = process.env.SUPABASE_CDN_URL?.replace(/\/+$/, "");
@@ -90,7 +87,7 @@ export function getPublicStorageUrl(
   const supabaseUrl = process.env.SUPABASE_URL;
 
   if (!supabaseUrl) {
-    throw new Error("SUPABASE_URL manquant pour calculer l'URL publique.");
+    return `/${cleanPath}`;
   }
 
   return new URL(
