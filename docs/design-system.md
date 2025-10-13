@@ -4,16 +4,16 @@ Ce mini-guide recense les patterns clés utilisés sur le MVP statique. L’obje
 
 ## Palette & typographie
 
-| Token                 | Hex      | Usage principal                             |
-| --------------------- | -------- | ------------------------------------------- |
-| `--brand`             | `#1878C8`| Boutons primaires, liens actifs, headers    |
-| `--brand-foreground`  | `#FFFFFF`| Texte sur boutons brand                     |
-| `--foreground`        | `#0E2C4A`| Texte principal                             |
-| `--muted`             | `#E4EBF2`| Arrière-plans alternatifs, badges secondary |
-| `--muted-foreground`  | `#4B5C6F`| Corps de texte secondaire, descriptions     |
-| `--accent`            | `#16A34A`| Etats succès / label financement            |
-| `--destructive`       | `#DC2626`| Etats alerte / destructive                  |
-| `--focus-ring`        | `rgba(24,120,200,0.6)` | Outline `:focus-visible`, accessibilité |
+| Token                | Hex                    | Usage principal                             |
+| -------------------- | ---------------------- | ------------------------------------------- |
+| `--brand`            | `#1878C8`              | Boutons primaires, liens actifs, headers    |
+| `--brand-foreground` | `#FFFFFF`              | Texte sur boutons brand                     |
+| `--foreground`       | `#0E2C4A`              | Texte principal                             |
+| `--muted`            | `#E4EBF2`              | Arrière-plans alternatifs, badges secondary |
+| `--muted-foreground` | `#4B5C6F`              | Corps de texte secondaire, descriptions     |
+| `--accent`           | `#16A34A`              | Etats succès / label financement            |
+| `--destructive`      | `#DC2626`              | Etats alerte / destructive                  |
+| `--focus-ring`       | `rgba(24,120,200,0.6)` | Outline `:focus-visible`, accessibilité     |
 
 - **Sans-serif** : Geist (chargée dans `layout.tsx`, expose `--font-geist-sans`)
 - **Mono** : Geist Mono (`--font-geist-mono`), pour métriques / code snippets.
@@ -23,12 +23,12 @@ Ce mini-guide recense les patterns clés utilisés sur le MVP statique. L’obje
 
 Variantes définies dans `src/components/ui/button.tsx`. Principes :
 
-| Variante    | Usage                        | Classes clés                                                          |
-| ----------- | ---------------------------- | --------------------------------------------------------------------- |
-| `default`   | CTA principal                | `bg-brand text-brand-foreground hover:bg-brand/90`                    |
-| `outline`   | CTA secondaires              | `border-border hover:bg-muted`                                        |
-| `ghost`     | Icon only / nav              | Transparence, utilisé pour menu mobile                                |
-| `secondary` | Etats highlight / overlays   | `bg-brand/10 text-brand`, souvent combiné à un badge                  |
+| Variante    | Usage                      | Classes clés                                         |
+| ----------- | -------------------------- | ---------------------------------------------------- |
+| `default`   | CTA principal              | `bg-brand text-brand-foreground hover:bg-brand/90`   |
+| `outline`   | CTA secondaires            | `border-border hover:bg-muted`                       |
+| `ghost`     | Icon only / nav            | Transparence, utilisé pour menu mobile               |
+| `secondary` | Etats highlight / overlays | `bg-brand/10 text-brand`, souvent combiné à un badge |
 
 - Focus : rely on `:focus-visible` global (outline bleu).
 - Désactivation : utilise `disabled:opacity-70` + `disabled:pointer-events-none`.
@@ -52,12 +52,12 @@ Définis dans `src/components/ui/badge.tsx` :
 
 ### Micro-interactions
 
-| Composant          | Interaction                               |
-| ------------------ | ------------------------------------------ |
-| `VehicleCard`      | hover scale + overlay CTA ouvrir           |
-| `AnimatedSection`  | fade/translate sur scroll, `duration-500`  |
-| `CompareBar`       | slide-up (position fixed bottom)           |
-| Hamburger mobile   | transitions `translate-x` + overlay blur   |
+| Composant         | Interaction                               |
+| ----------------- | ----------------------------------------- |
+| `VehicleCard`     | hover scale + overlay CTA ouvrir          |
+| `AnimatedSection` | fade/translate sur scroll, `duration-500` |
+| `CompareBar`      | slide-up (position fixed bottom)          |
+| Hamburger mobile  | transitions `translate-x` + overlay blur  |
 
 ## Hooks & stubs démo
 

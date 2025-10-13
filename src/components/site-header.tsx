@@ -63,6 +63,21 @@ export function SiteHeader(): JSX.Element {
     };
   }, [mobileMenuOpen]);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMobileMenu();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen, closeMobileMenu]);
+
   const renderNavItem = (item: (typeof navItems)[number]) => {
     const active = activeMap.get(item.href);
     return (
@@ -101,7 +116,7 @@ export function SiteHeader(): JSX.Element {
                 AUTONEX
               </span>
               <span className="text-xs text-muted-foreground">
-                Marketplace auto au Bénin
+                Marketplace auto au Bnin
               </span>
             </div>
           </Link>
@@ -184,7 +199,9 @@ export function SiteHeader(): JSX.Element {
       <div
         className={cn(
           "fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-200 md:hidden",
-          mobileMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
+          mobileMenuOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0",
         )}
         onClick={closeMobileMenu}
       />
@@ -209,7 +226,16 @@ export function SiteHeader(): JSX.Element {
           <nav className="flex flex-col gap-4">
             {navItems.map((item) => renderNavItem(item))}
           </nav>
-          <div className="mt-auto space-y-3 pb-4">
+          <div className="mt-auto space-y-3 pb-6">
+            <div className="rounded-lg border border-border/70 bg-muted/20 p-4 text-sm text-muted-foreground">
+              <p className="font-semibold text-foreground">
+                Besoin d un accompagnement ?
+              </p>
+              <p className="mt-1">
+                Notre equipe demo repond en moins de 30 minutes sur WhatsApp pendant le
+                Jour J.
+              </p>
+            </div>
             <Button asChild className="w-full gap-2">
               <Link href="/comparer" onClick={closeMobileMenu}>
                 <span>Ouvrir le comparateur</span>
@@ -229,7 +255,7 @@ export function SiteHeader(): JSX.Element {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                WhatsApp Direct
+                Contacter l equipe demo
               </Link>
             </Button>
           </div>

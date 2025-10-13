@@ -112,9 +112,7 @@ export function useSignedUpload(defaultOptions: UploadOptions = {}): {
           .get("content-type")
           ?.toLowerCase()
           .includes("application/json") ?? false;
-      const responseBody = hasJson
-        ? await signResponse.json().catch(() => null)
-        : null;
+      const responseBody = hasJson ? await signResponse.json().catch(() => null) : null;
 
       if (signResponse.status === 204 || (responseBody as { demo?: boolean })?.demo) {
         const message =

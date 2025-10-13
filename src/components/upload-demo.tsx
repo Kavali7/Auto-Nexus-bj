@@ -124,8 +124,7 @@ export function UploadDemo(): JSX.Element {
               {result.bucket}
             </div>
             <div>
-              <span className="font-medium text-foreground">Chemin :</span>{" "}
-              {result.path}
+              <span className="font-medium text-foreground">Chemin :</span> {result.path}
             </div>
             <div>
               <span className="font-medium text-foreground">Expire dans :</span>{" "}

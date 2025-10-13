@@ -62,7 +62,10 @@ function FeaturedVehicleSlider({
                     >
                       {vehicle.condition}
                     </Badge>
-                    <Badge variant="outline" className="border-white/60 bg-black/60 text-white">
+                    <Badge
+                      variant="outline"
+                      className="border-white/60 bg-black/60 text-white"
+                    >
                       {vehicle.year}
                     </Badge>
                   </div>
@@ -80,7 +83,8 @@ function FeaturedVehicleSlider({
                     {formatPriceXof(vehicle.price)}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {vehicle.fuel} - {vehicle.transmission} - {formatMileage(vehicle.mileage)}
+                    {vehicle.fuel} - {vehicle.transmission} -{" "}
+                    {formatMileage(vehicle.mileage)}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <Button asChild size="sm">
@@ -142,27 +146,6 @@ const roadmapTabs = [
       "Uploads signes vers Supabase Storage avec traitement automatique.",
       "Deck investisseurs et exports data-room generees depuis la console.",
     ],
-  },
-];
-
-const testimonials = [
-  {
-    name: "Nexus Premium",
-    role: "Concessionnaire pilote",
-    quote:
-      "Nous gagnons 48h sur nos cycles de publication et le comparateur met immediatement en valeur nos shootings studio.",
-  },
-  {
-    name: "AutoHub Abomey-Calavi",
-    role: "Equipe commerciale",
-    quote:
-      "Les leads WhatsApp arrivent qualifies : modele, budget et ville sont deja renseignes. Parfait pour notre CRM.",
-  },
-  {
-    name: "Equity Motors",
-    role: "Direction operations",
-    quote:
-      "La roadmap investors deck + data-room nous aide a cadrer les discussions avec les partenaires financiers.",
   },
 ];
 
@@ -352,7 +335,9 @@ export default async function Home(): Promise<JSX.Element> {
                       className="flex items-start gap-3 rounded-xl border border-border bg-white/90 p-4 shadow-sm"
                     >
                       <span className="mt-1 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-brand" />
-                      <p className="text-sm font-medium text-foreground sm:text-base">{point}</p>
+                      <p className="text-sm font-medium text-foreground sm:text-base">
+                        {point}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -410,13 +395,14 @@ export default async function Home(): Promise<JSX.Element> {
                           </span>
                         </div>
                         <p>
-                          {heroVehicle.city} - {heroVehicle.fuel} - {formatMileage(heroVehicle.mileage)}
+                          {heroVehicle.city} - {heroVehicle.fuel} -{" "}
+                          {formatMileage(heroVehicle.mileage)}
                         </p>
                       </div>
                     ) : (
                       <p>
-                        Objectif: transformer ce MVP statique en experience connectee ou annonces et leads
-                        vivent en temps reel.
+                        Objectif: transformer ce MVP statique en experience connectee ou
+                        annonces et leads vivent en temps reel.
                       </p>
                     )}
                   </div>
@@ -434,10 +420,35 @@ export default async function Home(): Promise<JSX.Element> {
                       {item.value}
                     </p>
                   </CardHeader>
-                  <CardContent className="text-sm text-muted-foreground">{item.hint}</CardContent>
+                  <CardContent className="text-sm text-muted-foreground">
+                    {item.hint}
+                  </CardContent>
                 </Card>
               ))}
             </div>
+            <AnimatedSection delay={0.05}>
+              <div className="mt-10 overflow-hidden rounded-3xl border border-border/60 bg-white/95 p-6 shadow-sm">
+                <div className="flex items-center justify-between gap-3 pb-4">
+                  <div className="space-y-1">
+                    <p className="text-xs uppercase tracking-[0.3em] text-brand">
+                      Sélection mock en avant
+                    </p>
+                    <h2 className="text-xl font-semibold text-foreground sm:text-2xl">
+                      Les modèles les plus consultés
+                    </h2>
+                  </div>
+                  <Button
+                    asChild
+                    size="sm"
+                    variant="outline"
+                    className="hidden md:inline-flex"
+                  >
+                    <Link href="/voitures">Voir le listing</Link>
+                  </Button>
+                </div>
+                <FeaturedVehicleSlider vehicles={featuredVehicles} />
+              </div>
+            </AnimatedSection>
           </AnimatedSection>
         </section>
 
@@ -513,21 +524,30 @@ export default async function Home(): Promise<JSX.Element> {
           id="gallery"
           className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-16"
         >
-          <AnimatedSection className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="space-y-3">
-              <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                Mur photo immersif
-              </h2>
-              <p className="max-w-2xl text-base text-muted-foreground sm:text-lg">
-                Apercu du rendu masonry avec les vehicules vedettes. Chaque carte recupere
-                les badges, la ville, le prix en XOF et jusqu a trois highlights.
-              </p>
-            </div>
-            <Button asChild variant="outline" size="sm">
-              <Link href="/voitures">Voir le listing complet</Link>
-            </Button>
+          <AnimatedSection className="space-y-3">
+            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+              Selection de vehicules premium
+            </h2>
+            <p className="max-w-2xl text-base text-muted-foreground sm:text-lg">
+              Parcourez les annonces vedettes du sprint : slider horizontal pour la demo
+              live, puis le mur masonry qui illustre la future experience dynamique.
+            </p>
+          </AnimatedSection>
+          <AnimatedSection delay={0.05}>
+            <FeaturedVehicleSlider vehicles={featuredVehicles} />
           </AnimatedSection>
           <AnimatedSection delay={0.1}>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <p className="text-sm text-muted-foreground">
+                Mur photo immersif alimente par les memes donnees : badges, highlights et
+                prix XOF.
+              </p>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/voitures">Voir le listing complet</Link>
+              </Button>
+            </div>
+          </AnimatedSection>
+          <AnimatedSection delay={0.15}>
             <VehicleMasonry items={featuredVehicles} dealers={dealers} />
           </AnimatedSection>
         </section>

@@ -36,7 +36,11 @@ type JourneyEvent = {
 const dashboardStats = [
   { label: "Leads WhatsApp (30 j)", value: "186", hint: "+32% vs sprint precedent" },
   { label: "Taux de reponse < 30 min", value: "92%", hint: "Objectif equipe commerce" },
-  { label: "GMV mock suivie", value: "126 500 000 XOF", hint: "Inventaire premium pilote" },
+  {
+    label: "GMV mock suivie",
+    value: "126 500 000 XOF",
+    hint: "Inventaire premium pilote",
+  },
 ] as const;
 
 const chartSnapshots: ChartSnapshot[] = [
@@ -69,7 +73,7 @@ const journeyStory: JourneyEvent[] = [
     time: "11:00",
     title: "Session concessionnaire pilote",
     details:
-      "Parcours guidé: stats -> fiches -> comparateur -> demande de financement. Capture des questions et objections pour le suivi.",
+      "Parcours guid    : stats -> fiches -> comparateur -> demande de financement. Capture des questions et objections pour le suivi.",
   },
   {
     time: "15:00",
@@ -86,7 +90,8 @@ const pipelineSteps = [
   },
   {
     title: "Validation & tagging",
-    description: "Check prix, mentions legales, assignation badges financement/livraison.",
+    description:
+      "Check prix, mentions legales, assignation badges financement/livraison.",
   },
   {
     title: "Publication + push",
@@ -180,7 +185,10 @@ export default function DashboardPage(): JSX.Element {
 
             <AnimatedSection className="grid gap-6 lg:grid-cols-2">
               {chartSnapshots.map((snapshot) => (
-                <Card key={snapshot.title} className="border-border/70 bg-white/95 shadow-sm">
+                <Card
+                  key={snapshot.title}
+                  className="border-border/70 bg-white/95 shadow-sm"
+                >
                   <CardHeader className="space-y-2">
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-base text-foreground">
@@ -260,9 +268,16 @@ export default function DashboardPage(): JSX.Element {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {pipelineSteps.map((step) => (
-                    <div key={step.title} className="rounded-2xl border border-border/60 bg-muted/20 p-4">
-                      <p className="text-sm font-semibold text-foreground">{step.title}</p>
-                      <p className="mt-2 text-sm text-muted-foreground">{step.description}</p>
+                    <div
+                      key={step.title}
+                      className="rounded-2xl border border-border/60 bg-muted/20 p-4"
+                    >
+                      <p className="text-sm font-semibold text-foreground">
+                        {step.title}
+                      </p>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        {step.description}
+                      </p>
                     </div>
                   ))}
                 </CardContent>
@@ -271,7 +286,8 @@ export default function DashboardPage(): JSX.Element {
                 <CardHeader>
                   <CardTitle>Upload media (maquette)</CardTitle>
                   <CardDescription>
-                    Ce composant restera en demo tant que Prisma et Supabase ne sont pas branches.
+                    Ce composant restera en demo tant que Prisma et Supabase ne sont pas
+                    branches.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -312,7 +328,7 @@ export default function DashboardPage(): JSX.Element {
                           </td>
                           <td className="py-3 pr-6">
                             <Badge variant="outline">
-                              {vehicle.condition} · {vehicle.year}
+                              {vehicle.condition} A    {vehicle.year}
                             </Badge>
                           </td>
                           <td className="py-3 pr-6">{formatMileage(vehicle.mileage)}</td>
@@ -468,8 +484,7 @@ function FinancingAndLogistics({
           Financement et livraison (mock)
         </CardTitle>
         <CardDescription className="text-sm text-muted-foreground">
-          Reassurance demo: ce bloc sera relie a Supabase une fois les partenaires
-          signes.
+          Reassurance demo: ce bloc sera relie a Supabase une fois les partenaires signes.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
@@ -505,7 +520,10 @@ function FinancingAndLogistics({
           <Link
             href={
               dealer?.whatsapp
-                ? buildWhatsappLink(dealer.whatsapp, "Je veux planifier le financement demo.")
+                ? buildWhatsappLink(
+                    dealer.whatsapp,
+                    "Je veux planifier le financement demo.",
+                  )
                 : "#contact"
             }
           >
@@ -519,4 +537,3 @@ function FinancingAndLogistics({
     </Card>
   );
 }
-

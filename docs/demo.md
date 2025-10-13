@@ -11,14 +11,14 @@
 
 ## 2. Agenda (20 minutes)
 
-| Slot | Contenu | Capture clé |
-| --- | --- | --- |
-| 00:00 – 02:00 | Intro + promesse | `desktop/home-hero-16x9.png` |
-| 02:00 – 07:00 | Parcours listing → filtres → comparaison | `desktop/cars-list-16x9.png`, `desktop/compare-bar-16x9.png` |
-| 07:00 – 12:00 | Fiche véhicule premium + galerie | `desktop/car-detail-gallery-16x9.png`, `mobile/car-detail-gallery-mobile.png` |
-| 12:00 – 15:00 | Services B2B & pilier concessionnaires | `desktop/services-16x9.png` |
-| 15:00 – 18:00 | Dashboard investisseurs + métriques | `desktop/invest-dashboard-16x9.png` |
-| 18:00 – 20:00 | Conclusion + roadmap + call-to-action | `desktop/roadmap-16x9.png` |
+| Slot          | Contenu                                  | Capture clé                                                                   |
+| ------------- | ---------------------------------------- | ----------------------------------------------------------------------------- |
+| 00:00 – 02:00 | Intro + promesse                         | `desktop/home-hero-16x9.png`                                                  |
+| 02:00 – 07:00 | Parcours listing → filtres → comparaison | `desktop/cars-list-16x9.png`, `desktop/compare-bar-16x9.png`                  |
+| 07:00 – 12:00 | Fiche véhicule premium + galerie         | `desktop/car-detail-gallery-16x9.png`, `mobile/car-detail-gallery-mobile.png` |
+| 12:00 – 15:00 | Services B2B & pilier concessionnaires   | `desktop/services-16x9.png`                                                   |
+| 15:00 – 18:00 | Dashboard investisseurs + métriques      | `desktop/invest-dashboard-16x9.png`                                           |
+| 18:00 – 20:00 | Conclusion + roadmap + call-to-action    | `desktop/roadmap-16x9.png`                                                    |
 
 ## 3. Parcours détaillé
 
@@ -69,18 +69,18 @@
 
 ## 5. Captures à produire
 
-| Chemin fichier | Description | Résolution |
-| --- | --- | --- |
-| `docs/captures/desktop/home-hero-16x9.png` | Hero + métriques | 1920×1080 |
-| `docs/captures/desktop/cars-list-16x9.png` | Listing avec filtres ouverts | 1920×1080 |
-| `docs/captures/desktop/compare-bar-16x9.png` | Barre comparateur active | 1920×1080 |
-| `docs/captures/desktop/car-detail-gallery-16x9.png` | Galerie + CTA WhatsApp | 1920×1080 |
-| `docs/captures/desktop/services-16x9.png` | Pilier services | 1920×1080 |
-| `docs/captures/desktop/invest-dashboard-16x9.png` | Section investisseurs | 1920×1080 |
-| `docs/captures/desktop/roadmap-16x9.png` | Roadmap phases | 1920×1080 |
-| `docs/captures/mobile/cars-list-mobile.png` | Listing sur mobile | 1179×2556 (ou 390×844 @3x) |
-| `docs/captures/mobile/car-detail-gallery-mobile.png` | Fiche + galerie mobile | 1179×2556 |
-| `docs/captures/mobile/invest-mobile.png` | Bloc investisseurs mobile | 1179×2556 |
+| Chemin fichier                                       | Description                  | Résolution                 |
+| ---------------------------------------------------- | ---------------------------- | -------------------------- |
+| `docs/captures/desktop/home-hero-16x9.png`           | Hero + métriques             | 1920×1080                  |
+| `docs/captures/desktop/cars-list-16x9.png`           | Listing avec filtres ouverts | 1920×1080                  |
+| `docs/captures/desktop/compare-bar-16x9.png`         | Barre comparateur active     | 1920×1080                  |
+| `docs/captures/desktop/car-detail-gallery-16x9.png`  | Galerie + CTA WhatsApp       | 1920×1080                  |
+| `docs/captures/desktop/services-16x9.png`            | Pilier services              | 1920×1080                  |
+| `docs/captures/desktop/invest-dashboard-16x9.png`    | Section investisseurs        | 1920×1080                  |
+| `docs/captures/desktop/roadmap-16x9.png`             | Roadmap phases               | 1920×1080                  |
+| `docs/captures/mobile/cars-list-mobile.png`          | Listing sur mobile           | 1179×2556 (ou 390×844 @3x) |
+| `docs/captures/mobile/car-detail-gallery-mobile.png` | Fiche + galerie mobile       | 1179×2556                  |
+| `docs/captures/mobile/invest-mobile.png`             | Bloc investisseurs mobile    | 1179×2556                  |
 
 > Ranger les captures dans `docs/captures/desktop/` et `docs/captures/mobile/` pour rester cohérent.
 

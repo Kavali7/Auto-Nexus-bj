@@ -506,9 +506,7 @@ export function VehicleGallery({
             })}
           </div>
           {activePhoto?.label ? (
-            <p className="mt-3 text-center text-sm text-white/80">
-              {activePhoto?.label}
-            </p>
+            <p className="mt-3 text-center text-sm text-white/80">{activePhoto?.label}</p>
           ) : null}
         </div>
       ) : null}

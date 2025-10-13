@@ -5,7 +5,6 @@ import { AnimatedSection } from "@/components/animated-section";
 import { LeadForm } from "@/components/lead-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
@@ -265,7 +264,11 @@ export default function InvestorsPage(): JSX.Element {
                 submitLabel="Recevoir le pack investisseur"
                 successMessage="Merci ! Lors du go live, ce formulaire declenchera l envoi automatique du deck, de la data-room et du suivi demo."
                 fields={[
-                  { name: "name", label: "Nom et fonction", placeholder: "Votre nom et role" },
+                  {
+                    name: "name",
+                    label: "Nom et fonction",
+                    placeholder: "Votre nom et role",
+                  },
                   {
                     name: "email",
                     label: "Email professionnel",

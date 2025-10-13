@@ -7,9 +7,7 @@ import { Button } from "@/components/ui/button";
 
 export function SiteFooter(): JSX.Element {
   const year = new Date().getFullYear();
-  const [newsletterStatus, setNewsletterStatus] = useState<
-    "idle" | "submitted"
-  >("idle");
+  const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "submitted">("idle");
 
   const handleNewsletterSubmit = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
@@ -25,26 +23,20 @@ export function SiteFooter(): JSX.Element {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <section aria-labelledby="footer-brand" className="space-y-4">
             <div className="space-y-2 text-sm text-muted-foreground">
-              <p
-                id="footer-brand"
-                className="text-lg font-semibold text-foreground"
-              >
+              <p id="footer-brand" className="text-lg font-semibold text-foreground">
                 Auto Nexus BJ
               </p>
               <p>
-                Marketplace auto premium pour connecter les concessionnaires du
-                Bénin à leurs clients. MVP statique prêt pour l’onboarding
-                Supabase &amp; Meilisearch.
+                Marketplace auto premium pour connecter les concessionnaires du Bénin à
+                leurs clients. MVP statique prêt pour l’onboarding Supabase &amp;
+                Meilisearch.
               </p>
             </div>
             <div className="rounded-2xl border border-brand/20 bg-brand/5 p-4 text-sm text-muted-foreground">
               <p className="font-semibold text-brand">Coordonnées</p>
               <p>Cotonou, Bénin</p>
               <p>
-                <Link
-                  href="tel:+22995606058"
-                  className="transition hover:text-brand"
-                >
+                <Link href="tel:+22995606058" className="transition hover:text-brand">
                   +229 95 60 60 58
                 </Link>
               </p>
@@ -76,19 +68,13 @@ export function SiteFooter(): JSX.Element {
               <Link href="/voitures" className="transition hover:text-brand">
                 Voitures disponibles
               </Link>
-              <Link
-                href="/concessionnaires"
-                className="transition hover:text-brand"
-              >
+              <Link href="/concessionnaires" className="transition hover:text-brand">
                 Concessionnaires
               </Link>
               <Link href="/services" className="transition hover:text-brand">
                 Services &amp; solutions
               </Link>
-              <Link
-                href="/investisseurs"
-                className="transition hover:text-brand"
-              >
+              <Link href="/investisseurs" className="transition hover:text-brand">
                 Investisseurs
               </Link>
               <Link href="/dashboard" className="transition hover:text-brand">
@@ -111,16 +97,10 @@ export function SiteFooter(): JSX.Element {
               <Link href="/comparer" className="transition hover:text-brand">
                 Comparateur véhicules
               </Link>
-              <Link
-                href="/conditions-generales"
-                className="transition hover:text-brand"
-              >
+              <Link href="/conditions-generales" className="transition hover:text-brand">
                 Conditions générales
               </Link>
-              <Link
-                href="/mentions-legales"
-                className="transition hover:text-brand"
-              >
+              <Link href="/mentions-legales" className="transition hover:text-brand">
                 Mentions légales
               </Link>
               <Link
@@ -200,13 +180,11 @@ export function SiteFooter(): JSX.Element {
               </Button>
               {newsletterStatus === "submitted" ? (
                 <p className="text-xs text-emerald-600">
-                  Merci ! Vous recevrez l’actualité lancement et la roadmap
-                  produit.
+                  Merci ! Vous recevrez l’actualité lancement et la roadmap produit.
                 </p>
               ) : (
                 <p className="text-xs text-muted-foreground">
-                  Mode démo : l’inscription est simulée, aucune donnée n’est
-                  enregistrée.
+                  Mode démo : l’inscription est simulée, aucune donnée n’est enregistrée.
                 </p>
               )}
             </form>
@@ -232,8 +210,8 @@ export function SiteFooter(): JSX.Element {
 
         <div className="mt-10 flex flex-col gap-3 border-t border-border/60 pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {year} Auto Nexus BJ. Tous droits réservés — Prototype statique
-            pour démonstration produit.
+            © {year} Auto Nexus BJ. Tous droits réservés — Prototype statique pour
+            démonstration produit.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link href="/sitemap.xml" className="transition hover:text-brand">
@@ -245,16 +223,10 @@ export function SiteFooter(): JSX.Element {
             >
               Confidentialité
             </Link>
-            <Link
-              href="/conditions-generales"
-              className="transition hover:text-brand"
-            >
+            <Link href="/conditions-generales" className="transition hover:text-brand">
               CGU
             </Link>
-            <Link
-              href="/mentions-legales"
-              className="transition hover:text-brand"
-            >
+            <Link href="/mentions-legales" className="transition hover:text-brand">
               Mentions légales
             </Link>
           </div>

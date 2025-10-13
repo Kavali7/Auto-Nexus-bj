@@ -195,7 +195,8 @@ export default function DealersPage(): JSX.Element {
             <CardHeader className="space-y-2">
               <CardTitle>Rejoindre Auto Nexus BJ</CardTitle>
               <CardDescription>
-                Simulation de formulaire onboarding: les donnees seront stockees dans Supabase lors du go live.
+                Simulation de formulaire onboarding: les donnees seront stockees dans
+                Supabase lors du go live.
               </CardDescription>
             </CardHeader>
             <CardContent>
