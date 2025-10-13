@@ -43,6 +43,8 @@ model Vehicle {
   city          String
   heroImage     String?
   gallery       VehiclePhoto[]
+  leads         Lead[]     @relation("VehicleLeads")
+  uploads       Upload[]   @relation("VehicleUploads")
   highlights    String[]
   available     Boolean   @default(true)
   createdAt     DateTime  @default(now())
@@ -64,7 +66,7 @@ model Lead {
   dealerId    String
   dealer      Dealer   @relation(fields: [dealerId], references: [id])
   vehicleId   String?
-  vehicle     Vehicle? @relation(fields: [vehicleId], references: [id])
+  vehicle     Vehicle? @relation("VehicleLeads", fields: [vehicleId], references: [id])
   name        String
   phone       String
   message     String
@@ -77,7 +79,7 @@ model Lead {
 model Upload {
   id            String   @id @default(cuid())
   vehicleId     String?
-  vehicle       Vehicle? @relation(fields: [vehicleId], references: [id])
+  vehicle       Vehicle? @relation("VehicleUploads", fields: [vehicleId], references: [id])
   bucket        String   @default("public-assets")
   path          String
   url           String
