@@ -578,7 +578,7 @@ export function VehiclesExplorer({
         {visibleResults.length === 0 ? (
           <CardEmptyState search={search} />
         ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {visibleResults.map((vehicle) => {
               const dealer = dealersMap.get(vehicle.dealerId);
               return <VehicleCard key={vehicle.id} vehicle={vehicle} dealer={dealer} />;
