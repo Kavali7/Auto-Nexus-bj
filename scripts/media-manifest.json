@@ -1,0 +1,1046 @@
+[
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\lexus_rx450h_2024_ext01.png",
+    "target": "vehicles/lexus_rx450h_2024_ext01",
+    "label": "Vue avant studio",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-lexus-rx450h-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\lexus_rx450h_2024_ext02.png",
+    "target": "vehicles/lexus_rx450h_2024_ext02",
+    "label": "Profil dynamique",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-lexus-rx450h-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\lexus_rx450h_2024_int01.png",
+    "target": "vehicles/lexus_rx450h_2024_int01",
+    "label": "Cockpit Lexus Interface",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-lexus-rx450h-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\lexus_rx450h_2024_int02.png",
+    "target": "vehicles/lexus_rx450h_2024_int02",
+    "label": "Banquette lounge",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-lexus-rx450h-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\lexus_rx450h_2024_det01.png",
+    "target": "vehicles/lexus_rx450h_2024_det01",
+    "label": "Signature lumineuse BladeScan",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-lexus-rx450h-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\lexus_rx450h_2024_pan01.png",
+    "target": "vehicles/lexus_rx450h_2024_pan01",
+    "label": "Vue lifestyle 360°",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-lexus-rx450h-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\toyota_hilux_2022_ext01.png",
+    "target": "vehicles/toyota_hilux_2022_ext01",
+    "label": "Vue outdoor piste",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-toyota-hilux-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\toyota_hilux_2022_ext02.png",
+    "target": "vehicles/toyota_hilux_2022_ext02",
+    "label": "Ben­ne utilitaire équipée",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-toyota-hilux-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\toyota_hilux_2022_int01.png",
+    "target": "vehicles/toyota_hilux_2022_int01",
+    "label": "Habitacle double cabine",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-toyota-hilux-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\toyota_hilux_2022_int02.png",
+    "target": "vehicles/toyota_hilux_2022_int02",
+    "label": "Instrumentation GR Sport",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-toyota-hilux-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\toyota_hilux_2022_det01.png",
+    "target": "vehicles/toyota_hilux_2022_det01",
+    "label": "Jantes 18\" noires",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-toyota-hilux-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\toyota_hilux_2022_pan01.png",
+    "target": "vehicles/toyota_hilux_2022_pan01",
+    "label": "Vue panoramique bivouac",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-toyota-hilux-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\range_rover_sport_2021_ext01.png",
+    "target": "vehicles/range_rover_sport_2021_ext01",
+    "label": "Façade nuit",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-range-rover-sport-2021"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\range_rover_sport_2021_ext02.png",
+    "target": "vehicles/range_rover_sport_2021_ext02",
+    "label": "Vue 3/4 arrière",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-range-rover-sport-2021"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\range_rover_sport_2021_int01.png",
+    "target": "vehicles/range_rover_sport_2021_int01",
+    "label": "Conduite Pivi Pro",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-range-rover-sport-2021"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\range_rover_sport_2021_int02.png",
+    "target": "vehicles/range_rover_sport_2021_int02",
+    "label": "Sièges Windsor",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-range-rover-sport-2021"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\range_rover_sport_2021_det01.png",
+    "target": "vehicles/range_rover_sport_2021_det01",
+    "label": "Détails Black Pack",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-range-rover-sport-2021"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\range_rover_sport_2021_pan01.png",
+    "target": "vehicles/range_rover_sport_2021_pan01",
+    "label": "Lifestyle front de mer",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-range-rover-sport-2021"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\mercedes_gle450_2023_ext01.png",
+    "target": "vehicles/mercedes_gle450_2023_ext01",
+    "label": "Vue studio avant",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-mercedes-gle450-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\mercedes_gle450_2023_ext02.png",
+    "target": "vehicles/mercedes_gle450_2023_ext02",
+    "label": "Silhouette nocturne",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-mercedes-gle450-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\mercedes_gle450_2023_int01.png",
+    "target": "vehicles/mercedes_gle450_2023_int01",
+    "label": "Cabine Hyperscreen",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-mercedes-gle450-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\mercedes_gle450_2023_int02.png",
+    "target": "vehicles/mercedes_gle450_2023_int02",
+    "label": "Banquette Executive",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-mercedes-gle450-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\mercedes_gle450_2023_det01.png",
+    "target": "vehicles/mercedes_gle450_2023_det01",
+    "label": "Volant AMG cuir/Alcantara",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-mercedes-gle450-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\mercedes_gle450_2023_pan01.png",
+    "target": "vehicles/mercedes_gle450_2023_pan01",
+    "label": "Vue panoramique showroom",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-mercedes-gle450-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\bmw_x5_2020_ext01.png",
+    "target": "vehicles/bmw_x5_2020_ext01",
+    "label": "Face avant M Sport",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-bmw-x5-2020"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\bmw_x5_2020_ext02.png",
+    "target": "vehicles/bmw_x5_2020_ext02",
+    "label": "Vue 3/4 arrière",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-bmw-x5-2020"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\bmw_x5_2020_int01.png",
+    "target": "vehicles/bmw_x5_2020_int01",
+    "label": "Planche de bord iDrive",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-bmw-x5-2020"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\bmw_x5_2020_int02.png",
+    "target": "vehicles/bmw_x5_2020_int02",
+    "label": "Deuxième rangée coulissante",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-bmw-x5-2020"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\bmw_x5_2020_det01.png",
+    "target": "vehicles/bmw_x5_2020_det01",
+    "label": "Détail sellerie Vernasca",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-bmw-x5-2020"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\bmw_x5_2020_pan01.png",
+    "target": "vehicles/bmw_x5_2020_pan01",
+    "label": "Vue panoramique rooftop",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-bmw-x5-2020"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\kia_seltos_2024_ext01.png",
+    "target": "vehicles/kia_seltos_2024_ext01",
+    "label": "Signature lumineuse avant",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-kia-seltos-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\kia_seltos_2024_ext02.png",
+    "target": "vehicles/kia_seltos_2024_ext02",
+    "label": "Vue latérale urbaine",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-kia-seltos-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\kia_seltos_2024_int01.png",
+    "target": "vehicles/kia_seltos_2024_int01",
+    "label": "Planche de bord connectée",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-kia-seltos-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\kia_seltos_2024_int02.png",
+    "target": "vehicles/kia_seltos_2024_int02",
+    "label": "Sellerie GT-Line",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-kia-seltos-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\kia_seltos_2024_det01.png",
+    "target": "vehicles/kia_seltos_2024_det01",
+    "label": "Détail jantes diamantées",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-kia-seltos-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\kia_seltos_2024_pan01.png",
+    "target": "vehicles/kia_seltos_2024_pan01",
+    "label": "Vue immersive showroom",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-kia-seltos-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\toyota_corolla_cross_2023_ext01.png",
+    "target": "vehicles/toyota_corolla_cross_2023_ext01",
+    "label": "Vue avant hybride",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-toyota-corolla-cross-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\toyota_corolla_cross_2023_ext02.png",
+    "target": "vehicles/toyota_corolla_cross_2023_ext02",
+    "label": "Silhouette urbaine",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-toyota-corolla-cross-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\toyota_corolla_cross_2023_int01.png",
+    "target": "vehicles/toyota_corolla_cross_2023_int01",
+    "label": "Planche de bord Lounge",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-toyota-corolla-cross-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\toyota_corolla_cross_2023_int02.png",
+    "target": "vehicles/toyota_corolla_cross_2023_int02",
+    "label": "Seconde rangée modulable",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-toyota-corolla-cross-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\toyota_corolla_cross_2023_det01.png",
+    "target": "vehicles/toyota_corolla_cross_2023_det01",
+    "label": "Bloc optique LED",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-toyota-corolla-cross-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\toyota_corolla_cross_2023_pan01.png",
+    "target": "vehicles/toyota_corolla_cross_2023_pan01",
+    "label": "Vue lifestyle plage",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-toyota-corolla-cross-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\nissan_patrol_2022_ext01.png",
+    "target": "vehicles/nissan_patrol_2022_ext01",
+    "label": "Vue avant Platinum",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-nissan-patrol-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\nissan_patrol_2022_ext02.png",
+    "target": "vehicles/nissan_patrol_2022_ext02",
+    "label": "Stationnement urbain",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-nissan-patrol-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\nissan_patrol_2022_int01.png",
+    "target": "vehicles/nissan_patrol_2022_int01",
+    "label": "Console centrale double écran",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-nissan-patrol-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\nissan_patrol_2022_int02.png",
+    "target": "vehicles/nissan_patrol_2022_int02",
+    "label": "Configuration 7 places",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-nissan-patrol-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\nissan_patrol_2022_det01.png",
+    "target": "vehicles/nissan_patrol_2022_det01",
+    "label": "Détail Skyline signature",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-nissan-patrol-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\nissan_patrol_2022_pan01.png",
+    "target": "vehicles/nissan_patrol_2022_pan01",
+    "label": "Vue désert & ville",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-nissan-patrol-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\hyundai_tucson_2022_ext01.png",
+    "target": "vehicles/hyundai_tucson_2022_ext01",
+    "label": "Vue frontale paramétrique",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-hyundai-tucson-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\hyundai_tucson_2022_ext02.png",
+    "target": "vehicles/hyundai_tucson_2022_ext02",
+    "label": "Profil latéral ville",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-hyundai-tucson-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\hyundai_tucson_2022_int01.png",
+    "target": "vehicles/hyundai_tucson_2022_int01",
+    "label": "Double écran 10\"3",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-hyundai-tucson-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\hyundai_tucson_2022_int02.png",
+    "target": "vehicles/hyundai_tucson_2022_int02",
+    "label": "Plancher cargo modulable",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-hyundai-tucson-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\hyundai_tucson_2022_det01.png",
+    "target": "vehicles/hyundai_tucson_2022_det01",
+    "label": "Détail jantes paramétriques",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-hyundai-tucson-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\hyundai_tucson_2022_pan01.png",
+    "target": "vehicles/hyundai_tucson_2022_pan01",
+    "label": "Vue panoramique parc urbain",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-hyundai-tucson-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\ford_ranger_2023_ext01.png",
+    "target": "vehicles/ford_ranger_2023_ext01",
+    "label": "Vue jump rally raid",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-ford-ranger-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\ford_ranger_2023_ext02.png",
+    "target": "vehicles/ford_ranger_2023_ext02",
+    "label": "Arrière benne renforcée",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-ford-ranger-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\ford_ranger_2023_int01.png",
+    "target": "vehicles/ford_ranger_2023_int01",
+    "label": "Cockpit Raptor 12\"",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-ford-ranger-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\ford_ranger_2023_int02.png",
+    "target": "vehicles/ford_ranger_2023_int02",
+    "label": "Sièges sport Recaro",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-ford-ranger-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\ford_ranger_2023_det01.png",
+    "target": "vehicles/ford_ranger_2023_det01",
+    "label": "Pneus BFGoodrich KO2",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-ford-ranger-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\ford_ranger_2023_pan01.png",
+    "target": "vehicles/ford_ranger_2023_pan01",
+    "label": "Vue désert NAD",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-ford-ranger-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\mitsubishi_pajero_2021_ext01.png",
+    "target": "vehicles/mitsubishi_pajero_2021_ext01",
+    "label": "Vue dynamique trail",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-mitsubishi-pajero-2021"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\mitsubishi_pajero_2021_ext02.png",
+    "target": "vehicles/mitsubishi_pajero_2021_ext02",
+    "label": "Profil urbain éclairé",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-mitsubishi-pajero-2021"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\mitsubishi_pajero_2021_int01.png",
+    "target": "vehicles/mitsubishi_pajero_2021_int01",
+    "label": "Planche Soft Touch",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-mitsubishi-pajero-2021"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\mitsubishi_pajero_2021_int02.png",
+    "target": "vehicles/mitsubishi_pajero_2021_int02",
+    "label": "Troisième rangée rabattable",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-mitsubishi-pajero-2021"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\mitsubishi_pajero_2021_det01.png",
+    "target": "vehicles/mitsubishi_pajero_2021_det01",
+    "label": "Sélecteur Super Select",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-mitsubishi-pajero-2021"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\mitsubishi_pajero_2021_pan01.png",
+    "target": "vehicles/mitsubishi_pajero_2021_pan01",
+    "label": "Vue paysage haute montagne",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-mitsubishi-pajero-2021"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\peugeot_3008_2022_ext01.png",
+    "target": "vehicles/peugeot_3008_2022_ext01",
+    "label": "Face féline GT",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-peugeot-3008-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\peugeot_3008_2022_ext02.png",
+    "target": "vehicles/peugeot_3008_2022_ext02",
+    "label": "Vue arrière sabre LED",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-peugeot-3008-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\peugeot_3008_2022_int01.png",
+    "target": "vehicles/peugeot_3008_2022_int01",
+    "label": "i-Cockpit 3D",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-peugeot-3008-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\peugeot_3008_2022_int02.png",
+    "target": "vehicles/peugeot_3008_2022_int02",
+    "label": "Sellerie Alcantara GT",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-peugeot-3008-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\peugeot_3008_2022_det01.png",
+    "target": "vehicles/peugeot_3008_2022_det01",
+    "label": "Sélecteur e-Toggle",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-peugeot-3008-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\peugeot_3008_2022_pan01.png",
+    "target": "vehicles/peugeot_3008_2022_pan01",
+    "label": "Vue lifestyle centre-ville",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-peugeot-3008-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\honda_crv_2023_ext01.png",
+    "target": "vehicles/honda_crv_2023_ext01",
+    "label": "Vue avant Advance",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-honda-crv-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\honda_crv_2023_ext02.png",
+    "target": "vehicles/honda_crv_2023_ext02",
+    "label": "Profil côte Atlantique",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-honda-crv-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\honda_crv_2023_int01.png",
+    "target": "vehicles/honda_crv_2023_int01",
+    "label": "Planche horizontale premium",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-honda-crv-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\honda_crv_2023_int02.png",
+    "target": "vehicles/honda_crv_2023_int02",
+    "label": "Banquette coulissante",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-honda-crv-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\honda_crv_2023_det01.png",
+    "target": "vehicles/honda_crv_2023_det01",
+    "label": "Molette mode Sport/EV",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-honda-crv-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\honda_crv_2023_pan01.png",
+    "target": "vehicles/honda_crv_2023_pan01",
+    "label": "Vue panorama littoral",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-honda-crv-2023"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\suzuki_jimny_2024_ext01.png",
+    "target": "vehicles/suzuki_jimny_2024_ext01",
+    "label": "Vue trail expédition",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-suzuki-jimny-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\suzuki_jimny_2024_ext02.png",
+    "target": "vehicles/suzuki_jimny_2024_ext02",
+    "label": "Profil campement",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-suzuki-jimny-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\suzuki_jimny_2024_int01.png",
+    "target": "vehicles/suzuki_jimny_2024_int01",
+    "label": "Dashboard utilitaire",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-suzuki-jimny-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\suzuki_jimny_2024_int02.png",
+    "target": "vehicles/suzuki_jimny_2024_int02",
+    "label": "Banquette rabattue cargo",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-suzuki-jimny-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\suzuki_jimny_2024_det01.png",
+    "target": "vehicles/suzuki_jimny_2024_det01",
+    "label": "Poker différentiel AllGrip",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-suzuki-jimny-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\suzuki_jimny_2024_pan01.png",
+    "target": "vehicles/suzuki_jimny_2024_pan01",
+    "label": "Vue panoramique montagne",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-suzuki-jimny-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\audi_q7_2022_ext01.png",
+    "target": "vehicles/audi_q7_2022_ext01",
+    "label": "Vue frontale S line",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-audi-q7-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\audi_q7_2022_ext02.png",
+    "target": "vehicles/audi_q7_2022_ext02",
+    "label": "Silhouette urbaine nocturne",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-audi-q7-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\audi_q7_2022_int01.png",
+    "target": "vehicles/audi_q7_2022_int01",
+    "label": "MMI double écran",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-audi-q7-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\audi_q7_2022_int02.png",
+    "target": "vehicles/audi_q7_2022_int02",
+    "label": "Configuration 7 places",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-audi-q7-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\audi_q7_2022_det01.png",
+    "target": "vehicles/audi_q7_2022_det01",
+    "label": "Signature Matrix LED",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-audi-q7-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\audi_q7_2022_pan01.png",
+    "target": "vehicles/audi_q7_2022_pan01",
+    "label": "Vue panoramique marina",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-audi-q7-2022"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\vw_amarok_2024_ext01.png",
+    "target": "vehicles/vw_amarok_2024_ext01",
+    "label": "Vue frontale Style",
+    "kind": "EXTERIOR",
+    "position": 1,
+    "entity": "vehicle",
+    "entityId": "veh-vw-amarok-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\vw_amarok_2024_ext02.png",
+    "target": "vehicles/vw_amarok_2024_ext02",
+    "label": "Profil plage Benin",
+    "kind": "EXTERIOR",
+    "position": 2,
+    "entity": "vehicle",
+    "entityId": "veh-vw-amarok-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\vw_amarok_2024_int01.png",
+    "target": "vehicles/vw_amarok_2024_int01",
+    "label": "Console 12\" IQ.Light",
+    "kind": "INTERIOR",
+    "position": 3,
+    "entity": "vehicle",
+    "entityId": "veh-vw-amarok-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\vw_amarok_2024_int02.png",
+    "target": "vehicles/vw_amarok_2024_int02",
+    "label": "Banquette double cabine",
+    "kind": "INTERIOR",
+    "position": 4,
+    "entity": "vehicle",
+    "entityId": "veh-vw-amarok-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\vw_amarok_2024_det01.png",
+    "target": "vehicles/vw_amarok_2024_det01",
+    "label": "Jantes 19\" Sport",
+    "kind": "DETAIL",
+    "position": 5,
+    "entity": "vehicle",
+    "entityId": "veh-vw-amarok-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\vehicles\\vw_amarok_2024_pan01.png",
+    "target": "vehicles/vw_amarok_2024_pan01",
+    "label": "Vue panoramique lagune",
+    "kind": "PANORAMA",
+    "position": 6,
+    "entity": "vehicle",
+    "entityId": "veh-vw-amarok-2024"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\nexus_premium_hero.png",
+    "target": "dealers/nexus_premium_hero",
+    "label": "Vitrine principale",
+    "kind": "HERO",
+    "position": 1,
+    "entity": "dealer",
+    "entityId": "nexus-premium"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\nexus_premium_showroom.png",
+    "target": "dealers/nexus_premium_showroom",
+    "label": "Showroom & exposition",
+    "kind": "SERVICE",
+    "position": 2,
+    "entity": "dealer",
+    "entityId": "nexus-premium"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\nexus_premium_delivery.png",
+    "target": "dealers/nexus_premium_delivery",
+    "label": "Livraison client",
+    "kind": "SERVICE",
+    "position": 3,
+    "entity": "dealer",
+    "entityId": "nexus-premium"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\nexus_premium_lounge.png",
+    "target": "dealers/nexus_premium_lounge",
+    "label": "Atelier & services",
+    "kind": "SERVICE",
+    "position": 4,
+    "entity": "dealer",
+    "entityId": "nexus-premium"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\cfao_motors_hero.png",
+    "target": "dealers/cfao_motors_hero",
+    "label": "Vitrine principale",
+    "kind": "HERO",
+    "position": 1,
+    "entity": "dealer",
+    "entityId": "cfaomotors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\cfao_motors_workshop.png",
+    "target": "dealers/cfao_motors_workshop",
+    "label": "Showroom & exposition",
+    "kind": "SERVICE",
+    "position": 2,
+    "entity": "dealer",
+    "entityId": "cfaomotors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\cfao_motors_delivery.png",
+    "target": "dealers/cfao_motors_delivery",
+    "label": "Livraison client",
+    "kind": "SERVICE",
+    "position": 3,
+    "entity": "dealer",
+    "entityId": "cfaomotors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\cfao_motors_team.png",
+    "target": "dealers/cfao_motors_team",
+    "label": "Atelier & services",
+    "kind": "SERVICE",
+    "position": 4,
+    "entity": "dealer",
+    "entityId": "cfaomotors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\get_motors_hero.png",
+    "target": "dealers/get_motors_hero",
+    "label": "Vitrine principale",
+    "kind": "HERO",
+    "position": 1,
+    "entity": "dealer",
+    "entityId": "get-motors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\get_motors_lineup.png",
+    "target": "dealers/get_motors_lineup",
+    "label": "Showroom & exposition",
+    "kind": "SERVICE",
+    "position": 2,
+    "entity": "dealer",
+    "entityId": "get-motors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\get_motors_workshop.png",
+    "target": "dealers/get_motors_workshop",
+    "label": "Livraison client",
+    "kind": "SERVICE",
+    "position": 3,
+    "entity": "dealer",
+    "entityId": "get-motors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\get_motors_delivery.png",
+    "target": "dealers/get_motors_delivery",
+    "label": "Atelier & services",
+    "kind": "SERVICE",
+    "position": 4,
+    "entity": "dealer",
+    "entityId": "get-motors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\mig_motors_hero.png",
+    "target": "dealers/mig_motors_hero",
+    "label": "Vitrine principale",
+    "kind": "HERO",
+    "position": 1,
+    "entity": "dealer",
+    "entityId": "mig-motors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\mig_motors_showroom.png",
+    "target": "dealers/mig_motors_showroom",
+    "label": "Showroom & exposition",
+    "kind": "SERVICE",
+    "position": 2,
+    "entity": "dealer",
+    "entityId": "mig-motors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\mig_motors_delivery.png",
+    "target": "dealers/mig_motors_delivery",
+    "label": "Livraison client",
+    "kind": "SERVICE",
+    "position": 3,
+    "entity": "dealer",
+    "entityId": "mig-motors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\mig_motors_service.png",
+    "target": "dealers/mig_motors_service",
+    "label": "Atelier & services",
+    "kind": "SERVICE",
+    "position": 4,
+    "entity": "dealer",
+    "entityId": "mig-motors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\atlantic_motors_hero.png",
+    "target": "dealers/atlantic_motors_hero",
+    "label": "Vitrine principale",
+    "kind": "HERO",
+    "position": 1,
+    "entity": "dealer",
+    "entityId": "atlantic-motors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\atlantic_motors_showroom.png",
+    "target": "dealers/atlantic_motors_showroom",
+    "label": "Showroom & exposition",
+    "kind": "SERVICE",
+    "position": 2,
+    "entity": "dealer",
+    "entityId": "atlantic-motors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\atlantic_motors_delivery.png",
+    "target": "dealers/atlantic_motors_delivery",
+    "label": "Livraison client",
+    "kind": "SERVICE",
+    "position": 3,
+    "entity": "dealer",
+    "entityId": "atlantic-motors"
+  },
+  {
+    "source": "E:\\Mes traveaux\\AA-SAAS\\Auto2\\auto-nexus-bj\\assets\\raw-media\\dealers\\atlantic_motors_fastcharge.png",
+    "target": "dealers/atlantic_motors_fastcharge",
+    "label": "Atelier & services",
+    "kind": "SERVICE",
+    "position": 4,
+    "entity": "dealer",
+    "entityId": "atlantic-motors"
+  }
+]
