@@ -68,7 +68,7 @@ const stats = [
 const heroPillars = [
   "Comparer les stocks multi-concessionnaires en un seul endroit.",
   "Livrer une galerie masonry immersive avec badges et stats.",
-  "Diriger chaque lead vers WhatsApp, l'appel ou un formulaire.",
+  "Diriger chaque lead vers WhatsApp, l&apos;appel ou un formulaire.",
 ];
 
 const roadmapTabs = [
@@ -96,7 +96,7 @@ const roadmapTabs = [
   {
     value: "phase2",
     label: "Phase 2",
-    description: "Objectifs une fois l'infra Supabase/Prisma en place.",
+    description: "Objectifs une fois l&apos;infra Supabase/Prisma en place.",
     items: [
       "Recherche temps reel Meilisearch + filtres facettes.",
       "Uploads signes vers Supabase Storage avec traitement automatique.",
@@ -269,8 +269,8 @@ export default function Home(): JSX.Element {
               Stack et prochaines etapes
             </h2>
             <p className="max-w-3xl text-base text-muted-foreground sm:text-lg">
-              On garde les mocks pour l'instant, mais toute la structure vise a
-              accueillir Supabase, Prisma et un vrai flux d'upload photo.
+              On garde les mocks pour l&apos;instant, mais toute la structure vise a
+              accueillir Supabase, Prisma et un vrai flux d&apos;upload photo.
             </p>
           </AnimatedSection>
           <AnimatedSection delay={0.05}>
@@ -470,7 +470,7 @@ export default function Home(): JSX.Element {
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <Button size="lg" asChild>
                   <Link href="mailto:launch@autonexus.bj">
-                    Planifier l'atelier d'onboarding
+                    Planifier l&apos;atelier d&apos;onboarding
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>

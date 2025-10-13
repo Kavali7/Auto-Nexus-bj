@@ -1,14 +1,12 @@
-"use server";
-
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-export function getSupabaseAdmin() {
+export const getSupabaseAdmin = () => {
   if (!supabaseUrl || !serviceRoleKey) {
     throw new Error(
-      "Supabase service role non configuré (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY).",
+      "Supabase service role missing (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY).",
     );
   }
 
@@ -18,4 +16,4 @@ export function getSupabaseAdmin() {
       persistSession: false,
     },
   });
-}
+};

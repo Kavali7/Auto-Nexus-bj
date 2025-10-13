@@ -102,9 +102,8 @@ export async function createSignedUploadUrl(
 
   const { data, error } = await supabase.storage
     .from(bucket)
-    .createSignedUploadUrl(path, expiresIn, {
+    .createSignedUploadUrl(path, {
       upsert,
-      contentType: options.contentType,
     });
 
   if (error || !data) {
