@@ -49,3 +49,6 @@ Prototype Next.js (App Router) pour mettre en scene l'univers Auto Nexus BJ : co
 3. Finaliser la pipeline Supabase Storage (traitements images, CDN) et instrumentation analytics (Vercel, LogSnag).
 
 Besoin d'une demo guidee, d'un deck ou d'un argumentaire personnalise ? Ping WhatsApp (+229 62 45 90 12) ou ouvrez une issue.
+
+ggg
+kkkkkk
