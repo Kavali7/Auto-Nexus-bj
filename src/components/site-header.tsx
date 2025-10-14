@@ -97,19 +97,19 @@ export function SiteHeader(): JSX.Element {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-border/70 bg-white/90 backdrop-blur">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-border/70 bg-white shadow-sm">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-6">
           <Link
             href="/"
-            className="flex items-center gap-3 rounded-full bg-white/85 px-3 py-2 shadow-sm backdrop-blur md:bg-transparent md:px-0 md:py-0 md:shadow-none"
+            className="flex items-center gap-3"
           >
             <Image
               src="/brand/anx-logo.png"
               alt="Auto Nexus BJ"
-              width={132}
-              height={40}
+              width={160}
+              height={48}
               priority
-              className="h-10 w-auto"
+              className="h-12 w-auto"
             />
           </Link>
           <nav className="hidden flex-1 items-center justify-center gap-6 text-sm font-medium md:flex">

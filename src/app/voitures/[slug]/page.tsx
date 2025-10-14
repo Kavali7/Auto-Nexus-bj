@@ -183,6 +183,22 @@ export default async function VehicleDetail({
   );
 }
 
+function BackToCatalogLink(): JSX.Element {
+  return (
+    <Button
+      asChild
+      size="sm"
+      variant="secondary"
+      className="gap-2 bg-white/90 text-foreground shadow-sm hover:bg-white"
+    >
+      <Link href="/voitures" className="flex items-center gap-2">
+        <ArrowLeftIcon className="h-4 w-4" />
+        Retour au catalogue
+      </Link>
+    </Button>
+  );
+}
+
 function Hero({
   vehicle,
   dealer,
@@ -205,6 +221,9 @@ function Hero({
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
       </div>
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-16 sm:py-20 lg:py-24">
+        <div className="flex justify-start">
+          <BackToCatalogLink />
+        </div>
         <div className="grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
           <div className="space-y-6">
             <Badge variant="secondary" className="w-fit bg-white/10 text-white">
@@ -270,6 +289,26 @@ function Hero({
         </div>
       </div>
     </section>
+  );
+}
+
+function ArrowLeftIcon({ className }: { className?: string }): JSX.Element {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M15 18L9 12L15 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
