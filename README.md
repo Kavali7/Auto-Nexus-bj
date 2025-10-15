@@ -52,6 +52,20 @@ Prototype Next.js (App Router) pour mettre en scene l'univers Auto Nexus BJ : co
 > Note : sans services externes, l'app se base sur les mocks (recherche locale, donnees JSON).
 > Activez le mode demo statique (`NEXT_PUBLIC_STATIC_DEMO_MODE=true` et `STATIC_DEMO_MODE=true`) pour bloquer les appels analytics/favoris et afficher le message de simulation lors des interactions.
 
+### Supabase Postgres & secrets
+
+- Récupérez `SUPABASE_URL`, `SUPABASE_ANON_KEY` et `SUPABASE_SERVICE_ROLE_KEY` depuis Supabase (`Project Settings > API`). Pour Prisma, gardez `DATABASE_URL` sur le host pgbouncer (`aws-1-us-east-2.pooler.supabase.com:6543`) et `DIRECT_URL` sur l'hôte direct (`db.tqupiggepzqjhpvtnxqy.supabase.co:5432`) en conservant `?sslmode=require`.
+- Sauvegardez ces identifiants (y compris le mot de passe Postgres) dans le coffre-fort d'équipe afin d'assurer la rotation et l'accès partagé sécurisé.
+- Préservez les médias existants : ne supprimez pas le bucket `Auto-Nexus-bj` ni les assets `public/brand/` tant que la bascule production n'est pas terminée.
+- Vérification Prisma :
+
+```bash
+npx prisma generate
+# ✔ Generated Prisma Client (v6.17.0) to .\node_modules\@prisma\client
+```
+
+- `npx prisma db push` échoue actuellement (erreur `P1001`) car l'hôte `db.tqupiggepzqjhpvtnxqy.supabase.co:5432` est injoignable depuis ce poste. Assurez-vous que le port 5432 est ouvert ou créez un tunnel Supabase avant de relancer la commande.
+
 ## QA & tests visuels
 
 - Audit complet : `npm run lighthouse -- --url=http://localhost:3000` (rapports HTML/JSON dans `reports/lighthouse/` pour mobile et desktop).
