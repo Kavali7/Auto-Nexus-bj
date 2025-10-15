@@ -66,6 +66,14 @@ npx prisma generate
 
 - `npx prisma db push` échoue actuellement (erreur `P1001`) car l'hôte `db.tqupiggepzqjhpvtnxqy.supabase.co:5432` est injoignable depuis ce poste. Assurez-vous que le port 5432 est ouvert ou créez un tunnel Supabase avant de relancer la commande.
 
+### Prisma migrations
+
+- Le dossier `prisma/migrations/20251015_init/` contient désormais la migration initiale alignée sur `prisma/schema.prisma`. `migration_lock.toml` est versionné avec `provider = "postgresql"`.
+- Utilisez `npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script` pour régénérer un script SQL d'initialisation si vous devez provisionner Supabase manuellement (`prisma/schema-init.sql` reflète la même structure et les index additionnels).
+- Les index nécessaires aux caches (`Vehicle_featured_idx`, `Lead_status_idx`, `VehiclePhoto_vehicleId_position_idx`) sont inclus dans la migration. Ne les supprimez pas.
+- La commande `npx prisma migrate deploy` ne peut pas aboutir tant que l'accès direct `db.tqupiggepzqjhpvtnxqy.supabase.co:5432` reste bloqué (erreur `P1001`). Reprenez-la dès que la connectivité est rétablie ou appuyez-vous sur un Postgres jetable accessible.
+- Pour vérifier l'état sur Supabase : `npx prisma migrate status --schema prisma/schema.prisma`. Cette commande échouera également tant que l'hôte direct reste inaccessible ; conservez le log pour audit.
+
 ## QA & tests visuels
 
 - Audit complet : `npm run lighthouse -- --url=http://localhost:3000` (rapports HTML/JSON dans `reports/lighthouse/` pour mobile et desktop).
