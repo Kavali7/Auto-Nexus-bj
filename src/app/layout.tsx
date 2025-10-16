@@ -10,6 +10,8 @@ import { getVehicles } from "@/server/vehicles";
 
 import "./globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://auto-nexus.bj";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -23,6 +25,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Auto Nexus BJ - MVP statique",
     template: "%s | Auto Nexus BJ",

@@ -73,6 +73,11 @@ npx prisma generate
 - Les index nécessaires aux caches (`Vehicle_featured_idx`, `Lead_status_idx`, `VehiclePhoto_vehicleId_position_idx`) sont inclus dans la migration. Ne les supprimez pas.
 - La commande `npx prisma migrate deploy` ne peut pas aboutir tant que l'accès direct `db.tqupiggepzqjhpvtnxqy.supabase.co:5432` reste bloqué (erreur `P1001`). Reprenez-la dès que la connectivité est rétablie ou appuyez-vous sur un Postgres jetable accessible.
 - Pour vérifier l'état sur Supabase : `npx prisma migrate status --schema prisma/schema.prisma`. Cette commande échouera également tant que l'hôte direct reste inaccessible ; conservez le log pour audit.
+- Pour contourner l'absence d'IPv6 en local, vous pouvez cibler le pooler `aws-1-us-east-2.pooler.supabase.com:5432` avec un schéma dédié (ex. `?schema=migrate_validation`). Les exécutions 2025-10-16 sont archivées dans `docs/prisma-migrate-20251016.log` et `docs/prisma-migrate-status-20251016.log`.
+
+### URL publique
+
+- Renseignez `NEXT_PUBLIC_SITE_URL` (ex. `https://auto-nexus.bj`) pour alimenter `metadataBase` et éviter les avertissements Next.js sur les URL des balises sociales.
 
 ## QA & tests visuels
 

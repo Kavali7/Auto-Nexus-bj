@@ -23,3 +23,7 @@
 ## Validation
 - `npx prisma migrate status` doit afficher `Database schema is up to date!`.
 - Les tests manuels de lecture dans `src/server/vehicles.ts` continuent de repondre.
+
+## Notes d'execution (16/10/2025)
+- `npx prisma migrate deploy` a ete execute avec `DATABASE_URL=postgresql://...@aws-1-us-east-2.pooler.supabase.com:5432/postgres?schema=migrate_validation&sslmode=require` pour isoler un schema temporaire et contourner la contrainte IPv6.
+- Les journaux sont archives dans `docs/prisma-migrate-20251016.log` et `docs/prisma-migrate-status-20251016.log`.
