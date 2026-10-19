@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AjoutÃ© avant sauvegarde
+node_modules/
+build/
+dist/
+.next/
+.dart_tool/
+venv/
+.venv/
+.env
+.env.*
+!.env.example

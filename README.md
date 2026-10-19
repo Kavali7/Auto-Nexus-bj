@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Auto Nexus BJ — MVP statique
 
-## Getting Started
+Prototype Next.js de démonstration pour poser l’expérience “wow” Auto Nexus BJ : données mockées, UI premium, CTA WhatsApp partout et comparatif multi-concessionnaires en préparation.
 
-First, run the development server:
+## Démarrage rapide
+- `npm install`
+- `npm run dev`
+- ouvrir `http://localhost:3000`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+> Turbopack est actif par défaut (`next dev --turbopack`). Repassez sur Webpack si besoin : `npm run dev -- --no-turbo`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Structure du projet
+- `src/app/` — App Router (accueil, `/voitures`, `/voitures/[slug]`, loaders…).
+- `src/components/` — design system shadcn/ui + composants maison (masonry, cards, animations).
+- `src/data/` — datasets mock typés (`vehicles`, `dealers`, `services`, `types`).
+- `src/lib/` — helpers (`cn`, formatage prix/km, génération deeplink WhatsApp).
+- `public/brand/` — assets fournis (logo Auto Nexus BJ).
+- `docs/` — vision produit complète (README historique + “La trame du projet.docx”).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Routes statiques disponibles
+- `/` — landing MVP : hero, stats, mur photo masonry, services & concessionnaires animés.
+- `/voitures` — listing cartes + filtres mockés, bloc comparateur (phase 2).
+- `/voitures/[slug]` — fiche véhicule : hero immersif, galerie, specs, CTA contact, inventaire lié.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Des skeletons (`loading.tsx`) accompagnent chaque vue et Framer Motion livre les reveals au scroll.
 
-## Learn More
+## Stack & tooling
+- **Next.js 15** (App Router) + **React 19**.
+- **Tailwind CSS 4** + tokens Auto Nexus BJ (`tailwind.config.ts`, `globals.css`).
+- **shadcn/ui** (button, card, badge, tabs, skeleton) + `class-variance-authority`.
+- **Framer Motion** pour les animations, `tailwind-merge`, `clsx`, `radix-slot`.
+- **TypeScript strict**, ESLint flat config, Prettier (`npm run lint`, `npm run format`).
 
-To learn more about Next.js, take a look at the following resources:
+## Prochaines étapes suggérées
+1. Alimenter `/concessionnaires/[slug]` + `/services` à partir des datasets (`src/data`).
+2. Brancher de vrais filtres (Meilisearch) + comparateur sticky bar.
+3. Intégrer Supabase/Prisma, Cloudinary & capture de leads (WhatsApp + DB).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Besoin d’un tour guidé ou d’une priorité produit ? Ping WhatsApp ou ouvrez une issue directement. 🚘⚡
