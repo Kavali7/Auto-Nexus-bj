@@ -1,3 +1,5 @@
 npm i
 cd auto-nexus-bj
 npm run dev
+
+Passe à l'exécution de la tache 2. N'oublie pas de faires les tests pour t'assurer de l'absense complète de problèmes de compilation, d'avertissement et autres.Déplace cette tâche une fois terminée dans le sous dossier done et cré un commite en lui donnant le nom "Tache 2".
